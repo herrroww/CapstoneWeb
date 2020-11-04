@@ -75,44 +75,42 @@
         </nav>
 
         <main class="py-4 container-fluid">
-            <div class="col-12 col-md-6 col-lg-3">
-
-                <div id="sidebar" class="sidebar float-left">
-                    <div class="text-center">
-                        <!--fontawesome.com--->
-                        <img src="https://via.placeholder.com/100" alt="">
-                        <h5>{{ Auth::user()->name }}</h5>
-                    </div>
-
-                    <div class="items-container ">
-                        <hr>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-hard-hat"></i> Gestion Operarios</h6>
-                        </a>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-boxes"></i> Gestion Componente Mecanico</h6>
-                        </a>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="far fa-folder-open"></i> Gestion Archivos</h6>
-                        </a>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-clipboard-list"></i> Asignar Componente Mecanico</h6>
-                        </a>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-chart-bar"></i> Historico</h6>
-                        </a>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-exclamation-triangle"></i> Reporte de Problemas</h6>
-                        </a>
-                        <hr>
-                        <a href="a">
-                            <h6 class="menu-item"><i class="fas fa-info-circle"></i> Ayuda</h6>
-                        </a>
-                    </div>
+            
+            <div id="sidebar" class="sidebar float-left">
+                <div class="text-center">
+                    <!--fontawesome.com--->
+                    <img src="https://via.placeholder.com/100" alt="">
+                    <h5>{{ Auth::user()->name }}</h5>
                 </div>
-                <div class="content">           
-                        @yield('content')
+
+                <div class="items-container ">
+                <hr>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-hard-hat"></i> Gestion Operarios</h6>
+                    </a>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-boxes"></i> Gestion Componente Mecanico</h6>
+                    </a>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="far fa-folder-open"></i> Gestion Archivos</h6>
+                    </a>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-clipboard-list"></i> Asignar Componente Mecanico</h6>
+                    </a>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-chart-bar"></i> Historico</h6>
+                    </a>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-exclamation-triangle"></i> Reporte de Problemas</h6>
+                    </a>
+                    <hr>
+                    <a href="a">
+                        <h6 class="menu-item"><i class="fas fa-info-circle"></i> Ayuda</h6>
+                    </a>
                 </div>
+            </div>
+            <div class="content">            
+                @yield('content')
             </div>
         </main>
     </div>
