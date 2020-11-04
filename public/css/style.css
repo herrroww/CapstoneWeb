@@ -1,0 +1,38 @@
+.sidebar{
+    width: 275px;
+    background-color: rgb(128,128,128);
+    padding: 20px 0 0 0;
+    height: 100vh;
+    position: fixed;
+    top: 55px;
+    left: 0px;
+}
+    
+.sidebar img{
+    border-radius: 50px;
+}
+
+.sidebar h5{
+    color: white;
+    margin-top: 10px;
+}
+
+/*.items-container{
+
+}*/
+
+.menu-item{
+    width: 400px;
+    padding: 10px 0 10px 20px;
+    transition: background-color .5s;
+    cursor: pointer;
+}
+
+.menu-item:hover{
+    background-color: lightpray;
+}
+
+.items-container a{
+    text-decoration:none;
+    color: white;
+}

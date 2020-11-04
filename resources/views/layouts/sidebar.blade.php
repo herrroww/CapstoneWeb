@@ -17,14 +17,16 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <script src="https://kit.fontawesome.com/fac72c378f.js" crossorigin="anonymous"></script>
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="sidebar">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('sidebar.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -72,8 +74,46 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main class="py-4 container-fluid">
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div id="sidebar" class="sidebar float-left">
+                    <div class="text-center">
+                        <!--fontawesome.com--->
+                        <img src="https://via.placeholder.com/100" alt="">
+                        <h5>{{ Auth::user()->name }}</h5>
+                    </div>
+
+                    <div class="items-container ">
+                        <hr>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-hard-hat"></i> Gestion Operarios</h6>
+                        </a>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-boxes"></i> Gestion Componente Mecanico</h6>
+                        </a>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="far fa-folder-open"></i> Gestion Archivos</h6>
+                        </a>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-clipboard-list"></i> Asignar Componente Mecanico</h6>
+                        </a>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-chart-bar"></i> Historico</h6>
+                        </a>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-exclamation-triangle"></i> Reporte de Problemas</h6>
+                        </a>
+                        <hr>
+                        <a href="a">
+                            <h6 class="menu-item"><i class="fas fa-info-circle"></i> Ayuda</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="content">           
+                        @yield('content')
+                </div>
+            </div>
         </main>
     </div>
 </body>
