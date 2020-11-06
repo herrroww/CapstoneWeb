@@ -85,7 +85,7 @@
 
                 <div class="items-container ">
                 <hr>
-                    <a href="a">
+                    <a href="{{ route('gestionop') }}">
                         <h6 class="menu-item"><i class="fas fa-hard-hat"></i> Gestion Operarios</h6>
                     </a>
                     <a href="a">
