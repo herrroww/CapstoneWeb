@@ -19,6 +19,7 @@ class CreateOperariosTable extends Migration
             $table->string('rut', 100)->unique();
             $table->string('correo', 100)->unique();
             $table->string('empresa', 100);
+            $table->string('tipoOperario', 100);
             $table->timestamps();
         });
     }

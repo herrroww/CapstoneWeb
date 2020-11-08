@@ -21,4 +21,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/gestionop', 'gestionopController@index')->name('gestionop');
+
+Route::get('gestionop', 'gestionopController@index')->name('gestionop');
+Route::get('gestionop1', 'gestionopController@create')->name('gestionop1');
+Route::post('gestionop1', 'gestionopController@store')->name('gestionop1');
+Route::get('gestionopedit/{id}', 'gestionopController@edit')->name('gestionopedit');
+Route::patch('gestionopedit/{id}', 'gestionopController@update')->name('gestionopedit');
+Route::delete('gestionopdes/{id}', 'gestionopController@destroy')->name('gestionopdes');
+
