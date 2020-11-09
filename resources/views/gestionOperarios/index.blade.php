@@ -3,7 +3,26 @@
 @section('content1')
 
 <div class="container">
-	<h2>Lista de operarios <a href="{{ route('gestionop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Operario </button></a></h2>
+  <!-- SEARCH FORM -->
+  <form class="form-inline ml-3 float-right">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                            aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+  <h2>Lista de operarios <a href="{{ route('gestionop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Operario </button></a></h2>
+  <h6>
+    @if($search)
+  <div class="alert alert-success" role="alert">
+  Se encontraron los siguientes resultados:
+  </div>
+    @endif
+  </h6>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -31,17 +50,17 @@
     <td>{{$operario->updated_at}}</td>
     
     
-    <form action="{{ route('gestionopdes', $operario->id) }}s" method="POST">
+    <form action="{{ route('gestionopdes', $operario->id) }}" method="POST">
     @method('DELETE')
     @csrf
     <td><a href="{{ route('gestionopedit', $operario->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <button name ="eliminar" type="submit" class="btn btn-danger">Eliminar</button>
     </form>
-    
     </td>
     </tr>
 	@endforeach
   </tbody>
 </table>
+    {{ $operarios->links()}}
 </div>
 @endsection

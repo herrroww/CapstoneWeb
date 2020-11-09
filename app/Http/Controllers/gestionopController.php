@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 use App\Operario;
 class gestionopController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
-        $operarios = Operario::all();
-        return view('gestionOperarios.index',['operarios' => $operarios]);
+        if($request){
+            $query = trim($request->get('search'));
+
+            $operarios = Operario::where('nombre',  'LIKE', '%' . $query . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(7);
+
+            return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query]);
+        }
+        
+        
+        
+        //$operarios = Operario::all();
+        //return view('gestionOperarios.index',['operarios' => $operarios]);
     }
     
     public function create(){
@@ -51,11 +63,14 @@ class gestionopController extends Controller
     }
 
     public function destroy($id){
+
         $operario = Operario::findOrFail($id);
 
         $operario->delete();
 
         return redirect('gestionop');
+
+        
 
         
     }

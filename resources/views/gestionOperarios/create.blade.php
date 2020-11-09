@@ -10,25 +10,25 @@
     @csrf
   <div class="form-group">
     <label for="nombre">Nombre</label>
-    <input type="text" class="form-control" name="nombre" placeholder="Escriba nombre operario">
+    <input type="text" class="form-control" name="nombre" placeholder="Escriba nombre operario" required>
   </div>
 
   <form>
   <div class="form-group">
     <label for="rut">Rut</label>
-    <input type="text" class="form-control" name="rut" placeholder="Escriba rut del operario">
+    <input type="text" class="form-control" name="rut" placeholder="Escriba rut del operario" required>
   </div>
 
   <form>
   <div class="form-group">
     <label for="correo">Correo</label>
-    <input type="email" class="form-control" name="correo" placeholder="Escriba correo del operario">
+    <input type="email" class="form-control" name="correo" placeholder="Escriba correo del operario" required>
   </div>
 
   <form>
   <div class="form-group">
     <label for="empresa">Empresa</label>
-    <input type="text" class="form-control" name="empresa" placeholder="Escriba empresa del operario">
+    <input type="text" class="form-control" name="empresa" placeholder="Escriba empresa del operario" required>
   </div>
 
   <form>
