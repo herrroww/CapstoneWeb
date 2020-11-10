@@ -1,8 +1,8 @@
-@extends('layouts.gestionOperariosL.sidebargestionop')
+@extends('layouts.sidebar')
 
-@section('content1')
+@section('content')
 
-<div class="container">
+<div class="container-fluid">
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
                     <div class="input-group input-group-sm">
@@ -26,7 +26,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
-	  <th scope="col">Id</th>
+	  <!--<th scope="col">Id</th>-->
       <th scope="col">Nombre</th>
       <th scope="col">Rut</th>
       <th scope="col">Correo</th>
@@ -40,8 +40,9 @@
   <tbody>
   @foreach($operarios as $operario)
     <tr>
-      <th scope="row">{{$operario->id}}</th>
-      <td>{{$operario->nombre}}</td>
+      <!--<th scope="row">{{$operario->id}}</th>-->
+      <!--<td>{{$operario->nombre}}</td> en caso de si hay id-->
+      <th scope="row">{{$operario->nombre}}</th>
       <td>{{$operario->rut}}</td>
       <td>{{$operario->correo}}</td>
 	  <td>{{$operario->empresa}}</td>

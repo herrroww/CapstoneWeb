@@ -33,6 +33,10 @@
 
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 
+  <a href="{{ route('showuser') }}">
+  <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
+ </a>
+
 </form>
 
         </div>

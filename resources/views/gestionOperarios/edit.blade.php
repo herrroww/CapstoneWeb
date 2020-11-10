@@ -1,6 +1,6 @@
-@extends('layouts.gestionOperariosL.sidebargestionopedit')
+@extends('layouts.sidebar')
 
-@section('contentedit')
+@section('content')
 
 <div class="container">
     <div class="row">
@@ -47,13 +47,13 @@
 <strong  class="" >Tipo de Operario </strong>
 
 <div style="margin-top: 10px" class="custom-control custom-radio" >
-   <input type="radio" class="custom-control-input" id="tipoOperario1" name="tipoOperario" value="Interno" required>
-   <label for="tipoOperario1" class="custom-control-label" value="Interno">Externo</label>
+   <input type="radio" class="custom-control-input" id="tipoOperario1" name="tipoOperario" value="Externo" required>
+   <label for="tipoOperario1" class="custom-control-label" value="Externo">Externo</label>
  </div>
 
  <div class="custom-control custom-radio">
-   <input type="radio" class="custom-control-input" id="tipoOperario2" name="tipoOperario" value="Externo" required>
-   <label for="tipoOperario2" class="custom-control-label" value="Externo">Interno</label>
+   <input type="radio" class="custom-control-input" id="tipoOperario2" name="tipoOperario" value="Interno" required>
+   <label for="tipoOperario2" class="custom-control-label" value="Interno">Interno</label>
  </div>
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>

@@ -13,6 +13,7 @@ class gestionopController extends Controller
             $query = trim($request->get('search'));
 
             $operarios = Operario::where('nombre',  'LIKE', '%' . $query . '%')
+                ->orwhere('rut',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
