@@ -60,6 +60,13 @@
     </tr>
 	@endforeach
   </tbody>
+  @if($search)
+  <a href="{{ route('gestionop') }}">
+  <div style="position: absolute; left: 90%; bottom: 10%;">
+  <button type="button" class="btn btn-secondary">Back</button>
+ </div>
+</a>
+ @endif
 </table>
     {{ $operarios->links()}}
 </div>

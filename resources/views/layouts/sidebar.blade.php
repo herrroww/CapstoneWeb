@@ -75,12 +75,14 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
-                <a href="{{ url('/') }}" class="brand-link">
+                <a href="" class="brand-link">
+                <!--<a href="{{ url('/') }}" class="brand-link">-->
                     <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                         style="opacity: .8">
-                    <span class="brand-text font-weight-light">System Team</span>
+                    <span class="brand-text font-weight-light">Capstone Web</span>
                 </a>
 
+               
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
@@ -88,8 +90,12 @@
                         <div class="image">
                             <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQH-ALGpMVGp6w/company-logo_200_200/0?e=2159024400&v=beta&t=AcacxBFqPdGQ1_S-CQwsVgCda-I_3Ly_x3TnzyzRbk0" class="img-circle elevation-2" alt="User Image">
                         </div>
+
+                
                         <div class="info">
-                            <a href="#" class="d-block">
+                           <a href="{{ route('showuser') }}" class="d-block">
+                           
+                                
                                 @guest
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                                 @else
@@ -108,7 +114,7 @@
                             </a>
                         </div>
                     </div>
-
+             
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -116,7 +122,7 @@
 
                             <li class="nav-item">
                                 <a href="{{ route('home') }}" class="{{  Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-home"></i>
+                                    <i class="fas fa-home"></i>
                                     <p>
                                         Home
                                     </p>

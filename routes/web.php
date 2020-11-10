@@ -28,4 +28,7 @@ Route::post('gestionop1', 'gestionopController@store')->name('gestionop1');
 Route::get('gestionopedit/{id}', 'gestionopController@edit')->name('gestionopedit');
 Route::patch('gestionopedit/{id}', 'gestionopController@update')->name('gestionopedit');
 Route::delete('gestionopdes/{id}', 'gestionopController@destroy')->name('gestionopdes');
+Route::get('showuser', 'UserController@index')->name('showuser');
+Route::get('edituser/{id}', 'UserController@edit')->name('edituser');
+Route::patch('edituser/{id}', 'UserController@update')->name('edituser');
 

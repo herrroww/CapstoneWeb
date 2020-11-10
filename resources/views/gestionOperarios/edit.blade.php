@@ -58,7 +58,9 @@
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 
-  <button style="margin-top: 20px" type="reset" class="btn btn-secondary float-right">Cancelar</button>
+  <a href="{{ route('gestionop') }}">
+  <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
+ </a>
 
         </div>
      </div>
