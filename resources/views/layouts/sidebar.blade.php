@@ -141,7 +141,7 @@
 
                             
                             <li class="nav-item">
-                                <a href="usuarios"
+                                <a href="{{ route('componenteop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-boxes"></i>
                                     <p>
