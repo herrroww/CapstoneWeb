@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Modelo;
+use App\Componente;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,3 +44,22 @@ Route::get('componenteopedit/{id}', 'ComponenteController@edit')->name('componen
 Route::patch('componenteopedit/{id}', 'ComponenteController@update')->name('componenteopedit');
 Route::delete('componenteopdes/{id}', 'ComponenteController@destroy')->name('componenteopdes');
 Route::get('componenteopshow/{id}', 'ComponenteController@show')->name('componenteopshow');
+
+Route::get('modelosop', 'ModeloController@index')->name('modelosop');
+Route::get('modelosop1', 'ModeloController@create')->name('modelosop1');
+Route::post('modelosop1', 'ModeloController@store')->name('modelosop1');
+Route::get('modelosopedit/{id}', 'ModeloController@edit')->name('modelosopedit');
+Route::patch('modelosopedit/{id}', 'ModeloController@update')->name('modelosopedit');
+Route::delete('modelosopdes/{id}', 'ModeloController@destroy')->name('modelosopdes');
+Route::get('modelosopshow/{id}', 'ModeloController@show')->name('modelosopshow');
+
+Route::get('empresaop', 'EmpresaController@index')->name('empresaop');
+Route::get('empresaop1', 'EmpresaController@create')->name('empresaop1');
+Route::post('empresaop1', 'EmpresaController@store')->name('empresaop1');
+Route::get('empresaopedit/{id}', 'EmpresaController@edit')->name('empresaopedit');
+Route::patch('empresaopedit/{id}', 'EmpresaController@update')->name('empresaopedit');
+Route::delete('empresaopdes/{id}', 'EmpresaController@destroy')->name('empresaopdes');
+
+
+
+

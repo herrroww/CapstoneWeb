@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container-fluid">
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
@@ -15,9 +16,9 @@
                         </div>
                     </div>
                 </form>
-  <h2>Lista de operarios <a href="{{ route('gestionop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Operario </button></a></h2>
+  <h2>Lista de Empresas <a href="{{ route('empresaop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Empresa </button></a></h2>
   <h6>
-  @if($search)
+    @if($search)
   <div class="alert alert-primary" role="alert">
   Se encontraron los siguientes resultados:
   </div>
@@ -25,22 +26,24 @@
 
     @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  El Operario se a Eliminada correctamente.
+  Empresa Eliminada correctamente.
   </div>
     @endif
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  El operario se a creado correctamente.
+  La empresa se a creado correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  El operario se a editado correctamente.
+  La empresa se a editado correctamente.
   </div>
     @endif
+
+    
   </h6>
 <table class="table table-hover">
   <thead>
@@ -48,51 +51,36 @@
 	  <!--<th scope="col">Id</th>-->
       <th scope="col">Nombre</th>
       <th scope="col">Rut</th>
-      <th scope="col">Correo</th>
-      <th scope="col">Tipo De Operario</th>
-      <th scope="col">Empresa</th>
-      <th scope="col">Fecha De Creación</th>
-      <th scope="col">Fecha De Edición</th>
-      <th scope="col">Opciones</th>
+      <th scope="col">Compañia</th>
     </tr>
   </thead>
   <tbody>
-  @foreach($operarios as $operario)
+  @foreach($empresas as $empresa)
     <tr>
-      <!--<th scope="row">{{$operario->id}}</th>-->
-      <!--<td>{{$operario->nombre}}</td> en caso de si hay id-->
-      <th scope="row">{{$operario->nombre}}</th>
-      <td>{{$operario->rut}}</td>
-      <td>{{$operario->correo}}</td>
-    <td>{{$operario->tipoOperario}}</td>
-    @if($operario->empresa == null)
-    <td>Empresa no seleccionada</td>
-    @else
-    <td>{{$operario->empresa->nombre}}</td>
-    @endif
-    <td>{{$operario->created_at}}</td>
-    <td>{{$operario->updated_at}}</td>
+     
+      <th scope="row">{{$empresa->nombre}}</th>
+      <td>{{$empresa->rut}}</td>
+      <td>{{$empresa->compania}}</td>
     
     
-    
-    <form action="{{ route('gestionopdes', $operario->id) }}" method="POST">
+    <form action="{{ route('empresaopdes', $empresa->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td><a href="{{ route('gestionopedit', $operario->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar este operario?')">Eliminar</button>
+    <td><a href="{{ route('empresaopedit', $empresa->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
+    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar esta empresa?')">Eliminar</button>
     </form>
     </td>
     </tr>
 	@endforeach
   </tbody>
   @if($search)
-  <a href="{{ route('gestionop') }}">
+  <a href="{{ route('empresaop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
   <button type="button" class="btn btn-secondary">Back</button>
  </div>
 </a>
  @endif
 </table>
-    {{ $operarios->links()}}
+    {{ $empresas->links()}}
 </div>
 @endsection

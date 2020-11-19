@@ -2,14 +2,19 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use App\Modelo;
 
-class Componente extends Authenticatable
+
+class Componente extends Model
 {
-    use Notifiable;
 
+    
+    public function modelo(){
+        return $this->hasMany("App\Modelo");
+    }
     /**
      * The attributes that are mass assignable.
      *

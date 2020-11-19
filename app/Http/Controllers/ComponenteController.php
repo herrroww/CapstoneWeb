@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Componente;
+use App\Modelo;
+use Session;
 
 class ComponenteController extends Controller
 {
@@ -61,8 +63,9 @@ class ComponenteController extends Controller
     public function destroy($id){
 
         $componente = Componente::findOrFail($id);
-
+        
         $componente->delete();
+      
 
         return redirect('componenteop');
 
@@ -73,7 +76,10 @@ class ComponenteController extends Controller
 
     public function show($id){
 
-        return view('componentes.show', ['componente' => Componente::findOrFail($id)]);
+        Session::put('componente_id',$id);
+        return redirect('modelosop');
+
+        //return view('componentes.show', ['componente' => Componente::findOrFail($id)]);
     }
 }
 

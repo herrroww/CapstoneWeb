@@ -25,12 +25,21 @@
     <input type="email" class="form-control" name="correo" placeholder="Escriba correo del operario" required>
   </div>
 
-  <form>
   <div class="form-group">
-    <label for="empresa">Empresa</label>
-    <input type="text" class="form-control" name="empresa" placeholder="Escriba empresa del operario" required>
-  </div>
+ <strong style="margin-bot: 10px">Empresa:</strong>
+ 
+ <select name="empresa" class="form-control">
+@foreach($empresa as $empresas)
+@empty($empresa)
+ <option value="">No hay empresa seleccionada</option>
+ @endempty
+<option value="{{ $empresas->id }}" required>{{ $empresas->nombre }}</oprion>
 
+@endforeach
+
+</select>
+</div>
+  
   <form>
   <strong  class="" >Tipo de Operario </strong>
 

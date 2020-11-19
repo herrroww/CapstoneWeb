@@ -36,15 +36,27 @@
     <input type="email" class="form-control" name="correo" value="{{ $operario->correo }}" placeholder="Escriba correo del operario" required>
   </div>
 
-  <form>
   <div class="form-group">
-    <label for="empresa">Empresa</label>
-    <input type="text" class="form-control" name="empresa" value="{{ $operario->empresa }}" placeholder="Escriba empresa del operario" required>
+ <strong style="margin-bot: 10px">Empresa:</strong>
+ <select name="empresa" class="form-control">
+
+ @if($operario->empresa == null)
+ <option value="">No hay empresa seleccionada</option>
+ @else
+ <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombre}}</option>
+ @endif
+ 
+ @foreach($empresa as $empresas)
+@if($empresas->id != $operario->empresa_id)
+  <option value="{{ $empresas->id }}">{{ $empresas->nombre }}</option>
+  @endif
+  @endforeach
+  </select>
   </div>
   
-  
 <form>
-<strong  class="" >Tipo de Operario </strong>
+<div class="form-group">
+<strong >Tipo de Operario </strong>
 
 <div style="margin-top: 10px" class="custom-control custom-radio" >
    <input type="radio" class="custom-control-input" id="tipoOperario1" name="tipoOperario" value="Externo" required>
@@ -55,6 +67,8 @@
    <input type="radio" class="custom-control-input" id="tipoOperario2" name="tipoOperario" value="Interno" required>
    <label for="tipoOperario2" class="custom-control-label" value="Interno">Interno</label>
  </div>
+
+ 
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 

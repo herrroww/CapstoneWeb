@@ -15,49 +15,61 @@
                         </div>
                     </div>
                 </form>
-  <h2>Lista de Componentes <a href="{{ route('componenteop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Componente </button></a></h2>
+  <h2>Lista de Modelos  <a href="{{ route('modelosop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Modelo </button></a></h2>
   <h6>
-    @if($search)
+  @if($search)
   <div class="alert alert-success" role="alert">
   Se encontraron los siguientes resultados:
   </div>
     @endif
+    
   </h6>
 <table class="table table-hover">
   <thead>
     <tr>
 	  <!--<th scope="col">Id</th>-->
       <th scope="col">Nombre</th>
-      <th scope="col">Id Componente</th>
+      <th scope="col">Id Modelo</th>
     </tr>
   </thead>
   <tbody>
-  @foreach($componentes as $componente)
+  @foreach($modelos as $modelo)
     <tr>
       
-      <th scope="row">{{$componente->nombre}}</th>
-      <td>{{$componente->idComponente}}</td>
+      <th scope="row">{{$modelo->nombre}}</th>
+      <td>{{$modelo->idModelo}}</td>
       
     
-    <form action="{{ route('componenteopdes', $componente->id) }}" method="POST">
+    <form action="{{ route('modelosopdes', $modelo->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td> <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>
-    <a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
+    <td> 
+    <a href="{{ route('modelosopedit', $modelo->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
     <button name ="eliminar" type="submit" class="btn btn-danger">Eliminar</button>
     </form>
     </td>
     </tr>
 	@endforeach
   </tbody>
+
   @if($search)
+  <a href="{{ route('modelosop') }}">
+  <div style="position: absolute; left: 90%; bottom: 10%;">
+  <button type="button" class="btn btn-secondary">Back</button>
+ </div>
+</a>
+@else
   <a href="{{ route('componenteop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
   <button type="button" class="btn btn-secondary">Back</button>
  </div>
 </a>
  @endif
+
+ 
+
 </table>
-    {{ $componentes->links()}}
+
+
 </div>
 @endsection

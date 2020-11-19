@@ -129,6 +129,17 @@
                                 </a>
                             </li>
 
+                            
+                            <li class="nav-item">
+                                <a href="{{ route('empresaop') }}"
+                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="fas fa-building"></i>
+                                    <p>
+                                        Gestion Empresa
+                                    </p>
+                                </a>
+                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('gestionop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">

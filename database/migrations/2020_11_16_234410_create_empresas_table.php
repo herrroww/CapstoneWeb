@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComponentesTable extends Migration
+class CreateEmpresasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateComponentesTable extends Migration
      */
     public function up()
     {
-        Schema::create('componentes', function (Blueprint $table) {
+        Schema::create('empresas', function (Blueprint $table) {
             
             $table->id();
-            $table->string('nombre', 100);
-            $table->string('idComponente', 100)->unique();           
+            $table->string('rut', 100)->unique();
+            $table->string('nombre', 100)->nullable();
+            $table->string('compania', 100);
             $table->timestamps();
+
             
+           
+
         });
     }
 
@@ -30,7 +34,6 @@ class CreateComponentesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('componentes');
-        
+        Schema::dropIfExists('empresas');
     }
 }

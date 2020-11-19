@@ -1,5 +1,6 @@
-@extends('modelos.index')
-@section('content1')
+@extends('layouts.sidebar')
+
+@section('content')
 <div class="container">
 <table class="table table-hover">
   <thead>

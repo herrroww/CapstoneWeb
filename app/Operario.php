@@ -5,20 +5,19 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use App\Operario;
+use App\Empresa;
 
-class Operario extends Authenticatable
+
+class Operario extends model
 {
-    use Notifiable;
+    public function empresa (){
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'rut', 'correo', 'empresa', 'tipoOperario'
-    ];
+        return $this->belongsTo('App\Empresa', 'empresa_id');
+    }
 
+    
     
 
     
