@@ -60,6 +60,3 @@ Route::get('empresaopedit/{id}', 'EmpresaController@edit')->name('empresaopedit'
 Route::patch('empresaopedit/{id}', 'EmpresaController@update')->name('empresaopedit');
 Route::delete('empresaopdes/{id}', 'EmpresaController@destroy')->name('empresaopdes');
 
-
-
-
