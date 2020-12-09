@@ -106,14 +106,65 @@ class EmpresaController extends Controller
     }
 
     public function update(Request $request, $id){
-        $empresa = Empresa::findOrFail($id);
+
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
         
+        $empresa = Empresa::findOrFail($id);
+
+        $rutTemp = $empresa->rut;
+
         $empresa->rut = $request->get('rut');
         $empresa->nombre = $request->get('nombre');
         $empresa->compania = $request->get('compania');
         
+        //Se prepara la conexion al servidor FTP.
+        $ssh = new SSH2($this->server);
+              
+        //Intenta hacer la conexion al servidor FTP.
+        if(!$ssh->login($this->userFTP,$this->passFTP)){
+            
+            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
+            exit($SWERROR->ErrorActual(1));
+        }else{
 
-        $empresa->update();
+            //Verifica si el directorio existe.
+            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$rutTemp.' ] && echo "true" || echo "false"');
+            
+            //Limpia la informacion obtenida.
+            $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+            
+            if($estadoExiste != 'true'){
+
+                //[SWERROR 005]: La empresa no existe en el sistema FTP (Conflicto en OperariosExternos).
+                exit($SWERROR->ErrorActual(4));
+            }else{
+
+                //Verifica si el directorio existe.
+                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$rutTemp.' ] && echo "true" || echo "false"');
+                
+                //Limpia la informacion obtenida.
+                $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+
+                if($estadoExiste != 'true'){
+
+                    //[SWERROR 006]: La empresa no existe en el sistema FTP (Conflicto en OperariosInternos).
+                    exit($SWERROR->ErrorActual(5));
+                }else{
+
+                    //Se cambia el nombre del directorio de la empresa.
+                    $ssh->exec('mv /home/capstone/ftp/OperariosExternos/'.$rutTemp.' /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
+                    $ssh->exec('mv /home/capstone/ftp/OperariosInternos/'.$rutTemp.' /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
+                    
+                    //Se actualizan los cambios en la base de datos.
+                    $empresa->update();
+                }
+            }
+        } 
+            
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);        
 
         return redirect('empresaop')->with('edit','La empresa se a editado');
         ;
