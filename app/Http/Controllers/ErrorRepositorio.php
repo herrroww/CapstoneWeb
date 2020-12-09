@@ -13,7 +13,11 @@ class ErrorRepositorio
         "[SWERROR 004]: La empresa ya existe en el sistema FTP (Conflicto en OperariosInternos).",
         "[SWERROR 005]: La empresa no existe en el sistema FTP (Conflicto en OperariosExternos).",
         "[SWERROR 006]: La empresa no existe en el sistema FTP (Conflicto en OperariosInternos).",
-        "[SWERROR 007]: ???",
+        "[SWERROR 007]: El operario ya existe en el sistema FTP (Conflicto en OperariosExternos).",
+        "[SWERROR 008]: El operario ya existe en el sistema FTP (Conflicto en OperariosInternos).",
+        "[SWERROR 009]: El operario no existe en el sistema FTP (Conflicto en OperariosExternos).",
+        "[SWERROR 010]: El operario no existe en el sistema FTP (Conflicto en OperariosInternos).",
+        "[SWERROR 011]: ???",
     );
 
     // Dado un valor, retorna el error correspondiente.
