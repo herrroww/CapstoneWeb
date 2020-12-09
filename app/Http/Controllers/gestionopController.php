@@ -187,13 +187,9 @@ class gestionopController extends Controller
                     exit($SWERROR->ErrorActual(9));
                 }else{
 
-                    //Se crea el directorio del operario.
-                    $ssh->exec('rm -r /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
-                    $ssh->exec('rm -r /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
-
-                    //Se envia el directorio de la empresa a la basura. (Version Opcional)
-                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
-                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
+                    //Se modifica el directorio del operario.
+                    $ssh->exec('mv /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
+                    $ssh->exec('mv /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
                     //Se almacena el operario en la base de datos.
                     $operario->update();
@@ -231,7 +227,7 @@ class gestionopController extends Controller
         }else{
 
             //Verifica si el directorio existe.
-            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' ] && echo "true" || echo "false"');
+            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut.' ] && echo "true" || echo "false"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
@@ -243,7 +239,7 @@ class gestionopController extends Controller
             }else{
 
                 //Verifica si el directorio existe.
-                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' ] && echo "true" || echo "false"');
+                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut.' ] && echo "true" || echo "false"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
@@ -255,8 +251,14 @@ class gestionopController extends Controller
                 }else{
 
                     //Se crea el directorio del operario.
-                    $ssh->exec('mv /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
-                    $ssh->exec('mv /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
+                    
+
+                    $ssh->exec('rm -r /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
+                    $ssh->exec('rm -r /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
+
+                    //Se envia el directorio de la empresa a la basura. (Version)
+                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
+                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
                     //Se almacena el operario en la base de datos.
                     $operario->delete();
@@ -266,16 +268,9 @@ class gestionopController extends Controller
 
         //Se liberan los recursos.       
         unset($SWERROR);
-        unset($ssh);
+        unset($ssh);       
 
-        $operario->delete();
-
-       
-
-        return redirect()->back()->with('success','La empresa a sido eliminada.');
-
-
-        
+        return redirect()->back()->with('success','La empresa a sido eliminada.');       
 
         
     }
