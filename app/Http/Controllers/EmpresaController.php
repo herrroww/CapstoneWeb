@@ -171,82 +171,63 @@ class EmpresaController extends Controller
 
     public function destroy($id){
 
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
+
         $empresa = Empresa::findOrFail($id);        
 
-        $ftp_server="192.168.0.28";
-        $ftp_usuario="capstone";
-        $ftp_pass="capstone";
-    
-        $con_id=ftp_connect($ftp_server);
-        $lr=ftp_login($con_id,$ftp_usuario,$ftp_pass);
-
-        if((!$con_id)||(!$lr)){
-
-            echo "No se pudo conectar al servidor ftp";
-            exit;
-
+        //Se prepara la conexion al servidor FTP.
+        $ssh = new SSH2($this->server);
+              
+        //Intenta hacer la conexion al servidor FTP.
+        if(!$ssh->login($this->userFTP,$this->passFTP)){
+            
+            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
+            exit($SWERROR->ErrorActual(1));
         }else{
 
+            //Verifica si el directorio existe.
+            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$empresa->rut.' ] && echo "true" || echo "false"');
             
-            /*if (ftp_chdir($con_id, "ftp/OperariosExternos/")) {
-
-                $lists = ftp_mlsd($con_id, $empresa->nombre);
-                unset($lists[0]);
-                unset($lists[1]);
-
-                foreach($lists as $list){
-                    $full = $directory . '/' . $list['name'];
+            //Limpia la informacion obtenida.
+            $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
             
-                    if($list['type'] == 'dir'){
-                        ftp_rmdir($con_id, $full);
-                    }else{
-                        ftp_delete($con_id, $full);
-                    }
-                }
+            if($estadoExiste != 'true'){
 
-                ftp_rmdir($con_id,$empresa->nombre);
+                //[SWERROR 005]: La empresa no existe en el sistema FTP (Conflicto en OperariosExternos).
+                exit($SWERROR->ErrorActual(4));
+            }else{
 
-                if (ftp_cdup($con_id)) {
-
-                    if (ftp_chdir($con_id, "ftp/OperariosInternos/")) {
-
-                        $lists = ftp_mlsd($conn_id, $empresa->nombre);
-                        unset($lists[0]);
-                        unset($lists[1]);
-
-                        foreach($lists as $list){
-                            $full = $directory . '/' . $list['name'];
-                    
-                            if($list['type'] == 'dir'){
-                                ftp_rmdir($con_id, $full);
-                            }else{
-                                ftp_delete($con_id, $full);
-                            }
-                        }
-
-                    } else { 
-
-                        echo "No existe el directorio ftp/OperariosInternos/ en la raiz del servidor FTP";
-                    }
-
-                } else { 
-                    
-                    ftp_rmdir($con_id, $empresa->nombre);
-                    echo "No se pudo cambiar al directorio ftp en la raiz del servidor FTP";
-                }
+                //Verifica si el directorio existe.
+                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$empresa->rut.' ] && echo "true" || echo "false"');
                 
-            } else { 
+                //Limpia la informacion obtenida.
+                $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
 
-                echo "No existe el directorio ftp/OperariosExternos/ en la raiz del servidor FTP";
-            }*/
+                if($estadoExiste != 'true'){
+
+                    //[SWERROR 006]: La empresa no existe en el sistema FTP (Conflicto en OperariosInternos).
+                    exit($SWERROR->ErrorActual(5));
+                }else{
+
+                    //Se elimina el directorio de la empresa.
+                    $ssh->exec('rm -r /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
+                    $ssh->exec('rm -r /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
+
+                    //Se envia el directorio de la empresa a la basura.
+                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
+                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
+                    
+                    //Se elimina la empresa de la base de datos.
+                    $empresa->delete();
+                }
+            }
+        } 
             
-
-            //it's done :D
-        }
-
-        ftp_close($con_id);
-
-        $empresa->delete();
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);
+        
         return redirect()->back()->with('success','La empresa a sido eliminada.'); 
         
     }
