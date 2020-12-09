@@ -6,8 +6,23 @@ use App\Http\Requests\OperarioFormRequest;
 use Illuminate\Http\Request;
 use App\Operario;
 use App\Empresa;
+
+use App\Http\Controllers\ErrorRepositorio;
+
+use phpseclib\Net\SSH2;
+
+
 class gestionopController extends Controller
 {
+
+    //IP del servidor FTP.
+    private $serverFTP = '192.168.0.28';
+    
+    //Credenciales de usuario FTP
+    private $userFTP= 'capstone';
+    private $passFTP= 'capstone';
+
+
     public function index(Request $request){
 
         if($request){
@@ -39,21 +54,77 @@ class gestionopController extends Controller
     }
 
     public function store(Request $request){
-        $operario = new Operario();
 
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
+
+        /*Genera al operario y rellena los atributos con la informacion
+        * entregada por el usuario.
+        */
+        $operario = new Operario();
         $operario->nombre = request('nombre');
         $operario->rut = request('rut');
         $operario->correo = request('correo');
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
 
-        $operario->save();
+        //Se obtiene el rut de la empresa seleccionada.
+        $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rut;
+ 
+        //Se prepara la conexion al servidor FTP.
+        $ssh = new SSH2($this->serverFTP);
+              
+        //Intenta hacer la conexion al servidor FTP.
+        if(!$ssh->login($this->userFTP,$this->passFTP)){
+            
+            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
+            exit($SWERROR->ErrorActual(1));
+        }else{
+
+            //Verifica si el directorio existe.
+            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut.' ] && echo "true" || echo "false"');
+            
+            //Limpia la informacion obtenida.
+            $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+            
+            if($estadoExiste == 'true'){
+
+                //[SWERROR 007]: El operario ya existe en el sistema FTP (Conflicto en OperariosExternos).
+                exit($SWERROR->ErrorActual(6));
+            }else{
+
+                //Verifica si el directorio existe.
+                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut.' ] && echo "true" || echo "false"');
+                
+                //Limpia la informacion obtenida.
+                $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+
+                if($estadoExiste == 'true'){
+
+                    //[SWERROR 008]: El operario ya existe en el sistema FTP (Conflicto en OperariosInternos).
+                    exit($SWERROR->ErrorActual(7));
+                }else{
+
+                    //Se crea el directorio del operario.
+                    $ssh->exec('mkdir /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
+                    $ssh->exec('mkdir /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
+
+                    //Se almacena el operario en la base de datos.
+                    $operario->save();
+                }
+            }
+        } 
+            
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);       
 
         return redirect('gestionop')->with('create','');
 
     }
 
     public function edit($id){
+
         $operario = Operario::FindOrFail($id);
         $empresa = Empresa::all();
         return view('gestionOperarios.edit', compact('operario','empresa'));
