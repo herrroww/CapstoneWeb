@@ -112,10 +112,13 @@ class EmpresaController extends Controller
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
         
+        //Busca a la empresa dada una id de la tabla.
         $empresa = Empresa::findOrFail($id);
 
+        //Se extrae el rut antiguo de la empresa.
         $rutTemp = $empresa->rut;
 
+        //Se añaden los nuevos parametros correspondientes.
         $empresa->rut = $request->get('rut');
         $empresa->nombre = $request->get('nombre');
         $empresa->compania = $request->get('compania');
@@ -216,7 +219,7 @@ class EmpresaController extends Controller
                     $ssh->exec('rm -r /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
                     $ssh->exec('rm -r /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
 
-                    //Se envia el directorio de la empresa a la basura.
+                    //Se envia el directorio de la empresa a la basura. (Version Opcional)
                     //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
                     //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
                     
