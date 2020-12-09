@@ -12,8 +12,10 @@ use phpseclib\Net\SSH2;
 class EmpresaController extends Controller
 {   
 
-    private $server = '192.168.0.28';
+    //IP del servidor FTP.
+    private $serverFTP = '192.168.0.28';
     
+    //Credenciales de usuario FTP
     private $userFTP= 'capstone';
     private $passFTP= 'capstone';
 
@@ -50,7 +52,7 @@ class EmpresaController extends Controller
         $empresa->compania = request('compania');      
 
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->server);
+        $ssh = new SSH2($this->serverFTP);
               
         //Intenta hacer la conexion al servidor FTP.
         if(!$ssh->login($this->userFTP,$this->passFTP)){
@@ -119,7 +121,7 @@ class EmpresaController extends Controller
         $empresa->compania = $request->get('compania');
         
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->server);
+        $ssh = new SSH2($this->serverFTP);
               
         //Intenta hacer la conexion al servidor FTP.
         if(!$ssh->login($this->userFTP,$this->passFTP)){
@@ -177,7 +179,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($id);        
 
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->server);
+        $ssh = new SSH2($this->serverFTP);
               
         //Intenta hacer la conexion al servidor FTP.
         if(!$ssh->login($this->userFTP,$this->passFTP)){
