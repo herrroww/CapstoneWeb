@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Empresa;
 
+use App\Http\Controllers\ErrorRepositorio;
+
 use phpseclib\Net\SSH2;
 
 class EmpresaController extends Controller
 {   
 
     private $server = '192.168.0.28';
+    
     private $userFTP= 'capstone';
     private $passFTP= 'capstone';
 
@@ -34,72 +37,47 @@ class EmpresaController extends Controller
     }
 
     public function store(Request $request){
+
+        $SWERROR = new ErrorRepositorio();
         
         $empresa = new Empresa();
-
         $empresa->rut = request('rut');
         $empresa->nombre = request('nombre');
         $empresa->compania = request('compania');      
 
-        $ftp_server="192.168.0.28";
-        $ftp_usuario="capstone";
-        $ftp_pass="capstone";
-    
-        $con_id=ftp_connect($ftp_server);
-        $lr=ftp_login($con_id,$ftp_usuario,$ftp_pass);
-
-        if((!$con_id)||(!$lr)){
-
-            echo "No se pudo conectar al servidor ftp";
-            exit;
-
+        $ssh = new SSH2($this->server);
+              
+        if(!$ssh->login($this->userFTP,$this->passFTP)){
+            
+            exit($SWERROR->ErrorActual(1));
         }else{
 
-            if (ftp_chdir($con_id, "ftp/OperariosExternos/")) {
+            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$empresa->rut.' ] && echo "true" || echo "false"');
+            $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+            //VERIFICAR AQUI SI EL DIRECTORIO EXISTE.
+            if($estadoExiste == 'true'){
 
-                if (ftp_mkdir($con_id, $empresa->nombre)) {
+                exit($SWERROR->ErrorActual(2));
+            }else{
 
-                    if (ftp_cdup($con_id)) {
+                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$empresa->rut.' ] && echo "true" || echo "false"');
+                $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
+                if($estadoExiste == 'true'){
 
-                        if (ftp_chdir($con_id, "OperariosInternos")) {
+                    exit($SWERROR->ErrorActual(3));
+                }else{
 
-                            if (ftp_mkdir($con_id, $empresa->nombre)) {
-            
-                                //popup creacion de directorio
-                                $empresa->save(); 
-                            } else {
-    
-                                ftp_chdir($con_id,"OperariosExternos");
-                                ftp_rmdir($con_id, $empresa->nombre);
-                                echo "El directorio no pudo ser creado en la direccion ftp/OperariosInternos";
-                            }
-    
-                        } else { 
-                            
-                            ftp_chdir($con_id,"OperariosExternos");
-                            ftp_rmdir($con_id, $empresa->nombre);
-                            echo "No existe el directorio ftp/OperariosInternos/ en la raiz del servidor FTP";
-                        }
-
-                    } else { 
-                        
-                        ftp_rmdir($con_id, $empresa->nombre);
-                        echo "No se pudo cambiar al directorio ftp en la raiz del servidor FTP";
-                    }
-
-                } else {
                     
-                    echo "El directorio no pudo ser creado en la direccion ftp/OperariosExternos";
+                    $ssh->exec('mkdir /home/capstone/ftp/OperariosExternos/'.$empresa->rut);
+                    $ssh->exec('mkdir /home/capstone/ftp/OperariosInternos/'.$empresa->rut);
+                    $empresa->save();
                 }
-
-            } else { 
-
-                echo "No existe el directorio ftp/OperariosExternos/ en la raiz del servidor FTP";
             }
-        }
-
-        ftp_close($con_id);        
-
+        } 
+            
+               
+        unset($SWERROR);
+        unset($ssh);
         return redirect('empresaop')->with('create','La empresa se a creado correctamente');
 
     }
@@ -192,31 +170,14 @@ class EmpresaController extends Controller
 
                 echo "No existe el directorio ftp/OperariosExternos/ en la raiz del servidor FTP";
             }*/
-            //ftp_pasv($con_id, true);     
-            //ftp_chdir($con_id, "ftp/OperariosInternos/");
-            //$val = ftp_chdir($con_id,"ftp/OperariosInternos");
-
-            //var_dump($val);
-            //die();
-            //ftp_exec($con_id, "sudo rm -r /home/capstone/ftp/OperariosInternos/".$empresa->nombre);
-            //$connection = ssh2_connect('192.168.0.28', 22);
-            //ssh2_auth_password($connection, 'capstone', 'capstone');
-            //ssh2_exec($connection, "rm -r /home/capstone/ftp/OperariosInternos/".$empresa->nombre);
-
             
-            $ssh = new SSH2($this->server);
-            $ssh->login($this->userFTP,$this->passFTP);
-
-            $s = $ssh->exec('echo "baba" | tee -a /etc/vsftpd.userlist');
-            var_dump($s);
-            unset($ssh);
-            die();
 
             //it's done :D
         }
 
         ftp_close($con_id);
 
+        $empresa->delete();
         return redirect()->back()->with('success','La empresa a sido eliminada.'); 
         
     }
