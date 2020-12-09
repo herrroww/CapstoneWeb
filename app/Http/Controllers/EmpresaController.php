@@ -167,7 +167,6 @@ class EmpresaController extends Controller
         unset($ssh);        
 
         return redirect('empresaop')->with('edit','La empresa se a editado');
-        ;
     }
 
     public function destroy($id){
