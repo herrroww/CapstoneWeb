@@ -26,7 +26,8 @@
 
   <form>
   <div class="form-group">
-    <label for="rut">Rut</label>
+  <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
+  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
     <input type="text" class="form-control" name="rut" value="{{ $empresa->rut }}" placeholder="Escriba rut de la empresa" required>
   </div>
 

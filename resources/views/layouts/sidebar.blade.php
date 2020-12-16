@@ -32,7 +32,7 @@
         <div class="wrapper">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-qys navbar-dark">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -88,7 +88,7 @@
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQH-ALGpMVGp6w/company-logo_200_200/0?e=2159024400&v=beta&t=AcacxBFqPdGQ1_S-CQwsVgCda-I_3Ly_x3TnzyzRbk0" class="img-circle elevation-2" alt="User Image">
+                            <img src="https://static.wixstatic.com/media/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.png/v1/fill/w_658,h_113,al_c,q_85,usm_0.66_1.00_0.01/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.webp" class="img-circle elevation-2" alt="User Image">
                         </div>
 
                 
@@ -162,7 +162,7 @@
                             </li>
 
 
-                            <li class="nav-item">
+                          <!--  <li class="nav-item">
                                 <a href="usuarios"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-clipboard-list"></i>
@@ -170,10 +170,10 @@
                                         Gestion Archivos
                                     </p>
                                 </a>
-                            </li>
+                            </li>-->
 
                             <li class="nav-item">
-                                <a href="usuarios"
+                                <a href="{{ route('asignarop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-chart-bar"></i>
                                     <p>
@@ -183,7 +183,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="usuarios"
+                                <a href="{{ route('historialop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <p>
@@ -193,7 +193,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="usuarios"
+                                <a href="{{ route('/sendemail') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-info-circle"></i>
                                     <p>

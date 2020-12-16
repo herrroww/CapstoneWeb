@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </form>
-  <h2>Lista de operarios <a href="{{ route('gestionop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Operario </button></a></h2>
+  <h2>Asignar Componentes <a href="{{ route('asignarop1') }}"> <button type="button" class="btn btn-success float-right">Asignar Componente </button></a></h2>
   <h6>
   @if($search)
   <div class="alert alert-primary" role="alert">
@@ -45,41 +45,38 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-	    <th scope="col">Id</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Rut</th>
-      <th scope="col">Correo</th>
-      <th scope="col">Tipo De Operario</th>
-      <th scope="col">Empresa</th>
-      <th scope="col">Telefono Operario</th>
-      <th scope="col">Opciones</th>
+	  <th scope="col">Id</th>
+      <th scope="col">Operario</th>
+      <th scope="col">Tipo de Operario</th>
+      <th scope="col">Componente</th>
+      
+      
     </tr>
   </thead>
   <tbody>
-  @foreach($operarios as $operario)
+  @foreach($asignars as $asignar)
     <tr>
-      <th scope="row">{{$operario->id}}</th>
-      <td>{{$operario->nombre}}</td>
-      <td>{{$operario->rut}}</td>
-      <td>{{$operario->correo}}</td>
-    <td>{{$operario->tipoOperario}}</td>
-    @if($operario->empresa == null)
-    <td ></td>
-    @method('DELETE')
+      <th scope="row">{{$asignar->id}}</th>
+        @if($asignar->operario == null)
+    <td>operario no seleccionada</td>
     @else
-    <td>{{$operario->empresa->nombre}}</td>
-   
+    <td>{{$asignar->operario->nombre}}</td>
+
+    <td>{{$asignar->operario->tipoOperario}}</td>
+    @endif
+
+    @if($asignar->componente == null)
+    <td>componente no seleccionada</td>
+    @else
+    <td>{{$asignar->componente->nombre}}</td>
     @endif
     
-    <td>{{$operario->telefonoOperario}}</td>
     
     
-    
-    
-    <form action="{{ route('gestionopdes', $operario->id) }}" method="POST">
+    <form action="{{ route('asignaropdes', $asignar->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td><a href="{{ route('gestionopedit', $operario->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
+    <td><a href="{{ route('asignaropedit', $asignar->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
     <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar este operario?')">Eliminar</button>
     </form>
     </td>
@@ -87,13 +84,13 @@
 	@endforeach
   </tbody>
   @if($search)
-  <a href="{{ route('gestionop') }}">
+  <a href="{{ route('asignarop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
   <button type="button" class="btn btn-secondary">Back</button>
  </div>
 </a>
  @endif
 </table>
-    {{ $operarios->links()}}
+    {{ $asignars->links()}}
 </div>
 @endsection

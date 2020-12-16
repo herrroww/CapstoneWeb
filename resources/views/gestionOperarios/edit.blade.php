@@ -26,7 +26,8 @@
 
   <form>
   <div class="form-group">
-    <label for="rut">Rut</label>
+  <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
+  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
     <input type="text" class="form-control" name="rut" value="{{ $operario->rut }}" placeholder="Escriba rut del operario" required>
   </div>
 
@@ -54,6 +55,17 @@
   </select>
   </div>
   
+  <div class="form-group">
+    <label for="telefonoOperario">Telefono Operario:</label>
+    <input type="text" class="form-control" name="telefonoOperario" value="{{ $operario->telefonoOperario}}" placeholder="Escriba el telefono del operario" required>
+  </div>
+
+  
+<div class="form-group">
+    <label for="contraseniaOperario">Contraseñia Operario:</label>
+    <input type="text" class="form-control" name="contraseniaOperario" value="{{ $operario->contraseniaOperario}}" placeholder="Escriba la contraseña" required>
+  </div>
+
 <form>
 <div class="form-group">
 <strong >Tipo de Operario </strong>

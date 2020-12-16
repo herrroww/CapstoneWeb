@@ -61,5 +61,16 @@ Route::patch('empresaopedit/{id}', 'EmpresaController@update')->name('empresaope
 Route::delete('empresaopdes/{id}', 'EmpresaController@destroy')->name('empresaopdes');
 
 
+Route::get('asignarop', 'asignaropController@index')->name('asignarop');
+Route::get('asignarop1', 'asignaropController@create')->name('asignarop1');
+Route::post('asignarop1', 'asignaropController@store')->name('asignarop1');
+Route::get('asignaropedit/{id}', 'asignaropController@edit')->name('asignaropedit');
+Route::patch('asignaropedit/{id}', 'asignaropController@update')->name('asignaropedit');
+Route::delete('asignaropdes/{id}', 'asignaropController@destroy')->name('asignaropdes');
+
+Route::get('historialop', 'HistorialController@index')->name('historialop');
+
+Route::get('/sendemail', 'SendEmailController@index')->name('/sendemail');
+Route::post('/sendemail/send', 'SendEmailController@send')->name('/sendemail1');
 
 

@@ -9,19 +9,22 @@
 <form action="gestionop1" method="POST">
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre</label>
+    <label for="nombre">Nombre:</label>
     <input type="text" class="form-control" name="nombre" placeholder="Escriba nombre operario" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="rut">Rut</label>
+  
+    <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
+  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
+  
     <input type="text" class="form-control" name="rut" placeholder="Escriba rut del operario" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="correo">Correo</label>
+    <label for="correo">Correo:</label>
     <input type="email" class="form-control" name="correo" placeholder="Escriba correo del operario" required>
   </div>
 
@@ -39,9 +42,24 @@
 
 </select>
 </div>
+
+  <div class="form-group">
+    <label for="telefonoOperario">Telefono Operario:</label>
+    <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el telefono del operario" required>
+  </div>
+
+  
+<div class="form-group">
+    <label for="contraseniaOperario">Contraseñia Operario:</label>
+    <input type="text" class="form-control" name="contraseniaOperario" placeholder="Escriba la contraseña" required>
+  </div>
+
+  
+
+
   
   <form>
-  <strong  class="" >Tipo de Operario </strong>
+  <strong  class="" >Tipo de Operario: </strong>
 
   <div style="margin-top: 10px" class="custom-control custom-radio" >
      <input type="radio" class="custom-control-input" id="tipoOperario1" name="tipoOperario" value="Externo" required>

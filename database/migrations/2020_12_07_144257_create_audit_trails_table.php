@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModelosTable extends Migration
+class CreateAuditTrailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateModelosTable extends Migration
      */
     public function up()
     {
-        Schema::create('modelos', function (Blueprint $table) {
-            
+        Schema::create('audit_trails', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
-            $table->string('idModelo', 100)->unique();
-            //$table->integer('componente_id')->unsigned();
-            //$table->foreign('componente_id')->references('id')->on('componentes');
+            $table->string('user_id', 100);
+            $table->string('name', 100);
+            $table->string('date', 100);
+            $table->text('activity', 100);
             $table->timestamps();
-
-            
+            $table->softDeletes();
         });
     }
 
@@ -33,6 +31,6 @@ class CreateModelosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modelos');
+        Schema::dropIfExists('audit_trails');
     }
 }

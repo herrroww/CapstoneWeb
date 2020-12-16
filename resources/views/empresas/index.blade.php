@@ -49,6 +49,7 @@
   <thead>
     <tr>
 	  <!--<th scope="col">Id</th>-->
+     <th scope="col">Id</th>
       <th scope="col">Nombre</th>
       <th scope="col">Rut</th>
       <th scope="col">Compañia</th>
@@ -58,7 +59,8 @@
   @foreach($empresas as $empresa)
     <tr>
      
-      <th scope="row">{{$empresa->nombre}}</th>
+    <th scope="row">{{$empresa->id}}</th>
+     <th> {{$empresa->nombre}}</th>
       <td>{{$empresa->rut}}</td>
       <td>{{$empresa->compania}}</td>
     

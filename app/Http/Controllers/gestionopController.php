@@ -8,6 +8,11 @@ use App\Operario;
 use App\Empresa;
 class gestionopController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(Request $request){
 
         if($request){
@@ -17,6 +22,7 @@ class gestionopController extends Controller
 
             $operarios = Operario::where('nombre',  'LIKE', '%' . $query . '%')
                 ->orwhere('rut',  'LIKE', '%' . $query . '%')
+                ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
@@ -46,7 +52,9 @@ class gestionopController extends Controller
         $operario->correo = request('correo');
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
-
+        $operario->contraseniaOperario = request('contraseniaOperario');
+        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;  
+        $operario->telefonoOperario = request('telefonoOperario');
         $operario->save();
 
         return redirect('gestionop')->with('create','');
@@ -67,10 +75,13 @@ class gestionopController extends Controller
         $operario->correo = $request->get('correo');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
+        $operario->contraseniaOperario = $request->get('contraseniaOperario');
+        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+        $operario->telefonoOperario =  $request->get('telefonoOperario');
 
-        $operario->update()->with('edit','');
+        $operario->update();
 
-        return redirect('gestionop');
+        return redirect('gestionop')->with('edit','');
     }
 
     public function destroy($id){
