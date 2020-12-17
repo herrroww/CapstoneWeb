@@ -17,7 +17,11 @@ class CreateComponentesTable extends Migration
             
             $table->id();
             $table->string('nombre', 100);
-            $table->string('idComponente', 100)->unique();           
+            $table->string('idComponente', 100)->unique();     
+            $table->string('codigoQR', 100)->nullable();      
+            $table->string('codigoIdentificador', 100)->nullable(); 
+            $table->string('codigoNFC', 100)->nullable();  
+            $table->string('linkMemoriaDeCalculo', 100)->nullable();      
             $table->timestamps();
             
         });
