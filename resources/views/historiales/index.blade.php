@@ -19,6 +19,7 @@
         <table class="table table-bordered" >
           <thead class="thead-dark">
             <tr>
+             <th scope="col">Id</th>
               <th scope="col">Modelo</th>
               <th scope="col">Acción</th>
               <th scope="col">Usuario</th>
@@ -30,6 +31,7 @@
           <tbody id="audits">
             @foreach($audits as $audit)
               <tr>
+              <td>{{ $audit->id }}</td>
               @if ( $audit->auditable_type == "App\Operario")
                 <td>Operario (ID: {{ $audit->auditable_id}})</td>
                 
