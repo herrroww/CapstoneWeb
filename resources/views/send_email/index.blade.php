@@ -33,19 +33,19 @@
    <form method="post" action="{{url('sendemail/send')}}">
     {{ csrf_field() }}
     <div class="form-group">
-     <label>Enter Your Name</label>
+     <label>Ingresa tu nombre</label>
      <input type="text" name="name" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Enter Your Email</label>
+     <label>Ingresa tu Email</label>
      <input type="text" name="email" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Enter Your Message</label>
+     <label>Ingresa tu mensaje</label>
      <textarea name="message" class="form-control"></textarea>
     </div>
     <div class="form-group">
-     <input type="submit" name="send" class="btn btn-info" value="Send" />
+     <input type="submit" name="send" class="btn btn-info" value="Enviar" />
     </div>
    </form>
    
