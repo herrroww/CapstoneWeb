@@ -15,8 +15,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "phpseclib/phpseclib": "~2.0",
-        "owen-it/laravel-auditing": "^11.0"
+        "owen-it/laravel-auditing": "^12.0",
+        "phpseclib/phpseclib": "~2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
