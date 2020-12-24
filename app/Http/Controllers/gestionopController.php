@@ -23,6 +23,11 @@ class gestionopController extends Controller
     private $passFTP= 'capstone';
 
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request){
 
         if($request){
@@ -32,10 +37,11 @@ class gestionopController extends Controller
 
             $operarios = Operario::where('nombre',  'LIKE', '%' . $query . '%')
                 ->orwhere('rut',  'LIKE', '%' . $query . '%')
+                ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
-            return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query]);
+            return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query, 'activemenu' => 'operario']);
         }
         
         
@@ -50,7 +56,7 @@ class gestionopController extends Controller
         $operario = Operario::all();
         $data = array("lista_empresas" => $empresa);
 
-        return view('gestionOperarios.create',compact('empresa'));
+        return view('gestionOperarios.create',['activemenu' => 'operario'],compact('empresa'));
     }
 
     public function store(Request $request){
@@ -136,8 +142,7 @@ class gestionopController extends Controller
 
         $operario = Operario::FindOrFail($id);
         $empresa = Empresa::all();
-        
-        return view('gestionOperarios.edit', compact('operario','empresa'));
+        return view('gestionOperarios.edit', ['activemenu' => 'operario'],compact('operario','empresa'));
     }
 
     public function update(OperarioFormRequest $request, $id){
@@ -160,65 +165,13 @@ class gestionopController extends Controller
         $operario->correo = $request->get('correo');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
-
         $operario->contraseniaOperario = $request->get('contraseniaOperario');
-        $operario->telefonoOperario = $request->get('telefonoOperario');
-        
-        $operario->contraseniaOperarioFTP = $request->get('contraseniaOperarioFTP');
+        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+        $operario->telefonoOperario =  $request->get('telefonoOperario');
 
+        $operario->update();
 
-
-        //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->serverFTP);
-              
-        //Intenta hacer la conexion al servidor FTP.
-        if(!$ssh->login($this->userFTP,$this->passFTP)){
-            
-            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
-            exit($SWERROR->ErrorActual(1));
-        }else{
-
-            //Verifica si el directorio existe.
-            $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' ] && echo "true" || echo "false"');
-            
-            //Limpia la informacion obtenida.
-            $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
-            
-            if($estadoExiste != 'true'){
-
-                //[SWERROR 009]: El operario no existe en el sistema FTP (Conflicto en OperariosExternos).
-                exit($SWERROR->ErrorActual(8));
-            }else{
-
-                //Verifica si el directorio existe.
-                $estadoExiste = $ssh->exec('[ -d /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' ] && echo "true" || echo "false"');
-                
-                //Limpia la informacion obtenida.
-                $estadoExiste = $estadoExiste[0].$estadoExiste[1].$estadoExiste[2].$estadoExiste[3];
-
-                if($estadoExiste != 'true'){
-
-                    //[SWERROR 010]: El operario no existe en el sistema FTP (Conflicto en OperariosInternos).
-                    exit($SWERROR->ErrorActual(9));
-                }else{
-
-                    //Se modifica el directorio del operario.
-                    $ssh->exec('mv /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
-                    $ssh->exec('mv /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
-
-                    //@TODO: FALTA MODIFICAR EL USUARIO FTP
-
-                    //Se modifica el operario en la base de datos.
-                    $operario->update();
-                }
-            }
-        }        
-
-        //Se liberan los recursos.       
-        unset($SWERROR);
-        unset($ssh);   
-
-        return redirect('gestionop');
+        return redirect('gestionop')->with('edit','');
     }
 
     public function destroy($id){

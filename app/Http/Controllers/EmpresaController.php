@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Empresa;
+use App\User;
+use App\AuditTrail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Session;
 
 use App\Http\Controllers\ErrorRepositorio;
 
 use phpseclib\Net\SSH2;
 
 class EmpresaController extends Controller
-{   
+{  
 
     //IP del servidor FTP.
     private $serverFTP = '192.168.0.28';
@@ -18,6 +23,12 @@ class EmpresaController extends Controller
     //Credenciales de usuario FTP
     private $userFTP= 'capstone';
     private $passFTP= 'capstone';
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index(Request $request){
 
@@ -27,15 +38,33 @@ class EmpresaController extends Controller
             $empresas = Empresa::where('nombre',  'LIKE', '%' . $query . '%')
                 ->orwhere('rut',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
+                ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->paginate(7);
 
-            return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
-        }    
+            return view('empresas.index', ['empresas' => $empresas, 'search' => $query, 'activemenu' => 'empresa']);
+        } 
         
     }
     
-    public function create(){
-        return view('empresas.create');
+    public function create(Request $request){
+        
+
+        /*$user = Auth::user();
+        $data = $request->validate(
+            [
+                'rut' => 'required',
+                'nombre' => 'required',
+                'compañia' => 'required',
+            ]
+            );
+        DB::beginTransaction();
+            $empresa_data = EmpresaData::query()->create($data);
+            $user->log("CREATED DATA {$empresa_data->nombre}");
+            
+        DB::commit();*/
+
+        return view('empresas.create',['activemenu' => 'empresa']);       
+        
     }
 
     public function store(Request $request){
@@ -104,13 +133,17 @@ class EmpresaController extends Controller
     }
 
     public function edit($id){
-        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id)]);
+        
+        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id), 'activemenu' => 'empresa']);
     }
 
     public function update(Request $request, $id){
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
+        $empresa = Empresa::findOrFail($id);
+
+        $user = Auth::user();
         
         //Busca a la empresa dada una id de la tabla.
         $empresa = Empresa::findOrFail($id);

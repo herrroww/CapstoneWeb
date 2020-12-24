@@ -19,9 +19,12 @@ class CreateOperariosTable extends Migration
             $table->string('rut', 100)->unique();
             $table->string('correo', 100)->unique();
             $table->string('tipoOperario', 100);
+            $table->string('contraseniaOperario',100);
+            $table->string('contraseniaOperarioFTP',100);
+            $table->string('telefonoOperario',100);
            
             $table->unsignedBigInteger('empresa_id');
-            $table->foreign('empresa_id')->references('id')->on('empresas')->constrained()->onDelete('cascade');
+            $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
           
             

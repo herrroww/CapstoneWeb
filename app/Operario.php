@@ -8,17 +8,20 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use App\Operario;
 use App\Empresa;
+use OwenIt\Auditing\Contracts\Auditable;
 
 
-class Operario extends model
+class Operario extends model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+    
     public function empresa (){
 
         return $this->belongsTo('App\Empresa', 'empresa_id');
     }
 
-    
-    
+   
 
     
 }

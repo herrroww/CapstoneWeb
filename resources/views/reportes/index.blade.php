@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </form>
-  <h2>Lista de Empresas <a href="{{ route('empresaop1') }}"> <button type="button" class="btn btn-success float-right">Agregar Empresa </button></a></h2>
+  <h2>Reporte De Problemas</h2>
   <h6>
     @if($search)
   <div class="alert alert-primary" role="alert">
@@ -26,22 +26,10 @@
 
     @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  Empresa Eliminada correctamente.
+  Reporte Eliminado correctamente.
   </div>
     @endif
 
-    @if(session('create'))
-  <div class="alert alert-success" role="alert">
-  La empresa se a creado correctamente.
-  </div>
-    @endif
-
-    
-    @if(session('edit'))
-  <div class="alert alert-warning" role="alert">
-  La empresa se a editado correctamente.
-  </div>
-    @endif
 
     
   </h6>
@@ -50,39 +38,43 @@
     <tr>
 	  <!--<th scope="col">Id</th>-->
      <th scope="col">Id</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Rut</th>
-      <th scope="col">Compañia</th>
+     <th scope="col">Titulo Reporte</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Fecha Reporte</th>  
     </tr>
   </thead>
   <tbody>
-  @foreach($empresas as $empresa)
+  @foreach($reporteproblemas as $reporteproblema)
     <tr>
      
-    <th scope="row">{{$empresa->id}}</th>
-     <th> {{$empresa->nombre}}</th>
-      <td>{{$empresa->rut}}</td>
-      <td>{{$empresa->compania}}</td>
+    <th scope="row">{{$reporteproblema->id}}</th>
+    <td>{{$reporteproblema->tituloReporteProblema}}</td>
+    @if($reporteproblema->estado==null)
+    <td>Sin Revisar</td>
+    @else
+      <td>{{$reporteproblema->estado}}</td>
+      @endif
+      <td>{{$reporteproblema->fechaReporteProblema}}</td>
+      
     
     
-    <form action="{{ route('empresaopdes', $empresa->id) }}" method="POST">
-    @method('DELETE')
+    
     @csrf
-    <td><a href="{{ route('empresaopedit', $empresa->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar esta empresa?')">Eliminar</button>
+    <td>
+    <a href="{{ route('reporteopedit', $reporteproblema->id) }}"><button name ="revisar" type="submit" class="btn btn-primary" >Revisar</button></a>
     </form>
     </td>
     </tr>
 	@endforeach
   </tbody>
   @if($search)
-  <a href="{{ route('empresaop') }}">
+  <a href="{{ route('reporteop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
   <button type="button" class="btn btn-secondary">Back</button>
  </div>
 </a>
  @endif
 </table>
-    {{ $empresas->links()}}
+    {{ $reporteproblemas->links()}}
 </div>
 @endsection

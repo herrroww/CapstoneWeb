@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\AuditTrail;
+
 
 class User extends Authenticatable
 {
@@ -36,4 +38,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function audit_trail(){
+
+        return $this->hasMany('App\AuditTrail');
+
+    }
+
+    public function log($message){
+
+        
+        $message = ucwords($message);
+        
+         $data = [
+                'user_id' => $this->id,
+                'name' => $this->name,
+                'date' => Carbon::parse(now())-toDateString(),
+                'activity' => "{$this->name} $message"
+         ];
+         AuditTrail::query()->create($data);
+
+    }
 }

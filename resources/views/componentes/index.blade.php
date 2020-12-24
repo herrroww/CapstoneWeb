@@ -27,6 +27,7 @@
   <thead>
     <tr>
 	  <!--<th scope="col">Id</th>-->
+    <th scope="col">Id</th>
       <th scope="col">Nombre</th>
       <th scope="col">Id Componente</th>
     </tr>
@@ -35,14 +36,16 @@
   @foreach($componentes as $componente)
     <tr>
       
-      <th scope="row">{{$componente->nombre}}</th>
+      <th scope="row">{{$componente->id}}</th>
+      <td>{{$componente->nombre}}</td>
       <td>{{$componente->idComponente}}</td>
       
     
     <form action="{{ route('componenteopdes', $componente->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td> <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>
+    <td> <!--<a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>-->
+    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Mostrar componente</button></a>
     <a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
     <button name ="eliminar" type="submit" class="btn btn-danger">Eliminar</button>
     </form>

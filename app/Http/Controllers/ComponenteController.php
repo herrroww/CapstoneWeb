@@ -9,6 +9,13 @@ use Session;
 
 class ComponenteController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    
     public function index(Request $request){
 
         if($request){
@@ -16,10 +23,11 @@ class ComponenteController extends Controller
 
             $componentes = Componente::where('nombre',  'LIKE', '%' . $query . '%')
                 ->orwhere('idComponente',  'LIKE', '%' . $query . '%')
+                ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
-            return view('componentes.index', ['componentes' => $componentes, 'search' => $query]);
+            return view('componentes.index', ['componentes' => $componentes, 'search' => $query, 'activemenu' => 'componente']);
         }
         
         
@@ -29,7 +37,7 @@ class ComponenteController extends Controller
     }
     
     public function create(){
-        return view('componentes.create');
+        return view('componentes.create',['activemenu' => 'componente']);
     }
 
     public function store(Request $request){
@@ -46,7 +54,7 @@ class ComponenteController extends Controller
     }
 
     public function edit($id){
-        return view('componentes.edit', ['componente' => Componente::findOrFail($id)]);
+        return view('componentes.edit', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 
     public function update(Request $request, $id){
@@ -76,10 +84,10 @@ class ComponenteController extends Controller
 
     public function show($id){
 
-        Session::put('componente_id',$id);
-        return redirect('modelosop');
+        //Session::put('componente_id',$id);
+        //return redirect('modelosop');
 
-        //return view('componentes.show', ['componente' => Componente::findOrFail($id)]);
+        return view('componentes.show', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 }
 
