@@ -32,7 +32,7 @@
         <div class="wrapper">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-qys navbar-dark">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -73,7 +73,7 @@
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-blue">
                 <!-- Brand Logo -->
                 <a href="" class="brand-link">
                 <!--<a href="{{ url('/') }}" class="brand-link">-->
@@ -84,15 +84,27 @@
 
                
                 <!-- Sidebar -->
-                <div class="sidebar">
+                <div class="sider-azul sidebar">
+                @if($activemenu == 'user')
                     <!-- Sidebar user panel (optional) -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex bg-orange">
+                    
+                        <div class="image bg-orange">
                             <img src="https://static.wixstatic.com/media/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.png/v1/fill/w_658,h_113,al_c,q_85,usm_0.66_1.00_0.01/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.webp" class="img-circle elevation-2" alt="User Image">
                         </div>
-
                 
-                        <div class="info">
+                
+                        <div class="info bg-orange">
+                        @else
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex ">
+                        <div class="image ">
+                            <img src="https://static.wixstatic.com/media/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.png/v1/fill/w_658,h_113,al_c,q_85,usm_0.66_1.00_0.01/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.webp" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                
+                
+                        <div class="info ">
+                        @endif
+                      
                            <a href="{{ route('showuser') }}" class="d-block">
                            
                                 
@@ -120,44 +132,92 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
 
-                            <li class="nav-item">
+                            @if($activemenu == 'home') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+
+                           
                                 <a href="{{ route('home') }}" class="{{  Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-home"></i>
+                                @if($activemenu == 'home') 
+                                    <i class="fas fa-home color-white"></i>
+                                    <p class="color-white">
+                                        Home
+                                    </p>
+                                    @else
+                                    <i class="fa fa-home"></i>
                                     <p>
                                         Home
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 
                             
-                            <li class="nav-item">
+                            @if($activemenu == 'empresa') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+
+                    
                                 <a href="{{ route('empresaop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-building"></i>
-                                    <p>
+                                    @if($activemenu == 'empresa')
+                                    <i class="fas fa-building color-white"></i>
+                                    <p class="color-white">
                                         Gestion Empresa
                                     </p>
+                                    @else
+                                    <i class="fa fa-home"></i>
+                                    <p >
+                                        Gestion Empresa
+                                    </p>
+                                    @endif
                                 </a>
                             </li>
+                            @if($activemenu == 'operario') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
 
-                            <li class="nav-item">
                                 <a href="{{ route('gestionop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-hard-hat"></i>
-                                    <p>
+                                    @if($activemenu == 'operario')
+                                    <i class="fas fa-hard-hat color-white"></i>
+                                    <p class="color-white">
                                         Gestion Operarios
                                     </p>
+                                    @else
+                                    <i class="fa fa-home"></i>
+                                    <p>
+                                        Gestion Operario
+                                    </p>
+                                    @endif
                                 </a>
                             </li>
 
                             
-                            <li class="nav-item">
+                            @if($activemenu == 'componente') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
                                 <a href="{{ route('componenteop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-boxes"></i>
+                                    @if($activemenu == 'componente')
+                                    <i class="fas fa-boxes color-white"></i>
+                                    <p class='color-white'>
+                                        Gestion Componente Mecanico
+                                    </p>
+                                    @else
+                                    <i class="fa fa-home"></i>
                                     <p>
                                         Gestion Componente Mecanico
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 
@@ -171,8 +231,12 @@
                                     </p>
                                 </a>
                             </li>-->
+                            @if($activemenu == 'asignar') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
 
-                            <li class="nav-item">
                                 <a href="{{ route('asignarop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-chart-bar"></i>
@@ -182,7 +246,12 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            @if($activemenu == 'historial') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+
                                 <a href="{{ route('historialop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-exclamation-triangle"></i>
@@ -192,12 +261,31 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('/sendemail') }}"
+                            @if($activemenu == 'reporteproblema') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+                                <a href="{{ route('reporteop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="fas fa-info-circle"></i>
                                     <p>
                                        Reporte De Problemas
+                                    </p>
+                                </a>
+                            </li>
+
+                            @if($activemenu == 'contactoadmin') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+                            
+                                <a href="{{ route('/sendemail') }}"
+                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="fas fa-headset"></i>
+                                    <p>
+                                       Contacte con administrador
                                     </p>
                                 </a>
                             </li>

@@ -30,7 +30,7 @@ class HistorialController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(3);
         
-        return view('historiales.index', ['audits' => $audits, 'search' => $query, 'empresas' => $empresas, 'operarios' => $operarios]);
+        return view('historiales.index', ['audits' => $audits, 'search' => $query, 'empresas' => $empresas, 'operarios' => $operarios, 'activemenu' => 'historial']);
         }
         
         

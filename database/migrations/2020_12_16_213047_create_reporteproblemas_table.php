@@ -19,6 +19,8 @@ class CreateReporteproblemasTable extends Migration
             $table->string('nombreOperario', 100);
             $table->string('correoOperario', 100);
             $table->string('numeroOperario', 100);
+            $table->string('prioridad', 100);
+            $table->string('estado', 100)->nullable();
             $table->string('fechaReporteProblema', 100);
             $table->string('tituloReporteProblema', 100);
             $table->string('contenidoReporteProblema', 100);

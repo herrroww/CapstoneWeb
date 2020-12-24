@@ -26,7 +26,7 @@ class gestionopController extends Controller
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
-            return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query]);
+            return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query, 'activemenu' => 'operario']);
         }
         
         
@@ -41,7 +41,7 @@ class gestionopController extends Controller
         $operario = Operario::all();
         $data = array("lista_empresas" => $empresa);
 
-        return view('gestionOperarios.create',compact('empresa'));
+        return view('gestionOperarios.create',['activemenu' => 'operario'],compact('empresa'));
     }
 
     public function store(Request $request){
@@ -64,7 +64,7 @@ class gestionopController extends Controller
     public function edit($id){
         $operario = Operario::FindOrFail($id);
         $empresa = Empresa::all();
-        return view('gestionOperarios.edit', compact('operario','empresa'));
+        return view('gestionOperarios.edit', ['activemenu' => 'operario'],compact('operario','empresa'));
     }
 
     public function update(OperarioFormRequest $request, $id){

@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index(){
 
         $users = User::all();
-        return view('usuarios.show', ['users' =>$users]);
+        return view('usuarios.show', ['users' =>$users, 'activemenu' => 'user']);
     }
 
 
@@ -24,12 +24,12 @@ class UserController extends Controller
 
         $users = User::all();
 
-        return view('usuarios.show', ['users' => User::findOrFail($id)]);
+        return view('usuarios.show', ['users' => User::findOrFail($id),'activemenu' => 'user']);
 
     }
 
     public function edit($id){
-        return view('usuarios.edit', ['users' => User::findOrFail($id)]);
+        return view('usuarios.edit', ['users' => User::findOrFail($id),'activemenu' => 'user']);
     }
 
     public function update(Request $request, $id){

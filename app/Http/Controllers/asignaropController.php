@@ -29,7 +29,7 @@ class asignaropController extends Controller
 
             $operarios = Operario::all();
 
-            return view('asignarComponente.index', ['asignars' => $asignars, 'operarios' => $operarios, 'search' => $query]);
+            return view('asignarComponente.index', ['asignars' => $asignars, 'operarios' => $operarios, 'search' => $query, 'activemenu' => 'asignar']);
         }
         
         
@@ -47,7 +47,7 @@ class asignaropController extends Controller
         $data1 = array("lista_operarios" => $operario);
 
 
-        return view('asignarComponente.create',compact('operario','componente'));
+        return view('asignarComponente.create', ['activemenu' => 'asignar'], compact('operario','componente'));
     }
 
     public function store(Request $request){
@@ -68,7 +68,7 @@ class asignaropController extends Controller
         $asignar = Asignar::FindOrFail($id);
         $operario= Operario::all();
         $componente= Componente::all();
-        return view('asignarComponente.edit', compact('operario','componente','asignar'));
+        return view('asignarComponente.edit', ['activemenu' => 'asignar' ], compact('operario','componente','asignar'));
     }
 
     public function update(Request $request, $id){

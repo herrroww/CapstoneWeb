@@ -73,4 +73,9 @@ Route::get('historialop', 'HistorialController@index')->name('historialop');
 Route::get('/sendemail', 'SendEmailController@index')->name('/sendemail');
 Route::post('/sendemail/send', 'SendEmailController@send')->name('/sendemail1');
 
+Route::get('reporteop', 'ReporteController@index')->name('reporteop');
+Route::delete('reporteopdes/{id}', 'ReporteController@destroy')->name('reporteopdes');
+Route::get('reporteopedit/{id}', 'ReporteController@edit')->name('reporteopedit');
+Route::patch('reporteopedit/{id}', 'ReporteController@update')->name('reporteopedit');
+
 

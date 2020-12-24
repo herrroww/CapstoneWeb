@@ -27,7 +27,7 @@ class ComponenteController extends Controller
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
-            return view('componentes.index', ['componentes' => $componentes, 'search' => $query]);
+            return view('componentes.index', ['componentes' => $componentes, 'search' => $query, 'activemenu' => 'componente']);
         }
         
         
@@ -37,7 +37,7 @@ class ComponenteController extends Controller
     }
     
     public function create(){
-        return view('componentes.create');
+        return view('componentes.create',['activemenu' => 'componente']);
     }
 
     public function store(Request $request){
@@ -54,7 +54,7 @@ class ComponenteController extends Controller
     }
 
     public function edit($id){
-        return view('componentes.edit', ['componente' => Componente::findOrFail($id)]);
+        return view('componentes.edit', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 
     public function update(Request $request, $id){
@@ -87,7 +87,7 @@ class ComponenteController extends Controller
         //Session::put('componente_id',$id);
         //return redirect('modelosop');
 
-        return view('componentes.show', ['componente' => Componente::findOrFail($id)]);
+        return view('componentes.show', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 }
 

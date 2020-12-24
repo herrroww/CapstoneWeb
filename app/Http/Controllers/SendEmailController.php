@@ -10,7 +10,7 @@ class SendEmailController extends Controller
 {
     function index()
     {
-     return view('send_email.index');
+     return view('send_email.index',['activemenu' => 'contactoadmin']);
     }
 
     function send(Request $request)

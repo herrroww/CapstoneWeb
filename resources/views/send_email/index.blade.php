@@ -13,7 +13,7 @@
   <br />
   <br />
   <div class="container box">
-   <h3 align="center">Reporte De Problemas</h3><br />
+   <h3 align="center">Contacte Con Administrador</h3><br />
    @if (count($errors) > 0)
     <div class="alert alert-danger">
      <button type="button" class="close" data-dismiss="alert">×</button>

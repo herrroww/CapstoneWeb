@@ -22,7 +22,6 @@
   --gray: #6c757d;
   --gray-dark: #343a40;
   --primary: #3490dc;
-  --qys: #3531a5c4;
   --secondary: #6c757d;
   --success: #38c172;
   --info: #6cb2eb;
@@ -131,7 +130,6 @@ ol ul,
 ul ol {
   margin-bottom: 0;
 }
-
 dt {
   font-weight: 700;
 }
@@ -223,7 +221,23 @@ svg {
 table {
   border-collapse: collapse;
 }
-
+/*Colores de fondo QS*/
+.bg-orange
+{
+    background-color: #e68e1e !important;
+}
+.bg-blue
+{
+    background-color: #1c3292 !important;
+}
+.color-blue
+{
+   color: #1c3292 !important; 
+}
+.color-white
+{
+    color:#ffffff !important;
+}
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -2801,7 +2815,6 @@ fieldset:disabled a.btn {
   background-color: #4aa0e6;
   border-color: #3f9ae5;
 }
-
 .btn-info:focus,
 .btn-info.focus {
   color: #fff;
@@ -5219,6 +5232,7 @@ input[type=button].btn-block {
   padding-left: 0;
   list-style: none;
   border-radius: 0.25rem;
+  justify-content:center;
 }
 
 .page-link {
@@ -5260,8 +5274,9 @@ input[type=button].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #3490dc;
-  border-color: #3490dc;
+  /*background-color: #3490dc;#e68e1e*/
+  background-color:#e68e1e;
+  border-color: #e68e1e;
 }
 
 .page-item.disabled .page-link {
@@ -8267,7 +8282,6 @@ button.bg-dark:focus {
   left: 0;
   z-index: 1030;
 }
-
 @supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
     position: -webkit-sticky;
