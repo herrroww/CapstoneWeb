@@ -68,6 +68,12 @@ class gestionopController extends Controller
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
 
+        $operario->contraseniaOperario = request('contraseniaOperario');
+        $operario->telefonoOperario = request('telefonoOperario');
+
+        //@TODO: PROBAR HASH
+        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+
         //Se obtiene el rut de la empresa seleccionada.
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rut;
  
@@ -108,6 +114,9 @@ class gestionopController extends Controller
                     //Se crea el directorio del operario.
                     $ssh->exec('mkdir /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
                     $ssh->exec('mkdir /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
+
+                    //@TODO: FALTA CREAR EL USUARIO FTP
+
 
                     //Se almacena el operario en la base de datos.
                     $operario->save();
@@ -152,6 +161,12 @@ class gestionopController extends Controller
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
 
+        $operario->contraseniaOperario = $request->get('contraseniaOperario');
+        $operario->telefonoOperario = $request->get('telefonoOperario');
+        
+        $operario->contraseniaOperarioFTP = $request->get('contraseniaOperarioFTP');
+
+
 
         //Se prepara la conexion al servidor FTP.
         $ssh = new SSH2($this->serverFTP);
@@ -191,7 +206,9 @@ class gestionopController extends Controller
                     $ssh->exec('mv /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
                     $ssh->exec('mv /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$rutOperarioTemp.' /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
-                    //Se almacena el operario en la base de datos.
+                    //@TODO: FALTA MODIFICAR EL USUARIO FTP
+
+                    //Se modifica el operario en la base de datos.
                     $operario->update();
                 }
             }
@@ -260,7 +277,9 @@ class gestionopController extends Controller
                     //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
                     //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
-                    //Se almacena el operario en la base de datos.
+                    //@TODO: FALTA ELIMINAR EL USUARIO FTP
+
+                    //Se elimina el operario en la base de datos.
                     $operario->delete();
                 }
             }
