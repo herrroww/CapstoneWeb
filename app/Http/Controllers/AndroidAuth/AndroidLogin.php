@@ -4,11 +4,7 @@
 
     // RECIBE LOS DATOS DE LA APP
     $correo = $_POST['correo'];
-    $rut = $_POST['rut'];
-
-    // DATOS DE PRUEBA
-    // $correo = "admin";
-    // $rut = "admin";
+    $contraseniaOperario = $_POST['contraseniaOperario'];
 
     // VERIFICAMOS QUE NO ESTEN VACIAS LAS VARIABLES
     if(empty($correo) || empty($rut)) {
@@ -20,7 +16,7 @@
     } else {
 
         // CREAMOS LA CONSULTA
-        $sql = "SELECT * FROM operarios WHERE correo='$correo' AND rut='$rut'";
+        $sql = "SELECT * FROM operarios WHERE correo='$correo' AND contraseniaOperario='$contraseniaOperario'";
         $query = $mysqli->query($sql);
 
         // CREAMOS UN ARRAY PARA GUARDAR LOS VALORES DEL REGISTRO
