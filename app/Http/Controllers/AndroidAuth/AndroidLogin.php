@@ -1,13 +1,13 @@
 <?php
 
-    require("AndroidConexion.php");
+ require("AndroidConexion.php");
 
     // RECIBE LOS DATOS DE LA APP
     $correo = $_POST['correo'];
     $contraseniaOperario = $_POST['contraseniaOperario'];
 
     // VERIFICAMOS QUE NO ESTEN VACIAS LAS VARIABLES
-    if(empty($correo) || empty($rut)) {
+    if(empty($correo) || empty($contraseniaOperario)) {
 
         // SI ALGUNA VARIABLE ESTA VACIA MUESTRA ERROR
         //echo "Se deben llenar los dos campos";
