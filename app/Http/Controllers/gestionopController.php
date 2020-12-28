@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OperarioFormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Operario;
 use App\Empresa;
 
@@ -59,6 +60,17 @@ class gestionopController extends Controller
         return view('gestionOperarios.create',['activemenu' => 'operario'],compact('empresa'));
     }
 
+    private function tipoOperario2($id){
+
+        if($id = "Externo"){
+
+            return "OperarioExterno";
+        }else{
+            
+            return "OperarioInterno";
+        }
+    }
+
     public function store(Request $request){
 
         //Carga el repositorio de errores.
@@ -71,14 +83,13 @@ class gestionopController extends Controller
         $operario->nombre = request('nombre');
         $operario->rut = request('rut');
         $operario->correo = request('correo');
-        $operario->tipoOperario = request('tipoOperario');
+        $operario->tipoOperario = $this->tipoOperario2(request('tipoOperario'));
         $operario->empresa_id = request('empresa');
 
-        $operario->contraseniaOperario = request('contraseniaOperario');
+        $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
         $operario->telefonoOperario = request('telefonoOperario');
 
-        //@TODO: PROBAR HASH
-        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+        $operario->contraseniaOperarioFTP = preg_replace("'[{`~!@#$%^&*()_+-=;:\|,<.>/?}]'","",$operario->contraseniaOperario);
 
         //Se obtiene el rut de la empresa seleccionada.
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rut;
@@ -122,6 +133,7 @@ class gestionopController extends Controller
                     $ssh->exec('mkdir /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
                     //@TODO: FALTA CREAR EL USUARIO FTP
+                    $ssh->exec('echo '.$this->passFTP.' | sudo -S useradd -g operariosftp -d /home/'.$operario->tipoOperario.'/'.$operario->rut.' -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rut);
 
 
                     //Se almacena el operario en la base de datos.
@@ -165,8 +177,7 @@ class gestionopController extends Controller
         $operario->correo = $request->get('correo');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
-        $operario->contraseniaOperario = $request->get('contraseniaOperario');
-        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+        $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
         $operario->telefonoOperario =  $request->get('telefonoOperario');
 
         $operario->update();
@@ -220,17 +231,16 @@ class gestionopController extends Controller
                     exit($SWERROR->ErrorActual(9));
                 }else{
 
-                    //Se crea el directorio del operario.
+                    //@TODO: FALTA ELIMINAR EL USUARIO FTP
+                    $ssh->exec('echo '.$this->passFTP.' | sudo -S userdel '.$operario->rut);
                     
-
+                    //Se elimina el directorio del operario.                   
                     $ssh->exec('rm -r /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
                     $ssh->exec('rm -r /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
 
                     //Se envia el directorio de la empresa a la basura. (Version)
                     //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosExternos/'.$rutEmpresa.'/'.$operario->rut);
-                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);
-
-                    //@TODO: FALTA ELIMINAR EL USUARIO FTP
+                    //$ssh->exec('gvfs-trash /home/capstone/ftp/OperariosInternos/'.$rutEmpresa.'/'.$operario->rut);   
 
                     //Se elimina el operario en la base de datos.
                     $operario->delete();
