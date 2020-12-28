@@ -76,5 +76,3 @@ Route::get('reporteop', 'ReporteController@index')->name('reporteop');
 Route::delete('reporteopdes/{id}', 'ReporteController@destroy')->name('reporteopdes');
 Route::get('reporteopedit/{id}', 'ReporteController@edit')->name('reporteopedit');
 Route::patch('reporteopedit/{id}', 'ReporteController@update')->name('reporteopedit');
-
-
