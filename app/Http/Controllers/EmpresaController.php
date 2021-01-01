@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Empresa;
+use App\Operario;
 use App\User;
 use App\AuditTrail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
+use App\Http\gestionopController;
 
 class EmpresaController extends Controller
 {
@@ -97,7 +99,18 @@ class EmpresaController extends Controller
 
         $empresa = Empresa::findOrFail($id);
 
+
+
+        $empresa->operario()->delete();
+
+        $empresa->asignar()->delete();
+
+
+       
+
+
         $empresa->delete();
+
 
         return redirect()->back()->with('success','La empresa a sido eliminada.');
 

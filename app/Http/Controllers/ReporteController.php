@@ -46,7 +46,7 @@ class ReporteController extends Controller
         
         $reporteproblema->update();
 
-        return redirect('reporteop')->with('edit','');
+        return redirect('reporteop')->with('edit','Se a modificado correctamente');
     }
 
 }

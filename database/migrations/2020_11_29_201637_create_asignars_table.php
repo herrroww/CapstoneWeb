@@ -17,8 +17,10 @@ class CreateAsignarsTable extends Migration
             $table->id();
             $table->integer('operario_id')->unsigned();
             $table->integer('componente_id')->unsigned();
+            $table->integer('empresa_id')->unsigned();
             $table->timestamps();
 
+            $table->foreign('empresa_id')->references('id')->on('operarios')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('operario_id')->references('id')->on('operarios')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('componente_id')->references('id')->on('componentes')->onDelete('cascade')->onUpdate('cascade');
         });

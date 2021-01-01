@@ -24,6 +24,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
@@ -32,7 +33,7 @@
         <div class="wrapper">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-white  bg-blue">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -54,8 +55,8 @@
                 </form>-->
 
                 <!-- Right navbar links -->
-                <ul class="navbar-nav ml-auto">
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                <ul class="navbar-nav ml-auto ">
+                <a class="dropdown-item bg-orange color-white" href="{{ route('logout') }}" onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
                                     Cerrar Sesión
                                 </a>
@@ -90,7 +91,7 @@
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex bg-orange">
                     
                         <div class="image bg-orange">
-                            <img src="https://static.wixstatic.com/media/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.png/v1/fill/w_658,h_113,al_c,q_85,usm_0.66_1.00_0.01/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.webp" class="img-circle elevation-2" alt="User Image">
+                            <img src="https://media.discordapp.net/attachments/758330677157953536/793668087206903828/unknown.png" class="img-circle elevation-2" alt="User Image">
                         </div>
                 
                 
@@ -98,7 +99,7 @@
                         @else
                         <div class="user-panel mt-3 pb-3 mb-3 d-flex ">
                         <div class="image ">
-                            <img src="https://static.wixstatic.com/media/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.png/v1/fill/w_658,h_113,al_c,q_85,usm_0.66_1.00_0.01/27db0e_ee32d8873b264f80ba645e24c0f4bf96~mv2.webp" class="img-circle elevation-2" alt="User Image">
+                            <img src="https://media.discordapp.net/attachments/758330677157953536/793668087206903828/unknown.png" class="img-circle elevation-2" alt="User Image">
                         </div>
                 
                 
@@ -170,7 +171,7 @@
                                         Gestion Empresa
                                     </p>
                                     @else
-                                    <i class="fa fa-home"></i>
+                                    <i class="fa fa-building"></i>
                                     <p >
                                         Gestion Empresa
                                     </p>
@@ -191,7 +192,7 @@
                                         Gestion Operarios
                                     </p>
                                     @else
-                                    <i class="fa fa-home"></i>
+                                    <i class="fas fa-hard-hat"></i>
                                     <p>
                                         Gestion Operario
                                     </p>
@@ -213,7 +214,7 @@
                                         Gestion Componente Mecanico
                                     </p>
                                     @else
-                                    <i class="fa fa-home"></i>
+                                    <i class="fas fa-boxes"></i>
                                     <p>
                                         Gestion Componente Mecanico
                                     </p>
@@ -239,10 +240,17 @@
 
                                 <a href="{{ route('asignarop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-chart-bar"></i>
+                                    @if($activemenu == 'asignar')
+                                    <i class="fas fa-chart-bar color-white "></i>
+                                    <p class='color-white'>
+                                        Asignar Componente Mecanico
+                                    </p>
+                                    @else
+                                    <i class="fas fa-chart-bar "></i>
                                     <p>
                                         Asignar Componente Mecanico
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 
@@ -254,10 +262,17 @@
 
                                 <a href="{{ route('historialop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    @if($activemenu == 'historial')
+                                    <i class="fas fa-exclamation-triangle color-white"></i>
+                                    <p class='color-white'>
+                                        Historicos
+                                    </p>
+                                    @else
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <p>
                                         Historicos
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 
@@ -268,10 +283,17 @@
                                                 @endif
                                 <a href="{{ route('reporteop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    @if($activemenu == 'reporteproblema')
+                                    <i class="fas fa-info-circle color-white"></i>
+                                    <p class='color-white'>
+                                        Reporte De Problemas
+                                    </p>
+                                    @else
                                     <i class="fas fa-info-circle"></i>
                                     <p>
                                        Reporte De Problemas
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 
@@ -283,10 +305,17 @@
                             
                                 <a href="{{ route('/sendemail') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    @if($activemenu == 'contactoadmin')
+                                    <i class="fas fa-headset color-white"></i>
+                                    <p class='color-white'>
+                                        Contacte con administrador
+                                    </p>
+                                    @else
                                     <i class="fas fa-headset"></i>
                                     <p>
                                        Contacte con administrador
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Componente;
 use App\Modelo;
+use App\Documento;
 use Session;
 
 class ComponenteController extends Controller
@@ -49,7 +50,7 @@ class ComponenteController extends Controller
 
         $componente->save();
 
-        return redirect('componenteop');
+        return redirect('componenteop')->with('create','El componente se a creado correctamente');
 
     }
 
@@ -65,7 +66,7 @@ class ComponenteController extends Controller
 
         $componente->update();
 
-        return redirect('componenteop');
+        return redirect('componenteop')->with('edit','El Componente se a editado');
     }
 
     public function destroy($id){
@@ -73,9 +74,11 @@ class ComponenteController extends Controller
         $componente = Componente::findOrFail($id);
         
         $componente->delete();
+
+        $componente->asignar()->delete();
       
 
-        return redirect('componenteop');
+        return redirect('componenteop')->with('success','El Componente se a eliminado correctamente.');
 
         
 
@@ -84,10 +87,12 @@ class ComponenteController extends Controller
 
     public function show($id){
 
-        //Session::put('componente_id',$id);
-        //return redirect('modelosop');
+        Session::put('componente_id',$id);
+        
 
-        return view('componentes.show', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
+        return redirect('documentosop');
+
+        //return view('componentes.show', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 }
 

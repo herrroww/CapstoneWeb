@@ -5,6 +5,11 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
+            <h3>Agregar Operario</h3>
+            <hr>
+
+
+
 
 <form action="gestionop1" method="POST">
     @csrf
@@ -17,7 +22,7 @@
   <div class="form-group">
   
     <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
-  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
+  Colocar rut solo con guion ejemplo: 11111111-1</div>
   
     <input type="text" class="form-control" name="rut" placeholder="Escriba rut del operario" required>
   </div>
@@ -74,7 +79,7 @@
   
   <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Submit</button>
   
-  <a href="{{ route('gestionop') }}">
+  <a href="{{ url()->previous() }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
 </a>
         </div>

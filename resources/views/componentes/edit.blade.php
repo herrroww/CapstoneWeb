@@ -1,11 +1,11 @@
 @extends('layouts.sidebar')
 
 @section('content')
-
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
             <h3>Editar Componente: {{ $componente->nombre }}</h3>
+            <hr>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -35,7 +35,7 @@
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 
-  <a href="{{ route('componenteop') }}">
+  <a href="{{ url()->previous() }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
  </a>
 

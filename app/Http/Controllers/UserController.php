@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,15 +16,14 @@ class UserController extends Controller
 
     public function index(){
 
-        $users = User::all();
+        $users = Auth::user();
         return view('usuarios.show', ['users' =>$users, 'activemenu' => 'user']);
     }
 
 
     public function show($id){
 
-        $users = User::all();
-
+        $user = User::findOrFail($id);
         return view('usuarios.show', ['users' => User::findOrFail($id),'activemenu' => 'user']);
 
     }

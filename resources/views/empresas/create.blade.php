@@ -5,6 +5,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
+            <h3>Agregar Operario</h3>
+            <hr>
 
 <form action="empresaop1" method="POST">
     @csrf
@@ -31,7 +33,7 @@
   
   <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Submit</button>
   
-  <a href="{{ route('empresaop') }}">
+  <a href="{{ url()->previous() }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
 </a>
         </div>

@@ -7,13 +7,20 @@
  <head>
   <title>How Send an Email in Laravel</title>
   
+
+  <div class="container-fluid">
+    <div class="col-12 pt-3 pb-3 text-center" >
+    <h3 align="center">Contacte Con Administrador</h3>
+    </div>
+    <hr>
+
  </head>
  <body>
   <br />
   <br />
   <br />
   <div class="container box">
-   <h3 align="center">Contacte Con Administrador</h3><br />
+   <br />
    @if (count($errors) > 0)
     <div class="alert alert-danger">
      <button type="button" class="close" data-dismiss="alert">×</button>

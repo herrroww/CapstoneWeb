@@ -6,6 +6,8 @@ use App\Http\Requests\OperarioFormRequest;
 use Illuminate\Http\Request;
 use App\Operario;
 use App\Empresa;
+use App\Asignar;
+
 class gestionopController extends Controller
 {
 
@@ -57,7 +59,7 @@ class gestionopController extends Controller
         $operario->telefonoOperario = request('telefonoOperario');
         $operario->save();
 
-        return redirect('gestionop')->with('create','');
+        return redirect('gestionop')->with('create','El Operario se a creado');
 
     }
 
@@ -81,18 +83,20 @@ class gestionopController extends Controller
 
         $operario->update();
 
-        return redirect('gestionop')->with('edit','');
+        return redirect('gestionop')->with('edit','El operario se a editado');
     }
 
     public function destroy($id){
 
         $operario = Operario::findOrFail($id);
 
+        $operario->asignar()->delete();
+
         $operario->delete();
 
        
 
-        return redirect()->back()->with('success','La empresa a sido eliminada.');
+        return redirect()->back()->with('success','El operario a sido eliminada.');
 
 
         

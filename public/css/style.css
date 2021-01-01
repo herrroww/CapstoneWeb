@@ -1,41 +1,87 @@
-.sidebar{
-    width: 275px;
-    background-color: rgb(128,128,128);
-    padding: 20px 0 0 0;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0px;
+hr
+{
+    background-color: #1c3292 !important;
 }
-    
-.sidebar img{
-    border-radius: 50px;
-}
+.contenedor-video a {
+  background-color: rgba(255, 255, 255, 0.79);
+  width: 7rem;
+  height: 7rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 50%;
+  color: #e68e1e;
+  font-size: 2rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-clip: padding-box;
+  border: 0 solid transparent;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease; }
 
-.sidebar h5{
-    color: white;
-    margin-top: 10px;
-}
+.contenedor-video a:hover {
+  background-color: #e68e1e;
+  color: #fff;
+  border: 10px solid rgba(255, 255, 255, 0.5); }
 
-/*.items-container{
+.contenedor-video img {
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease; }
 
-}*/
+.contenedor-video:hover img {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2); }
+/*Estilos para IE11*/
+.ie11 #bienvenidos .contenedor-video img {
+  width: 100%; }
 
-.menu-item{
-    width: 400px;
-    padding: 10px 0 10px 20px;
-    transition: background-color .5s;
-    cursor: pointer;
-}
+.ie11 .navbar-dark .navbar-nav .nav-link::after {
+  display: block; }
 
-.menu-item:hover{
-    background-color: lightpray;
-}
+/*---------------------------------------------------
+X .EMPEZAN EL SHOW DE LAS MEDIAS QUERIES
+---------------------------------------------------*/
+@media (min-width: 768px) {
+  .navbar-dark .navbar-nav .nav-link {
+    padding: .7rem 1.2rem;
+    border-radius: 1.5rem; }
 
-.items-container a{
-    text-decoration:none;
-    color: white;
-}
+  .navbar-dark .navbar-nav .nav-link:after {
+    content: ""; }
 
+  #te-ayudamos {
+    -webkit-transform: skew(0, 3deg);
+            transform: skew(0, 3deg); }
 
-     
+  #te-ayudamos .container {
+    -webkit-transform: skew(0, -3deg);
+            transform: skew(0, -3deg); }
+
+  .columna-inclinada::before {
+    left: -300%;
+    right: 0;
+    -webkit-transform: skewX(20deg);
+            transform: skewX(20deg); } }
+@media (min-width: 990px) {
+  html {
+    font-size: 16px; }
+
+  .swiper-slide {
+    height: 37.5rem;
+    /*600px*/ } }
+@media (min-width: 1200px) {
+  .swiper-slide {
+    height: 44rem;
+    /*700px*/ } }
+
+/*# sourceMappingURL=estilos.css.map */
