@@ -20,13 +20,13 @@
     @method('PATCH')
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre</label>
+    <label for="nombre">Nombre:</label>
     <input type="text" class="form-control" name="nombre" value="{{ $componente->nombre }}" placeholder="Escriba nombre del componente" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="idComponente">idComponente</label>
+    <label for="idComponente">ID Componente:</label>
     <input type="text" class="form-control" name="idComponente" value="{{ $componente->idComponente }}" placeholder="Escriba el id del componente" required>
   </div>
 

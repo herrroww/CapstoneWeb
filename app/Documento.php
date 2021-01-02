@@ -13,5 +13,5 @@ class Documento extends Model
         return $this->belongsTo("App\Componente");
     }
 
-    protected $fillable=['nombre','descripcion','file'];
+    protected $fillable=['nombre','descripcion','file','privacidad','extension'];
 }

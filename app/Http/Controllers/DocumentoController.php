@@ -73,9 +73,10 @@ class DocumentoController extends Controller
        }
        $data->nombre=$request->nombre;
        $data->descripcion=$request->descripcion;
+       $data->privacidad=$request->privacidad;
        $data->componente_id = Session::get('componente_id');
        $data->save();
-       return redirect('documentosop')->with('create','');
+       return redirect('documentosop')->with('create','Se creo correctamente.');
 
     }
 

@@ -21,20 +21,20 @@
     @method('PATCH')
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre</label>
+    <label for="nombre">Nombre:</label>
     <input type="text" class="form-control" name="nombre" value="{{ $operario->nombre }}" placeholder="Escriba nombre operario" required>
   </div>
 
   <form>
   <div class="form-group">
   <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
-  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
+  Colocar rut con puntos y guión ejemplo: 11.111.111-1</div>
     <input type="text" class="form-control" name="rut" value="{{ $operario->rut }}" placeholder="Escriba rut del operario" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="correo">Correo</label>
+    <label for="correo">Correo:</label>
     <input type="email" class="form-control" name="correo" value="{{ $operario->correo }}" placeholder="Escriba correo del operario" required>
   </div>
 
@@ -57,19 +57,19 @@
   </div>
   
   <div class="form-group">
-    <label for="telefonoOperario">Telefono Operario:</label>
-    <input type="text" class="form-control" name="telefonoOperario" value="{{ $operario->telefonoOperario}}" placeholder="Escriba el telefono del operario" required>
+    <label for="telefonoOperario">Teléfono Operario:</label>
+    <input type="text" class="form-control" name="telefonoOperario" value="{{ $operario->telefonoOperario}}" placeholder="Escriba el teléfono del operario" required>
   </div>
 
   
 <div class="form-group">
-    <label for="contraseniaOperario">Contraseñia Operario:</label>
+    <label for="contraseniaOperario">Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario" value="{{ $operario->contraseniaOperario}}" placeholder="Escriba la contraseña" required>
   </div>
 
 <form>
 <div class="form-group">
-<strong >Tipo de Operario </strong>
+<strong >Tipo de Operario: </strong>
 
 <div style="margin-top: 10px" class="custom-control custom-radio" >
    <input type="radio" class="custom-control-input" id="tipoOperario1" name="tipoOperario" value="Externo" required>

@@ -21,21 +21,21 @@
     @method('PATCH')
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre</label>
+    <label for="nombre">Nombre:</label>
     <input type="text" class="form-control" name="nombre" value="{{ $empresa->nombre }}" placeholder="Escriba nombre de la empresa" required>
   </div>
 
   <form>
   <div class="form-group">
   <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
-  Colocar rut con puntos y guion ejemplo: 11.111.111-1</div>
+  Colocar rut con puntos y guión ejemplo: 11.111.111-1</div>
     <input type="text" class="form-control" name="rut" value="{{ $empresa->rut }}" placeholder="Escriba rut de la empresa" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="compania">Compañia</label>
-    <input type="text" class="form-control" name="compania" value="{{ $empresa->compania }}" placeholder="Escriba la compañia" required>
+    <label for="compania">Compañía:</label>
+    <input type="text" class="form-control" name="compania" value="{{ $empresa->compania }}" placeholder="Escriba la compañía" required>
   </div>
 
   

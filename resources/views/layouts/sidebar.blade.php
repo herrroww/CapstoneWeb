@@ -168,12 +168,12 @@
                                     @if($activemenu == 'empresa')
                                     <i class="fas fa-building color-white"></i>
                                     <p class="color-white">
-                                        Gestion Empresa
+                                        Gestión Empresa
                                     </p>
                                     @else
                                     <i class="fa fa-building"></i>
                                     <p >
-                                        Gestion Empresa
+                                        Gestión Empresa
                                     </p>
                                     @endif
                                 </a>
@@ -189,12 +189,12 @@
                                     @if($activemenu == 'operario')
                                     <i class="fas fa-hard-hat color-white"></i>
                                     <p class="color-white">
-                                        Gestion Operarios
+                                        Gestión Operarios
                                     </p>
                                     @else
                                     <i class="fas fa-hard-hat"></i>
                                     <p>
-                                        Gestion Operario
+                                        Gestión Operario
                                     </p>
                                     @endif
                                 </a>
@@ -211,27 +211,19 @@
                                     @if($activemenu == 'componente')
                                     <i class="fas fa-boxes color-white"></i>
                                     <p class='color-white'>
-                                        Gestion Componente Mecanico
+                                        Gestión Componente Mecánico
                                     </p>
                                     @else
                                     <i class="fas fa-boxes"></i>
                                     <p>
-                                        Gestion Componente Mecanico
+                                        Gestión Componente Mecánico
                                     </p>
                                     @endif
                                 </a>
                             </li>
 
 
-                          <!--  <li class="nav-item">
-                                <a href="usuarios"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-clipboard-list"></i>
-                                    <p>
-                                        Gestion Archivos
-                                    </p>
-                                </a>
-                            </li>-->
+                         
                             @if($activemenu == 'asignar') 
                                             <li class="nav-item bg-orange">
                                                 @else
@@ -243,12 +235,12 @@
                                     @if($activemenu == 'asignar')
                                     <i class="fas fa-chart-bar color-white "></i>
                                     <p class='color-white'>
-                                        Asignar Componente Mecanico
+                                        Asignar Componente Mecánico
                                     </p>
                                     @else
                                     <i class="fas fa-chart-bar "></i>
                                     <p>
-                                        Asignar Componente Mecanico
+                                        Asignar Componente Mecánico
                                     </p>
                                     @endif
                                 </a>
@@ -265,12 +257,12 @@
                                     @if($activemenu == 'historial')
                                     <i class="fas fa-exclamation-triangle color-white"></i>
                                     <p class='color-white'>
-                                        Historicos
+                                        Históricos
                                     </p>
                                     @else
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <p>
-                                        Historicos
+                                        Históricos
                                     </p>
                                     @endif
                                 </a>
@@ -308,12 +300,12 @@
                                     @if($activemenu == 'contactoadmin')
                                     <i class="fas fa-headset color-white"></i>
                                     <p class='color-white'>
-                                        Contacte con administrador
+                                        Contacte con Administrador
                                     </p>
                                     @else
                                     <i class="fas fa-headset"></i>
                                     <p>
-                                       Contacte con administrador
+                                       Contacte con Administrador
                                     </p>
                                     @endif
                                 </a>

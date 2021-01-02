@@ -15,10 +15,12 @@ class CreateDocumentosTable extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();
-            $table->string('descripcion')->nullable();
+            $table->string('nombre');
+            $table->string('descripcion');
+            $table->string('privacidad');
+            $table->string('file');
             
-            $table->string('file')->nullable();
+            $table->string('extension')->nullable();
             $table->integer('componente_id')->unsigned();
             $table->foreign('componente_id')->references('id')->on('componentes');
             $table->timestamps();

@@ -9,27 +9,41 @@
 <form action="documentosop1" method="POST" enctype="multipart/form-data">
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre</label>
+    <label for="nombre">Nombre:</label>
     <input type="text" class="form-control" name="nombre" placeholder="Escriba el nombre del Documento" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="descripcion">Descripcion</label>
+    <label for="descripcion">Descripción:</label>
     <input type="text" class="form-control" name="descripcion" placeholder="Escriba la descripción del documento" required>
   </div>
 
+  
+
+
   <form>
   <div class="form-group">
-    <label for="file">File</label>
+    <label for="file">File:</label>
     <input type="file"  name="file"  required>
   </div>
 
- 
+  <form>
+  <strong  class="" >Tipo de Privacidad: </strong>
+
+  <div style="margin-top: 10px" class="custom-control custom-radio" >
+     <input type="radio" class="custom-control-input" id="privacidad1" name="privacidad" value="Publico" required>
+     <label for="privacidad1" class="custom-control-label" value="Publico">Publico</label>
+   </div>
+
+   <div class="custom-control custom-radio">
+     <input type="radio" class="custom-control-input" id="privacidad2" name="privacidad" value="Privado" required>
+     <label for="privacidad2" class="custom-control-label" value="Privado">Privado</label>
+   </div>
   
 
   
-  <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Submit</button>
+  <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Enviar</button>
   
   <a href="{{ url()->previous() }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>

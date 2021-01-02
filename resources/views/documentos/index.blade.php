@@ -7,11 +7,20 @@
     </div>
     <hr>
 
+
 <div class="container-fluid">
+
+<h6>
+  @if(session('create'))
+  <div class="alert alert-success" role="alert">
+  Se agrego el documento correctamente.
+  </div>
+  </h6>
+    @endif
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
                     <div class="input-group input-group-sm" >
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
                             aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
@@ -27,12 +36,7 @@
   </button></a>
   
 
-  <h6>
-  @if(session('create'))
-  <div class="alert alert-sucess" role="alert">
-  Se agrego el documento correctamente.
-  </div>
-    @endif
+  
   
 
     
@@ -41,11 +45,13 @@
   <thead>
     <tr>
 	  <!--<th scope="col">Id</th>-->
-      <th scope="col" class="bg-blue color-white">Id</th>
+      <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Nombre</th>
-      <th scope="col" class="bg-blue color-white">Descripcion</th>
+      <th scope="col" class="bg-blue color-white">Extensión</th>
+      <th scope="col" class="bg-blue color-white">Descripción</th>
+      <th scope="col" class="bg-blue color-white">Privacidad</th>
      <!-- <th scope="col" class="bg-blue color-white">Ver</th>-->
-      <th scope="col" class="bg-blue color-white">Descargar</th>
+      <th scope="col" class="bg-blue color-white" >Descargar</th>
     </tr>
   </thead>
   <tbody>
@@ -54,10 +60,12 @@
       
       <th scope="row">{{++$key}}</th>
       <td>{{$data->nombre}}</td>
+      <td>{{$data->extension}}</td>
       <td>{{$data->descripcion}}</td>
+      <td>{{$data->privacidad}}</td>
       <!--<td><a href="{{ route('documentosopshow', $data->id) }}">View</a></td>-->
       
-      <td><a href=" {{ route('documentosopdownload', $data->file) }}">Descargar</a></td>
+      <td><a href=" {{ route('documentosopdownload', $data->file) }}" ><div class="text-center" ><h5><i class="fas fa-file-download "></i></h5></div></a></td>
 
       
       
@@ -69,13 +77,13 @@
   @if($search)
   <a href="{{ route('documentosop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
 @else
   <a href="{{ route('componenteop') }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
  @endif
