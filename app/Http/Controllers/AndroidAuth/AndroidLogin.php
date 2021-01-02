@@ -20,7 +20,6 @@ if(empty($rut) || empty($contraseniaOperario)) {
     // CREAMOS LA CONSULTA
     $sql = "SELECT operarios.nombre,operarios.rut,operarios.correo,operarios.contraseniaOperario,operarios.tipoOperario,operarios.contraseniaOperarioFTP,operarios.telefonoOperario,empresas.rut FROM operarios JOIN empresas ON empresas.id=operarios.empresa_id WHERE operarios.rut='$rut'";
         
-        
     $query = $mysqli->query($sql);
 
     // CREAMOS UN ARRAY PARA GUARDAR LOS VALORES DEL REGISTRO
