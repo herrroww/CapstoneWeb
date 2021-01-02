@@ -9,7 +9,6 @@ use App\Operario;
 use App\Empresa;
 
 use App\Http\Controllers\ErrorRepositorio;
-
 use phpseclib\Net\SSH2;
 
 
@@ -41,10 +40,7 @@ class gestionopController extends Controller{
                 ->paginate(7);
 
             return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query, 'activemenu' => 'operario']);
-        }   
-
-        //$operarios = Operario::all();
-        //return view('gestionOperarios.index',['operarios' => $operarios]);
+        }
     }
     
     public function create(){
@@ -120,10 +116,10 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$this->passFTP.' | sudo -S useradd -g operariosftp -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rut); 
                     
                     //Crea la carpeta del Operario en la carpeta Interno y le asigna el grupo "operariosftp".
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir /home/Externo/'.$rutEmpresa.'/'.$operario->rut);
+                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir -p /home/Externo/'.$rutEmpresa.'/'.$operario->rut);
                     $ssh->exec('echo '.$this->passFTP.' | sudo -S chown -R '.$operario->rut.':nogroup /home/Externo/'.$rutEmpresa.'/'.$operario->rut);
                     
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir /home/Interno/'.$rutEmpresa.'/'.$operario->rut);
+                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir -p /home/Interno/'.$rutEmpresa.'/'.$operario->rut);
                     $ssh->exec('echo '.$this->passFTP.' | sudo -S chown -R '.$operario->rut.':operariosftp /home/Interno/'.$rutEmpresa.'/'.$operario->rut);
                     
                     //Añade al Operario en la lista de permisos VSFTPD y SSHD.
