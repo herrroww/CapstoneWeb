@@ -15,7 +15,7 @@ class CreateReporteproblemasTable extends Migration
     {
         Schema::create('reporteproblemas', function (Blueprint $table) {
             $table->id();
-            $table->string('rutOperario', 100)->unique();
+            $table->string('rutOperario', 100);
             $table->string('nombreOperario', 100);
             $table->string('correoOperario', 100);
             $table->string('numeroOperario', 100);
