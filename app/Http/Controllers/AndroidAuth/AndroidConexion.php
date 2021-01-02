@@ -10,6 +10,7 @@ $mysqli = new mysqli(
 
 // COMPROBAMOS LA CONEXION
 if($mysqli->connect_errno) {
+    //TODO: AñADIR EXCEPCION
     die("Fallo la conexion");
 } else {
     // echo "Conexion exitosa";
