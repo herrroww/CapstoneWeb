@@ -98,17 +98,19 @@ class ComponenteController extends Controller{
                     exit($SWERROR->ErrorActual(7));
                     unset($SWERROR);
                 }else{
+                    
+                    //Se guardan los cambios en la Base de Datos.
+                    $componente->save();
 
+                    //Se aplican los cambios en el servidor FTP.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mkdir -p /home/Componentes/Externo/'.$componente->IdComponente);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mkdir -p /home/Componentes/Interno/'.$componente->IdComponente);
                 
-
                     $ssh->exec('exit');
                     //Se liberan los recursos.       
                     unset($SWERROR);
                     unset($ssh);
-                    unset($ftpParameters);  
-                    $componente->save();
+                    unset($ftpParameters); 
                     return redirect('componenteop')->with('create','El componente se a creado correctamente');
                 }
             }
@@ -156,5 +158,3 @@ class ComponenteController extends Controller{
         return redirect('documentosop');
     }
 }
-
-
