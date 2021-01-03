@@ -57,7 +57,7 @@ class gestionopController extends Controller{
         $operario = new Operario();
 
 
-        $operario->nombre = request('nombreOperario');
+        $operario->nombreOperario = request('nombreOperario');
         //TODO: UTILIZAR VARIABLE RUTOPERARIOFTP PARA USUARIO FTP
         $operario->rutOperario = request('rutOperario');
         $operario->correoOperario = request('correoOperario');
@@ -122,6 +122,9 @@ class gestionopController extends Controller{
                     unset($SWERROR);
                 }else{
                     
+                    //Almacena el Operario en la base de datos.
+                    $operario->save();
+                    
                     //Crea al Operario y lo asigna al grupo "operariosftp".
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S useradd -g operariosftp -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rutOperario); 
                     
@@ -149,10 +152,7 @@ class gestionopController extends Controller{
 
                     //Reinicio de servicios para actualizar permisos.                    
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');
-                    
-                    //Almacena el Operario en la base de datos.
-                    $operario->save();
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');                    
                 }
             }
         }
@@ -345,6 +345,10 @@ class gestionopController extends Controller{
             
             //Verifica si es posible realizar los cambios.
             if($actualizarGestionOperario == true && $actualizarGestionEmpresa == true){
+                
+
+                //Actualiza los cambios en la Base de Datos.
+                $operario->update(); 
 
                 if($rutOperarioTemp != $operario->rutOperario){
 
@@ -381,9 +385,7 @@ class gestionopController extends Controller{
 
                     //En cualquier otro caso, se establece Operario Externo por defecto.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP." | sudo -S usermod -d /home/Externo/".$rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
-                }
-
-                $operario->update();        
+                }       
             }            
         } 
             
