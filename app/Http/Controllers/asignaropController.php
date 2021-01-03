@@ -110,55 +110,90 @@ class asignaropController extends Controller{
                     unset($SWERROR);
                 }else{
 
-                    //Verifica si el Componente existe en el directorio Externo del repositorio Componentes.
-                    $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->idComponente.' ] && echo "1" || echo "0"');
-            
+                    //TODO: ASEGURARSE DE QUE EL OPERARIO YA TENGA EL COMPONENTE
+                    //Verifica si el Operario Destino posee el componente destino en directorio Externo.
+                    $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
-            
-                    if($estadoExiste == '0'){
+
+                    if($estadoExiste == '1'){
 
                         //Se liberan los recursos.       
-                        unset($ssh,$ftpParameters,$operario,$empresa,$componente);
-                        //[FTP-ERROR019]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Externo).
-                        exit($SWERROR->ErrorActual('FTPERROR019'));
+                        unset($ssh,$ftpParameters,$asignar,$operario);
+                        //[FTP-ERROR025]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Externo).
+                        $actualizarGestionOperario = false;
+                        exit($SWERROR->ErrorActual('FTPERROR025'));
                         unset($SWERROR);
                     }else{
 
-                        //Verifica si el Componente existe en el directorio Interno del repositorio Componentes.
-                        $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->idComponente.' ] && echo "1" || echo "0"');
-            
+                        //Verifica si el Operario Destino posee el componente destino en directorio Interno.
+                        $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
-            
-                        if($estadoExiste == '0'){
+
+                        if($estadoExiste == '1'){
 
                             //Se liberan los recursos.       
-                            unset($ssh,$ftpParameters,$operario,$empresa,$componente);
-
-                            //[FTP-ERROR020]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Interno).
-                            exit($SWERROR->ErrorActual('FTPERROR020'));
+                            unset($ssh,$ftpParameters,$asignar,$operario);
+                            //[FTP-ERROR026]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Interno).
+                            $actualizarGestionOperario = false;
+                            exit($SWERROR->ErrorActual('FTPERROR026'));
                             unset($SWERROR);
                         }else{
 
-                            //Crea la asignacion el la tabla de BD.
-                            $asignar = new Asignar();
-                            $asignar->operario_id = $operario->id;
-                            $asignar->componente_id = $componente->id;
-                            $asignar->empresa_id = $empresa->id;                            
+                            //Verifica si el Componente existe en el directorio Externo del repositorio Componentes.
+                            $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->idComponente.' ] && echo "1" || echo "0"');
+            
+                            //Limpia la informacion obtenida.
+                            $estadoExiste = $estadoExiste[0];
+            
+                            if($estadoExiste == '0'){
+
+                                //Se liberan los recursos.       
+                                unset($ssh,$ftpParameters,$operario,$empresa,$componente);
+                                //[FTP-ERROR019]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Externo).
+                                exit($SWERROR->ErrorActual('FTPERROR019'));
+                                unset($SWERROR);
+                            }else{
+
+                                //Verifica si el Componente existe en el directorio Interno del repositorio Componentes.
+                                $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->idComponente.' ] && echo "1" || echo "0"');
+            
+                                //Limpia la informacion obtenida.
+                                $estadoExiste = $estadoExiste[0];
+            
+                                if($estadoExiste == '0'){
+
+                                    //Se liberan los recursos.       
+                                    unset($ssh,$ftpParameters,$operario,$empresa,$componente);
+
+                                    //[FTP-ERROR020]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Interno).
+                                    exit($SWERROR->ErrorActual('FTPERROR020'));
+                                    unset($SWERROR);
+                                }else{
+
+                                    //Crea la asignacion el la tabla de BD.
+                                    $asignar = new Asignar();
+                                    $asignar->operario_id = $operario->id;
+                                    $asignar->componente_id = $componente->id;
+                                    $asignar->empresa_id = $empresa->id;                            
                             
-                            $asignar->save();
-                            unset($asignar);
+                                    $asignar->save();
+                                    unset($asignar);
 
-                            //Asigna la carpeta del Componente al Operario correspondiente.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$componente->idComponente." /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperario);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$empresa->rutEmpresa."/".$operario->rutOperario);
+                                    //Asigna la carpeta del Componente al Operario correspondiente.
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$componente->idComponente." /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperario);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$empresa->rutEmpresa."/".$operario->rutOperario);
 
-                            //Asigna al Operador como propietario del Componente asignado.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
-                        }   
-                    }                 
+                                    //Asigna al Operador como propietario del Componente asignado.
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
+                                }   
+                            }                             
+                        }
+                    }                                    
                 }
             }
         }        
