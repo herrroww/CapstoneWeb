@@ -408,7 +408,9 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a ".$operario->rutOperario."' /etc/vsftpd.userlist");
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a DenyUsers ".$operario->rutOperario."' /etc/ssh/sshd_config");
 
-                    //TODO: ELIMINA EL ANTIGUO RUT DEL OPERARIO DE LOS SERVICIOS.
+                    //Se elimina el nombre antiguo de los servicios.
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$rutOperarioTemp."/d' /etc/vsftpd.userlist");
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$rutOperarioTemp."/d' /etc/vsftpd.userlist");
 
                     //Reinicio de servicios para actualizar permisos.                    
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
@@ -499,7 +501,12 @@ class gestionopController extends Controller{
                     unset($SWERROR);
                 }else{
 
+                    //Se elimina el usuario del sistema.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperario);
+
+                    //Se elimina el usuario de los servicios.
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$operario->rutOperario."/d' /etc/vsftpd.userlist");
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$operario->rutOperario."/d' /etc/ssh/sshd_config");
 
                     //Se elimina los directorios del operario. (Opcion 1)                  
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
