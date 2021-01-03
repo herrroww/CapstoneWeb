@@ -15,6 +15,7 @@ use App\Componente;
 */
 
 Route::get('/', function () {
+    
     return view('/auth/login');
 });
 
@@ -34,6 +35,7 @@ Route::delete('gestionopdes/{id}', 'gestionopController@destroy')->name('gestion
 Route::get('showuser', 'UserController@index')->name('showuser');
 Route::get('edituser/{id}', 'UserController@edit')->name('edituser');
 Route::patch('edituser/{id}', 'UserController@update')->name('edituser');
+Route::get('showuser1/{id}', 'UserController@show')->name('showuser1');
 
 
 
@@ -68,6 +70,7 @@ Route::patch('asignaropedit/{id}', 'asignaropController@update')->name('asignaro
 Route::delete('asignaropdes/{id}', 'asignaropController@destroy')->name('asignaropdes');
 
 Route::get('historialop', 'HistorialController@index')->name('historialop');
+Route::get('historialopshow/{id}', 'HistorialController@show')->name('historialopshow');
 
 Route::get('/sendemail', 'SendEmailController@index')->name('/sendemail');
 Route::post('/sendemail/send', 'SendEmailController@send')->name('/sendemail1');
@@ -76,3 +79,13 @@ Route::get('reporteop', 'ReporteController@index')->name('reporteop');
 Route::delete('reporteopdes/{id}', 'ReporteController@destroy')->name('reporteopdes');
 Route::get('reporteopedit/{id}', 'ReporteController@edit')->name('reporteopedit');
 Route::patch('reporteopedit/{id}', 'ReporteController@update')->name('reporteopedit');
+
+Route::get('documentosop', 'DocumentoController@index')->name('documentosop');
+Route::get('documentosop1', 'DocumentoController@create')->name('documentosop1');
+Route::post('documentosop1', 'DocumentoController@store')->name('documentosop1');
+Route::get('documentosopshow/{id}', 'DocumentoController@show')->name('documentosopshow');
+
+
+Route::get('documentosopdownload/{file}','DocumentoController@download')->name('documentosopdownload');
+
+

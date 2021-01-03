@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use Illuminate\Http\Request;
 use App\Componente;
-use Session;
+use App\Modelo;
+use App\Documento;
 use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
 use phpseclib\Net\SSH2;
 
 class ComponenteController extends Controller{
 
-    public function __construct()
-    {
+    public function __construct(){
+        
         $this->middleware('auth');
     }
     
@@ -21,7 +23,7 @@ class ComponenteController extends Controller{
         if($request){
             $query = trim($request->get('search'));
 
-            $componentes = Componente::where('nombre',  'LIKE', '%' . $query . '%')
+            $componentes = Componente::where('nombreComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('idComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
@@ -45,9 +47,9 @@ class ComponenteController extends Controller{
         $ftpParameters = new FtpConexion();
 
         $componente = new Componente();
-        $componente->nombre = request('nombre');
+        $componente->nombreComponente = request('nombreComponente');
         $componente->IdComponente = request('idComponente');
-
+        
         //Prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
 
@@ -107,16 +109,18 @@ class ComponenteController extends Controller{
                     unset($ssh);
                     unset($ftpParameters);  
                     $componente->save();
-                    return redirect('componenteop');
+                    return redirect('componenteop')->with('create','El componente se a creado correctamente');
                 }
             }
         }                  
     }
 
     public function edit($id){
+        
         return view('componentes.edit', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
     }
 
+    //TODO: EDITAR EN FTP
     public function update(Request $request, $id){
 
         //Carga el repositorio de errores.
@@ -127,27 +131,29 @@ class ComponenteController extends Controller{
 
         $componente = Componente::findOrFail($id);
         
-        $componente->nombre = $request->get('nombre');
+        $componente->nombreComponente = $request->get('nombreComponente');
         $componente->idComponente = $request->get('idComponente');
 
         $componente->update();
 
-        return redirect('componenteop');
+        return redirect('componenteop')->with('edit','El Componente se a editado');
     }
 
+    //TODO: ELIMINAR EN FTP
     public function destroy($id){
 
-        $componente = Componente::findOrFail($id);
-        
+        $componente = Componente::findOrFail($id);        
         $componente->delete();
+        $componente->asignar()->delete();
       
-
-        return redirect('componenteop');
+        return redirect('componenteop')->with('success','El Componente se a eliminado correctamente.');
     }
 
     public function show($id){
 
-        return view('componentes.show', ['componente' => Componente::findOrFail($id), 'activemenu' => 'componente']);
+        Session::put('componente_id',$id);       
+
+        return redirect('documentosop');
     }
 }
 

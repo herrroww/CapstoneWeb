@@ -55,12 +55,14 @@ class asignaropController extends Controller
 
         $asignar->operario_id = request('operario');
         $asignar->componente_id = request('componente');
+        $operario = Operario::findOrFail(request('operario'));
+        $asignar->empresa_id = $operario->empresa_id;
         
         
 
         $asignar->save();
 
-        return redirect('asignarop')->with('create','');
+        return redirect('asignarop')->with('create','Se asigno correctamente');
 
     }
 
@@ -73,15 +75,16 @@ class asignaropController extends Controller
 
     public function update(Request $request, $id){
         $asignar = Asignar::findOrFail($id);
-        
+        $operario = Operario::findOrFail(request('operario'));
         $asignar->operario_id = $request->get('operario');
         $asignar->componente_id = $request->get('componente');
+        $asignar->empresa_id = $operario->empresa_id;
        
     
 
         $asignar->update();
 
-        return redirect('asignarop')->with('edit','');
+        return redirect('asignarop')->with('edit','se a editado correctamente');
     }
 
     public function destroy($id){

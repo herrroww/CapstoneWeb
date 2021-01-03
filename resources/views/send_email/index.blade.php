@@ -7,13 +7,20 @@
  <head>
   <title>How Send an Email in Laravel</title>
   
+
+  <div class="container-fluid">
+    <div class="col-12 pt-3 pb-3 text-center" >
+    <h3 align="center">Contacte Con Administrador</h3>
+    </div>
+    <hr>
+
  </head>
  <body>
   <br />
   <br />
   <br />
   <div class="container box">
-   <h3 align="center">Contacte Con Administrador</h3><br />
+   <br />
    @if (count($errors) > 0)
     <div class="alert alert-danger">
      <button type="button" class="close" data-dismiss="alert">×</button>
@@ -33,15 +40,15 @@
    <form method="post" action="{{url('sendemail/send')}}">
     {{ csrf_field() }}
     <div class="form-group">
-     <label>Ingresa tu nombre</label>
+     <label>Ingresa tu Nombre:</label>
      <input type="text" name="name" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Ingresa tu Email</label>
+     <label>Ingresa tu Correo:</label>
      <input type="text" name="email" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Ingresa tu mensaje</label>
+     <label>Ingresa tu Mensaje:</label>
      <textarea name="message" class="form-control"></textarea>
     </div>
     <div class="form-group">

@@ -3,21 +3,15 @@
 @section('content')
 
 <div class="container-fluid">
-  <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-  <h2>Asignar Componentes <a href="{{ route('asignarop1') }}"> <button type="button" class="btn btn-success float-right">Asignar Componente </button></a></h2>
-  <h6>
-  @if($search)
+    <div class="col-12 pt-3 pb-3 text-center" >
+        <h2>Asignar Componente</h2>
+    </div>
+    <hr>
+
+
+<div class="container-fluid">
+
+@if($search)
   <div class="alert alert-primary" role="alert">
   Se encontraron los siguientes resultados:
   </div>
@@ -25,30 +19,51 @@
 
     @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  El Operario se a Eliminada correctamente.
+  La asignación ha sido eliminada correctamente.
   </div>
     @endif
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  El operario se a creado correctamente.
+  Se asignó componente correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  El operario se a editado correctamente.
+  La asignación se ha editado correctamente.
   </div>
     @endif
+
+    
+
+  <!-- SEARCH FORM -->
+  <form class="form-inline ml-3 float-right">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
+                            aria-label="Search">
+                        <div class="input-group-append">
+                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+               
+
+   <a href="{{ route('asignarop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px" >Asignar Componente </button></a>
+  <h6>
+  
   </h6>
 <table class="table table-bordered">
   <thead>
     <tr>
-	  <th scope="col">Id</th>
-      <th scope="col">Operario</th>
-      <th scope="col">Tipo de Operario</th>
-      <th scope="col">Componente</th>
+	  <th scope="col" class="bg-blue color-white">ID</th>
+      <th scope="col" class="bg-blue color-white">Operario</th>
+      <th scope="col" class="bg-blue color-white">Tipo de Operario</th>
+      <th scope="col" class="bg-blue color-white">Componente</th>
+      <th scope="col" class="bg-blue color-white">Opciones</th>
       
       
     </tr>
@@ -60,7 +75,7 @@
         @if($asignar->operario == null)
     <td>operario no seleccionada</td>
     @else
-    <td>{{$asignar->operario->nombre}}</td>
+    <td>{{$asignar->operario->nombreOperario}}</td>
 
     <td>{{$asignar->operario->tipoOperario}}</td>
     @endif
@@ -68,7 +83,7 @@
     @if($asignar->componente == null)
     <td>componente no seleccionada</td>
     @else
-    <td>{{$asignar->componente->nombre}}</td>
+    <td>{{$asignar->componente->nombreComponente}}</td>
     @endif
     
     
@@ -77,16 +92,16 @@
     @method('DELETE')
     @csrf
     <td><a href="{{ route('asignaropedit', $asignar->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar este operario?')">Eliminar</button>
+    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta asignación?')">Eliminar</button>
     </form>
     </td>
     </tr>
 	@endforeach
   </tbody>
   @if($search)
-  <a href="{{ route('asignarop') }}">
+  <a href="{{ url()->previous() }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
  @endif

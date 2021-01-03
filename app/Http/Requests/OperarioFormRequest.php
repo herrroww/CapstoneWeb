@@ -24,9 +24,9 @@ class OperarioFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required|max:255',
-            'rut' => 'required|max:255',
-            'correo' => 'required|email|max:255',
+            'nombreOperario' => 'required|max:255',
+            'rutOperario' => 'required|max:255',
+            'correoOperario' => 'required|email|max:255',
             'empresa' => 'required|max:255',
             'tipoOperario' => 'required|max:255'
 

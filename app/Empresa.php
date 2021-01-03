@@ -14,4 +14,10 @@ class Empresa extends Model implements Auditable
     public function operario (){
     return $this->hasMany('App\Operario');
     }
+
+    public function asignar (){
+        return $this->hasMany('App\Asignar');
+        }
+
+    
 }

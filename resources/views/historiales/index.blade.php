@@ -2,14 +2,26 @@
 
 @section('content')
 <div class="container-fluid">
+    <div class="col-12 pt-3 pb-3 text-center" >
+        <h2>Historial de Gestión</h2>
+    </div>
+    <hr>  
+    
+<div class="container-fluid">
+
+@if($search)
+  <div class="alert alert-primary" role="alert">
+  Se encontraron los siguientes resultados:
+  </div>
+    @endif
+
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                    <div class="input-group input-group-sm " style="margin-bottom:10px">
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
                             aria-label="Search">
                         <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
+                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
                             </button>
                         </div>
                     </div>
@@ -17,15 +29,14 @@
 
 <div class="container-fluid">
         <table class="table table-bordered" >
-          <thead class="thead-dark">
+          <thead >
             <tr>
-             <th scope="col">Id</th>
-              <th scope="col">Modelo</th>
-              <th scope="col">Acción</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Valor Borrado</th>
-              <th scope="col">Valor Agregado</th>
+             <th scope="col" class="bg-blue color-white">ID</th>
+              <th scope="col" class="bg-blue color-white">Modelo</th>
+              <th scope="col" class="bg-blue color-white">Acción</th>
+              <th scope="col" class="bg-blue color-white">Usuario</th>
+              <th scope="col" class="bg-blue color-white">Fecha</th>
+              <th scope="col" class="bg-blue color-white">Cambios</th>
             </tr>
           </thead>
           <tbody id="audits">
@@ -59,33 +70,22 @@
                 
                 <td>{{ $audit->user->name }}</td>
                 <td>{{ $audit->created_at }}</td>
-                <td>
-                  <table class="table-bordered">
-                    @foreach($audit->old_values as $attribute => $value)
-                      <tr>
-                        <td><b>{{ $attribute }}</b></td>
-                        <td>{{ $value }}</td>
-                      </tr>
-                    @endforeach
-                  </table>
-                </td>
-                <td>
-                  <table class="table-bordered">
-                    @foreach($audit->new_values as $attribute => $value)
-                      <tr>
-                        <td><b>{{ $attribute }}</b></td>
-                        <td>{{ $value }}</td>
-                      </tr>
-                    @endforeach
-                  </table>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
+    
+    
+    <form action="" method="">
+    <td> 
+    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white">Ver Cambios</button></a>
+    </form>
+    </td>
+    </tr>      
+    @endforeach
+    </tbody>
+
+        
     @if($search)
-  <a href="{{ route('historialop') }}">
+  <a href="{{ url()->previous() }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
  @endif

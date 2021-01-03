@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Empresa;
 use App\Operario;
+use App\Historial;
 
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class HistorialController extends Controller
         ->where('event',  'LIKE', '%' . $query . '%')
         ->orwhere('created_at',  'LIKE', '%' . $query . '%')
         ->orderBy('created_at', 'desc')
-        ->paginate(3);
+        ->paginate(5);
         
         return view('historiales.index', ['audits' => $audits, 'search' => $query, 'empresas' => $empresas, 'operarios' => $operarios, 'activemenu' => 'historial']);
         }
@@ -38,5 +39,12 @@ class HistorialController extends Controller
         
         //$operarios = Operario::all();
         //return view('gestionOperarios.index',['operarios' => $operarios]);
+    }
+
+    public function show($id){
+
+       
+
+        return view('historiales.show', ['audit' => \OwenIt\Auditing\Models\Audit::findOrFail($id), 'activemenu' => 'historial']);
     }
 }

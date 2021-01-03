@@ -22,38 +22,64 @@
     @csrf
     <form>
 <div class="form-group">
-<div class="form-control">
-    <label for="rutOperario">Rut operario: {{ $reporteproblema->rutOperario}}</label>
-  </div>
 
-  <div class="form-control">
-    <label for="nombreOperario">Nombre Operario: {{ $reporteproblema->nombreOperario}}</label>
-  </div>
 
-  <div class="form-control">
-    <label for="nombreOperario">Correo Operario: {{ $reporteproblema->correoOperario}}</label>
-  </div>
 
-  <div class="form-control">
-    <label for="numeroOperario">Numero Operario: {{ $reporteproblema->numeroOperario}}</label>
-  </div>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Rut operario:</th>
+      <td>{{ $reporteproblema->rutOperario}}</td>
+    
+    </tr>
+    <tr>
+      <th scope="row">Nombre Operario: </th>
+      <td>{{ $reporteproblema->nombreOperario}}</td>
+      
+    </tr>
+    <tr>
+      <th scope="row">Correo Operario: </th>
+      <td colspan="2">{{ $reporteproblema->correoOperario}}</td>
+    </tr>
 
-  <div class="form-control">
-    <label for="prioridad">Prioridad: {{ $reporteproblema->prioridad}}</label>
-  </div>
+    <tr>
+      <th scope="row">Número Operario: </th>
+      <td colspan="2">{{ $reporteproblema->numeroOperario}} </td>
+    </tr>
 
-  <div class="form-control">
-    <label for="fechaReporteProblema">Fecha Reporte: {{ $reporteproblema->fechaReporteProblema}}</label>
-  </div>
+    <tr>
+      <th scope="row">Correo Operario: </th>
+      <td colspan="2">{{ $reporteproblema->correoOperario}}</td>
+    </tr>
 
-  <div class="form-control">
-    <label for="tituloReporteProblema">Titulo De Reporte: {{ $reporteproblema->tituloReporteProblema}}</label>
-  </div>
+    <tr>
+      <th scope="row">Prioridad:  </th>
+      <td colspan="2">{{ $reporteproblema->prioridad}}</td>
+    </tr>
 
-  <div class="form-control">
-    <label for="contenidoReporteProblema">Contenido De Reporte: {{ $reporteproblema->contenidoReporteProblema}}</label>
-  </div>
+    <tr>
+      <th scope="row">Fecha Reporte:  </th>
+      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}}</td>
+    </tr>
 
+    <tr>
+      <th scope="row">Título De Reporte: </th>
+      <td colspan="2">{{ $reporteproblema->tituloReporteProblema}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Contenido De Reporte:</th>
+      <td colspan="2"> {{ $reporteproblema->contenidoReporteProblema}}</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
@@ -81,6 +107,7 @@
   <a href="{{ route('reporteop') }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
  </a>
+ 
 
         </div>
      </div>
