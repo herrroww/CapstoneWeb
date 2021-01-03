@@ -31,10 +31,10 @@ if(empty($rutOperario) || empty($nombreOperario) || empty($correoOperario) || em
    
     if($mysqli->query($consulta)){
 
-        echo "Reporte recibido.";
+        echo "Recibido";
     }else{
 
-        echo "Reporte rechazado";
+        echo "Rechazado";
     }
 
 }
