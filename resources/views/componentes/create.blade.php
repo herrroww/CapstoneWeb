@@ -13,8 +13,8 @@
 <form action="componenteop1" method="POST">
     @csrf
   <div class="form-group ">
-    <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombre" placeholder="Escriba el nombre del componente" required>
+    <label for="nombreComponente">Nombre:</label>
+    <input type="text" class="form-control" name="nombreComponente" placeholder="Escriba el nombre del componente" required>
   </div>
 
   <form>

@@ -257,12 +257,12 @@
                                     @if($activemenu == 'historial')
                                     <i class="fas fa-exclamation-triangle color-white"></i>
                                     <p class='color-white'>
-                                        Históricos
+                                        Historial de Gestión
                                     </p>
                                     @else
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <p>
-                                        Históricos
+                                        Historial de Gestión
                                     </p>
                                     @endif
                                 </a>

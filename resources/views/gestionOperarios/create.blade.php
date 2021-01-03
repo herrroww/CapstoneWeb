@@ -15,7 +15,7 @@
     @csrf
   <div class="form-group">
     <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombre" placeholder="Escriba nombre operario" required>
+    <input type="text" class="form-control" name="nombreOperario" placeholder="Escriba nombre operario" required>
   </div>
 
   <form>
@@ -24,13 +24,13 @@
     <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
   Colocar rut solo con guión ejemplo: 11.111.111-1</div>
   
-    <input type="text" class="form-control" name="rut" placeholder="Escriba rut del operario" required>
+    <input type="text" class="form-control" name="rutOperario" placeholder="Escriba rut del operario" required>
   </div>
 
   <form>
   <div class="form-group">
     <label for="correo">Correo:</label>
-    <input type="email" class="form-control" name="correo" placeholder="Escriba correo del operario" required>
+    <input type="email" class="form-control" name="correoOperario" placeholder="Escriba correo del operario" required>
   </div>
 
   <div class="form-group">
@@ -41,7 +41,7 @@
 @empty($empresa)
  <option value="">No hay empresa seleccionada</option>
  @endempty
-<option value="{{ $empresas->id }}" required>{{ $empresas->nombre }}</oprion>
+<option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa }}</oprion>
 
 @endforeach
 

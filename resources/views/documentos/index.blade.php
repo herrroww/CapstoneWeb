@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
-        <h2>Lista de Documentos: {{ $componente->nombre }}</h2>
+        <h2>Lista de Documentos: {{ $componente->nombreComponente }}</h2>
     </div>
     <hr>
 
@@ -13,7 +13,7 @@
 <h6>
   @if(session('create'))
   <div class="alert alert-success" role="alert">
-  Se agrego el documento correctamente.
+  Se agregó el documento correctamente.
   </div>
   </h6>
     @endif

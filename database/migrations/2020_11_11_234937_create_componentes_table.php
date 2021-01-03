@@ -16,7 +16,7 @@ class CreateComponentesTable extends Migration
         Schema::create('componentes', function (Blueprint $table) {
             
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('nombreComponente', 100);
             $table->string('idComponente', 100)->unique();     
             $table->string('codigoQR', 100)->nullable();      
             $table->string('codigoIdentificador', 100)->nullable(); 

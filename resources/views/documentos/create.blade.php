@@ -24,7 +24,7 @@
 
   <form>
   <div class="form-group">
-    <label for="file">File:</label>
+    <label for="file">Documento:</label>
     <input type="file"  name="file"  required>
   </div>
 
@@ -33,7 +33,7 @@
 
   <div style="margin-top: 10px" class="custom-control custom-radio" >
      <input type="radio" class="custom-control-input" id="privacidad1" name="privacidad" value="Publico" required>
-     <label for="privacidad1" class="custom-control-label" value="Publico">Publico</label>
+     <label for="privacidad1" class="custom-control-label" value="Publico">Público</label>
    </div>
 
    <div class="custom-control custom-radio">

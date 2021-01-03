@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
-        <h2>Historial</h2>
+        <h2>Historial de Gestión</h2>
     </div>
     <hr>  
     
@@ -18,7 +18,7 @@
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
                     <div class="input-group input-group-sm " style="margin-bottom:10px">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
                             aria-label="Search">
                         <div class="input-group-append">
                         <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
@@ -31,7 +31,7 @@
         <table class="table table-bordered" >
           <thead >
             <tr>
-             <th scope="col" class="bg-blue color-white">Id</th>
+             <th scope="col" class="bg-blue color-white">ID</th>
               <th scope="col" class="bg-blue color-white">Modelo</th>
               <th scope="col" class="bg-blue color-white">Acción</th>
               <th scope="col" class="bg-blue color-white">Usuario</th>
@@ -85,7 +85,7 @@
     @if($search)
   <a href="{{ url()->previous() }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
  @endif

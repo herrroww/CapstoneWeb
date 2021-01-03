@@ -15,9 +15,9 @@ class CreateOperariosTable extends Migration
     {
         Schema::create('operarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
-            $table->string('rut', 100)->unique();
-            $table->string('correo', 100)->unique();
+            $table->string('nombreOperario', 100);
+            $table->string('rutOperario', 100)->unique();
+            $table->string('correoOperario', 100)->unique();
             $table->string('tipoOperario', 100);
             $table->string('contraseniaOperario',100);
             $table->string('contraseniaOperarioFTP',100);

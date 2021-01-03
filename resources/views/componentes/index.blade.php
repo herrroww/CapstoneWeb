@@ -20,20 +20,20 @@
 
   @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  El Componente se a eliminado correctamente.
+  El Componente se ha eliminado correctamente.
   </div>
     @endif
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  El Componente se a creado correctamente.
+  El Componente se ha creado correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  El Componente se a editado correctamente.
+  El Componente se ha editado correctamente.
   </div>
     @endif
 
@@ -65,7 +65,7 @@
     <tr>
       
       <th scope="row">{{$componente->id}}</th>
-      <td>{{$componente->nombre}}</td>
+      <td>{{$componente->nombreComponente}}</td>
       <td>{{$componente->idComponente}}</td>
       
     

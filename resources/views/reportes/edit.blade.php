@@ -20,35 +20,69 @@
 <form action="" method="POST">
     @method('PATCH')
     @csrf
-<div class="table-responsive">
-    <table class="table col-sm-12 table-bordered table-striped table-condensed cf">
+    <form>
+<div class="form-group">
+
+
+
+</div>
+<table class="table table-bordered">
   <thead>
     <tr>
-	  <!--<th scope="col">Id</th>-->
-     <th scope="col" class="bg-blue color-white">Rut Operario</th>
-     <th scope="col" class="bg-blue color-white">Nombre Operario</th>
-      <th scope="col" class="bg-blue color-white">Correo Operario</th>
-      <th scope="col" class="bg-blue color-white">Numero Operario</th>  
-      <th scope="col" class="bg-blue color-white">Prioridad</th>
-      <th scope="col" class="bg-blue color-white">Fecha Reporte</th>
-      <th scope="col" class="bg-blue color-white">Titulo Reporte</th>  
-      <th scope="col" class="bg-blue color-white">Contenido Reporte</th>  
+      
+      
     </tr>
   </thead>
   <tbody>
- 
-    <tr>   
-    <th scope="row">{{$reporteproblema->rutOperario}}</th>
-    <td>{{$reporteproblema->nombreOperario}}</td>
-      <td>{{$reporteproblema->correoOperario}}</td>
-      <td>{{$reporteproblema->numeroOperario}}</td>
-      <td>{{$reporteproblema->prioridad}}</td>
-      <td>{{$reporteproblema->fechaReporteProblema}}</td>
-      <td>{{$reporteproblema->tituloReporteProblema}}</td>
-      <td>{{$reporteproblema->contenidoReporteProblema}}</td>
-</tr>
+    <tr>
+      <th scope="row">Rut operario:</th>
+      <td>{{ $reporteproblema->rutOperario}}</td>
+    
+    </tr>
+    <tr>
+      <th scope="row">Nombre Operario: </th>
+      <td>{{ $reporteproblema->nombreOperario}}</td>
+      
+    </tr>
+    <tr>
+      <th scope="row">Correo Operario: </th>
+      <td colspan="2">{{ $reporteproblema->correoOperario}}</td>
+    </tr>
 
-      <td>
+    <tr>
+      <th scope="row">Número Operario: </th>
+      <td colspan="2">{{ $reporteproblema->numeroOperario}} </td>
+    </tr>
+
+    <tr>
+      <th scope="row">Correo Operario: </th>
+      <td colspan="2">{{ $reporteproblema->correoOperario}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Prioridad:  </th>
+      <td colspan="2">{{ $reporteproblema->prioridad}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Fecha Reporte:  </th>
+      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Título De Reporte: </th>
+      <td colspan="2">{{ $reporteproblema->tituloReporteProblema}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Contenido De Reporte:</th>
+      <td colspan="2"> {{ $reporteproblema->contenidoReporteProblema}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
 <strong >Estado: </strong>
 
 <div style="margin-top: 10px" class="custom-control custom-radio" >
@@ -65,25 +99,21 @@
    <input type="radio" class="custom-control-input" id="estado3" name="estado" value="Finalizado" required>
    <label for="estado3" class="custom-control-label" value="Finalizado">Finalizado</label>
  </div>
-  </td>
+  
+<form>
+  
+  <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Aplicar</button>
 
+  <a href="{{ route('reporteop') }}">
+  <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
+ </a>
+ 
 
-  </table>
-  </div>
+        </div>
+     </div>
+</form>
 
-<form action="" method="">
-    
-    <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Aplicar</button>
-    </form>
-    </td>
-    </tr>
-	
-  </tbody>
-  <a href="{{ url()->previous() }}">
-  <div style="position: absolute; margin-top: 20px;">
-  <button type="button" class="btn btn-secondary">Cancelar</button>
- </div>
-</a>
-
+        </div>
+    </div>
 </div>
 @endsection

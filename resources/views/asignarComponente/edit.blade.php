@@ -28,12 +28,12 @@
  @if($asignar->operario == null)
  <option value="">No hay operario seleccionada</option>
  @else
- <option value="{{ $asignar->operario_id }}" required>{{ $asignar->operario->nombre}}</option>
+ <option value="{{ $asignar->operario_id }}" required>{{ $asignar->operario->nombreOperario}}</option>
  @endif
  
  @foreach($operario as $operarios)
 @if($operarios->id != $asignar->operario_id)
-  <option value="{{ $operarios->id }}">{{ $operarios->nombre }}</option>
+  <option value="{{ $operarios->id }}">{{ $operarios->nombreOperario }}</option>
   @endif
   @endforeach
   </select>
@@ -46,12 +46,12 @@
  @if($asignar->componente == null)
  <option value="">No hay componente seleccionada</option>
  @else
- <option value="{{ $asignar->componente_id }}" required>{{ $asignar->componente->nombre}}</option>
+ <option value="{{ $asignar->componente_id }}" required>{{ $asignar->componente->nombreComponente}}</option>
  @endif
  
  @foreach($componente as $componente)
 @if($componente->id != $asignar->componente_id)
-  <option value="{{ $componente->id }}">{{ $componente->nombre }}</option>
+  <option value="{{ $componente->id }}">{{ $componente->nombreComponente }}</option>
   @endif
   @endforeach
   </select>

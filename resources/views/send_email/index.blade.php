@@ -40,15 +40,15 @@
    <form method="post" action="{{url('sendemail/send')}}">
     {{ csrf_field() }}
     <div class="form-group">
-     <label>Ingresa tu nombre</label>
+     <label>Ingresa tu Nombre:</label>
      <input type="text" name="name" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Ingresa tu Email</label>
+     <label>Ingresa tu Correo:</label>
      <input type="text" name="email" class="form-control" value="" />
     </div>
     <div class="form-group">
-     <label>Ingresa tu mensaje</label>
+     <label>Ingresa tu Mensaje:</label>
      <textarea name="message" class="form-control"></textarea>
     </div>
     <div class="form-group">

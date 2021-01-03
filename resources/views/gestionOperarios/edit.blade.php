@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
-            <h3>Editar Operario: {{ $operario->nombre }}</h3>
+            <h3>Editar Operario: {{ $operario->nombreOperario }}</h3>
             <hr>
 
         @if ($errors->any())
@@ -21,21 +21,21 @@
     @method('PATCH')
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombre" value="{{ $operario->nombre }}" placeholder="Escriba nombre operario" required>
+    <label for="nombreOperario">Nombre:</label>
+    <input type="text" class="form-control" name="nombreOperario" value="{{ $operario->nombreOperario }}" placeholder="Escriba nombre operario" required>
   </div>
 
   <form>
   <div class="form-group">
-  <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
+  <label style="margin-top: 20px" for="rutOperario">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
   Colocar rut con puntos y guión ejemplo: 11.111.111-1</div>
-    <input type="text" class="form-control" name="rut" value="{{ $operario->rut }}" placeholder="Escriba rut del operario" required>
+    <input type="text" class="form-control" name="rutOperario" value="{{ $operario->rutOperario }}" placeholder="Escriba rut del operario" required>
   </div>
 
   <form>
   <div class="form-group">
-    <label for="correo">Correo:</label>
-    <input type="email" class="form-control" name="correo" value="{{ $operario->correo }}" placeholder="Escriba correo del operario" required>
+    <label for="correoOperario">Correo:</label>
+    <input type="email" class="form-control" name="correoOperario" value="{{ $operario->correoOperario }}" placeholder="Escriba correo del operario" required>
   </div>
 
   <div class="form-group">
@@ -45,12 +45,12 @@
  @if($operario->empresa == null)
  <option value="">No hay empresa seleccionada</option>
  @else
- <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombre}}</option>
+ <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}}</option>
  @endif
  
  @foreach($empresa as $empresas)
 @if($empresas->id != $operario->empresa_id)
-  <option value="{{ $empresas->id }}">{{ $empresas->nombre }}</option>
+  <option value="{{ $empresas->id }}">{{ $empresas->nombreEmpresa }}</option>
   @endif
   @endforeach
   </select>

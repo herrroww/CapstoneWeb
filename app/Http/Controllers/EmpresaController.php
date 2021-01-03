@@ -25,8 +25,8 @@ class EmpresaController extends Controller
         if($request){
             $query = trim($request->get('search'));
 
-            $empresas = Empresa::where('nombre',  'LIKE', '%' . $query . '%')
-                ->orwhere('rut',  'LIKE', '%' . $query . '%')
+            $empresas = Empresa::where('nombreEmpresa',  'LIKE', '%' . $query . '%')
+                ->orwhere('rutEmpresa',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->paginate(7);
@@ -66,8 +66,8 @@ class EmpresaController extends Controller
         $empresa = new Empresa();
         $user = Auth::user();
         
-        $empresa->rut = request('rut');
-        $empresa->nombre = request('nombre');
+        $empresa->rutEmpresa = request('rutEmpresa');
+        $empresa->nombreEmpresa = request('nombreEmpresa');
         $empresa->compania = request('compania');
         
         $empresa->save();
@@ -86,8 +86,8 @@ class EmpresaController extends Controller
 
         $user = Auth::user();
         
-        $empresa->rut = $request->get('rut');
-        $empresa->nombre = $request->get('nombre');
+        $empresa->rutEmpresa = $request->get('rutEmpresa');
+        $empresa->nombreEmpresa = $request->get('nombreEmpresa');
         $empresa->compania = $request->get('compania');
         
         $empresa->update();

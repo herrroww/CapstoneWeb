@@ -26,7 +26,7 @@
 
  
 
-<option value="{{ $operarios->id  }}" required>{{ $operarios->nombre }} | Operario {{ $operarios->tipoOperario }} | Empresa: {{ $operarios->empresa->nombre }} |</oprion>
+<option value="{{ $operarios->id  }}" required>{{ $operarios->nombreOperario }} | Operario {{ $operarios->tipoOperario }} | Empresa: {{ $operarios->empresa->nombreEmpresa }} |</oprion>
 
 
 @endforeach
@@ -43,7 +43,7 @@
 @empty($componente)
  <option value="">No hay componente seleccionada</option>
  @endempty
-<option value="{{ $componentes->id }}" required>{{ $componentes->nombre }}</oprion>
+<option value="{{ $componentes->id }}" required>{{ $componentes->nombreComponente }}</oprion>
 
 @endforeach
 
@@ -53,7 +53,7 @@
 
   
   
-  <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Submit</button>
+  <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Enviar</button>
   
   <a href="{{ url()->previous() }}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>

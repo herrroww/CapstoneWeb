@@ -22,7 +22,7 @@ class ComponenteController extends Controller
         if($request){
             $query = trim($request->get('search'));
 
-            $componentes = Componente::where('nombre',  'LIKE', '%' . $query . '%')
+            $componentes = Componente::where('nombreComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('idComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
@@ -44,7 +44,7 @@ class ComponenteController extends Controller
     public function store(Request $request){
         $componente = new Componente();
 
-        $componente->nombre = request('nombre');
+        $componente->nombreComponente = request('nombreComponente');
         $componente->IdComponente = request('idComponente');
         
 
@@ -61,7 +61,7 @@ class ComponenteController extends Controller
     public function update(Request $request, $id){
         $componente = Componente::findOrFail($id);
         
-        $componente->nombre = $request->get('nombre');
+        $componente->nombreComponente = $request->get('nombreComponente');
         $componente->idComponente = $request->get('idComponente');
 
         $componente->update();

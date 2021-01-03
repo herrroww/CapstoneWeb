@@ -22,8 +22,8 @@ class gestionopController extends Controller
             $query = trim($request->get('search'));
             
 
-            $operarios = Operario::where('nombre',  'LIKE', '%' . $query . '%')
-                ->orwhere('rut',  'LIKE', '%' . $query . '%')
+            $operarios = Operario::where('nombreOperario',  'LIKE', '%' . $query . '%')
+                ->orwhere('rutOperario',  'LIKE', '%' . $query . '%')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
@@ -49,13 +49,13 @@ class gestionopController extends Controller
     public function store(Request $request){
         $operario = new Operario();
 
-        $operario->nombre = request('nombre');
-        $operario->rut = request('rut');
-        $operario->correo = request('correo');
+        $operario->nombreOperario = request('nombreOperario');
+        $operario->rutOperario = request('rutOperario');
+        $operario->correoOperario = request('correoOperario');
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
         $operario->contraseniaOperario = request('contraseniaOperario');
-        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;  
+        $operario->contraseniaOperarioFTP = $operario->nombreOperario;  
         $operario->telefonoOperario = request('telefonoOperario');
         $operario->save();
 
@@ -72,13 +72,13 @@ class gestionopController extends Controller
     public function update(OperarioFormRequest $request, $id){
         $operario = Operario::findOrFail($id);
         
-        $operario->nombre = $request->get('nombre');
-        $operario->rut = $request->get('rut');
-        $operario->correo = $request->get('correo');
+        $operario->nombreOperario = $request->get('nombreOperario');
+        $operario->rutOperario = $request->get('rutOperario');
+        $operario->correoOperario = $request->get('correoOperario');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
         $operario->contraseniaOperario = $request->get('contraseniaOperario');
-        $operario->contraseniaOperarioFTP = $operario->rut.$operario->empresa_id.$operario->contraseniaOperario.$operario->nombre;
+        $operario->contraseniaOperarioFTP = $operario->nombreOperario;
         $operario->telefonoOperario =  $request->get('telefonoOperario');
 
         $operario->update();

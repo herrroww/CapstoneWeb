@@ -19,20 +19,20 @@
 
     @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  La asignación se a Eliminada correctamente.
+  La asignación ha sido eliminada correctamente.
   </div>
     @endif
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  Se asigno correctamente.
+  Se asignó componente correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  La Asigación se a editado correctamente.
+  La asignación se ha editado correctamente.
   </div>
     @endif
 
@@ -41,7 +41,7 @@
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
                             aria-label="Search">
                         <div class="input-group-append">
                         <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
@@ -59,7 +59,7 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-	  <th scope="col" class="bg-blue color-white">Id</th>
+	  <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Operario</th>
       <th scope="col" class="bg-blue color-white">Tipo de Operario</th>
       <th scope="col" class="bg-blue color-white">Componente</th>
@@ -75,7 +75,7 @@
         @if($asignar->operario == null)
     <td>operario no seleccionada</td>
     @else
-    <td>{{$asignar->operario->nombre}}</td>
+    <td>{{$asignar->operario->nombreOperario}}</td>
 
     <td>{{$asignar->operario->tipoOperario}}</td>
     @endif
@@ -83,7 +83,7 @@
     @if($asignar->componente == null)
     <td>componente no seleccionada</td>
     @else
-    <td>{{$asignar->componente->nombre}}</td>
+    <td>{{$asignar->componente->nombreComponente}}</td>
     @endif
     
     
@@ -92,7 +92,7 @@
     @method('DELETE')
     @csrf
     <td><a href="{{ route('asignaropedit', $asignar->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres eliminar este operario?')">Eliminar</button>
+    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta asignación?')">Eliminar</button>
     </form>
     </td>
     </tr>
@@ -101,7 +101,7 @@
   @if($search)
   <a href="{{ url()->previous() }}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
+  <button type="button" class="btn btn-secondary">Volver</button>
  </div>
 </a>
  @endif

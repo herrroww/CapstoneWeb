@@ -13,7 +13,7 @@
 
 @if(session('success'))
   <div class="alert alert-danger" role="alert">
- La Empresa se a eliminado correctamente.
+ La Empresa se ha eliminado correctamente.
   </div>
     @endif
 
@@ -27,14 +27,14 @@
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  La Empresa se a creado correctamente.
+  La Empresa se ha creado correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  La Empresa se a editado correctamente.
+  La Empresa se ha editado correctamente.
   </div>
     @endif
   <!-- SEARCH FORM -->
@@ -71,8 +71,8 @@
     <tr>
      
     <th scope="row">{{$empresa->id}}</th>
-     <th> {{$empresa->nombre}}</th>
-      <td>{{$empresa->rut}}</td>
+     <th> {{$empresa->nombreEmpresa}}</th>
+      <td>{{$empresa->rutEmpresa}}</td>
       <td>{{$empresa->compania}}</td>
     
     

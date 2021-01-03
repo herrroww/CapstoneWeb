@@ -19,20 +19,20 @@
 
     @if(session('success'))
   <div class="alert alert-danger" role="alert">
-  El Operario se a eliminado correctamente.
+  El Operario se ha eliminado correctamente.
   </div>
     @endif
 
     @if(session('create'))
   <div class="alert alert-success" role="alert">
-  El Operario se a creado correctamente.
+  El Operario se ha creado correctamente.
   </div>
     @endif
 
     
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  El Operario se a editado correctamente.
+  El Operario se ha editado correctamente.
   </div>
     @endif
   </h6>
@@ -66,15 +66,15 @@
   @foreach($operarios as $operario)
     <tr>
       <th scope="row">{{$operario->id}}</th>
-      <td>{{$operario->nombre}}</td>
-      <td>{{$operario->rut}}</td>
-      <td>{{$operario->correo}}</td>
+      <td>{{$operario->nombreOperario}}</td>
+      <td>{{$operario->rutOperario}}</td>
+      <td>{{$operario->correoOperario}}</td>
     <td>{{$operario->tipoOperario}}</td>
     @if($operario->empresa == null)
     <td ></td>
     @method('DELETE')
     @else
-    <td>{{$operario->empresa->nombre}}</td>
+    <td>{{$operario->empresa->nombreEmpresa}}</td>
    
     @endif
     

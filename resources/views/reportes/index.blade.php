@@ -33,7 +33,7 @@
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3 float-right">
                     <div class="input-group input-group-sm" style="margin-bottom:10px">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search"
+                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
                             aria-label="Search">
                         <div class="input-group-append">
                         <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
@@ -47,8 +47,8 @@
   <thead>
     <tr>
 	  <!--<th scope="col">Id</th>-->
-     <th scope="col" class="bg-blue color-white">Id</th>
-     <th scope="col" class="bg-blue color-white">Titulo Reporte</th>
+     <th scope="col" class="bg-blue color-white">ID</th>
+     <th scope="col" class="bg-blue color-white">Título Reporte</th>
       <th scope="col" class="bg-blue color-white">Estado</th>
       <th scope="col" class="bg-blue color-white">Fecha Reporte</th>  
       <th scope="col" class="bg-blue color-white">Revisar Reporte</th> 

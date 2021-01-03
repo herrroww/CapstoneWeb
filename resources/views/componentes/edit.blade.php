@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
-            <h3>Editar Componente: {{ $componente->nombre }}</h3>
+            <h3>Editar Componente: {{ $componente->nombreComponente }}</h3>
             <hr>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -20,8 +20,8 @@
     @method('PATCH')
     @csrf
   <div class="form-group">
-    <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombre" value="{{ $componente->nombre }}" placeholder="Escriba nombre del componente" required>
+    <label for="nombreComponente">Nombre:</label>
+    <input type="text" class="form-control" name="nombreComponente" value="{{ $componente->nombreComponente }}" placeholder="Escriba nombre del componente" required>
   </div>
 
   <form>
