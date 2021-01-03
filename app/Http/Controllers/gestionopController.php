@@ -79,12 +79,10 @@ class gestionopController extends Controller{
         //Intenta hacer la conexion al servidor FTP.
         if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
             
-            //TODO: Actualizar formato de error.
-            //Se liberan los recursos.
-            unset($ssh);
-            unset($ftpParameters);
-            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
-            exit($SWERROR->ErrorActual(1));
+            //Se liberan los recursos.           
+            unset($ssh,$ftpParameters,$operario);
+            //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
+            exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -96,12 +94,10 @@ class gestionopController extends Controller{
             
             if($estadoExiste == '1'){
 
-                //TODO: Actualizar formato de error.
-                //Se liberan los recursos.
-                unset($ssh);
-                unset($ftpParameters);
-                //[SWERROR 007]: El Operario ya existe en el sistema FTP (Conflicto en OperariosExternos).
-                exit($SWERROR->ErrorActual(6));
+                //Se liberan los recursos.           
+                unset($ssh,$ftpParameters,$operario);
+                //[FTP-ERROR007]: El Operario ya existe en el sistema (Conflicto en directorio Externo).
+                exit($SWERROR->ErrorActual('FTPERROR007'));
                 unset($SWERROR);
             }else{
 
@@ -113,12 +109,10 @@ class gestionopController extends Controller{
 
                 if($estadoExiste == '1'){
 
-                    //TODO: Actualizar formato de error.
-                    //Se liberan los recursos.
-                    unset($ssh);
-                    unset($ftpParameters);
-                    //[SWERROR 008]: El Operario ya existe en el sistema FTP (Conflicto en OperariosInternos).
-                    exit($SWERROR->ErrorActual(7));
+                    //Se liberan los recursos.           
+                    unset($ssh,$ftpParameters,$operario);
+                    //[FTP-ERROR008]: El Operario ya existe en el sistema (Conflicto en directorio Interno).
+                    exit($SWERROR->ErrorActual('FTPERRROR008'));
                     unset($SWERROR);
                 }else{
                     
@@ -130,7 +124,7 @@ class gestionopController extends Controller{
                     
                     //Crea la carpeta del Operario en la carpeta Interno y le asigna el grupo "operariosftp".
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':nogroup /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
                     
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
@@ -159,10 +153,8 @@ class gestionopController extends Controller{
 
         //Finaliza secuencia de comandos.
         $ssh->exec('exit');
-        //Se liberan los recursos.       
-        unset($SWERROR);
-        unset($ssh);  
-        unset($ftpParameters);  
+        //Se liberan los recursos.           
+        unset($SWERROR,$ssh,$ftpParameters,$operario);
 
         return redirect('gestionop')->with('create','');
     }
@@ -209,17 +201,15 @@ class gestionopController extends Controller{
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
 
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($ftpParameters->getServerFTP);
+        $ssh = new SSH2($ftpParameters->getServerFTP());
               
         //Intenta hacer la conexion al servidor FTP.
-        if(!$ssh->login($ftpParameters->getUserFTP,$ftpParameters->getPassFTP)){
+        if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
             
-            //TODO: Actualizar formato de error.
-            //Se liberan los recursos.
-            unset($ssh);
-            unset($ftpParameters);
-            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
-            exit($SWERROR->ErrorActual(1));
+            //Se liberan los recursos.           
+            unset($ssh,$ftpParameters,$operario);
+            //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
+            exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -234,17 +224,15 @@ class gestionopController extends Controller{
             
                 if($estadoExiste == '0'){
 
-                    //TODO: Actualizar formato de error.
-                    //Se liberan los recursos.
-                    unset($ssh);
-                    unset($ftpParameters);
-                    //[SWERROR 007]: El Operario no existe en el sistema FTP (Conflicto en directorio 'Externo').
+                    //Se liberan los recursos.           
+                    unset($ssh,$ftpParameters,$operario);
+                    //[FTP-ERROR009]: El Operario no existe en el sistema (Conflicto en directorio Externo).
                     $actualizarGestionOperario = false;
-                    exit($SWERROR->ErrorActual(6));
+                    exit($SWERROR->ErrorActual('FTPERROR009'));
                     unset($SWERROR);
                 }else{
 
-                    //Verifica si el directorio existe en el directorio Interno.
+                    //Verifica si el directorio del Operario existe en el directorio Interno.
                     $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.'/'.$rutOperarioTemp.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
@@ -252,14 +240,46 @@ class gestionopController extends Controller{
 
                     if($estadoExiste == '0'){
 
-                        //TODO: Actualizar formato de error.
-                        //Se liberan los recursos.
-                        unset($ssh);
-                        unset($ftpParameters);
-                        //[SWERROR 008]: El Operario no existe en el sistema FTP (Conflicto en directorio 'Interno').
+                        //Se liberan los recursos.           
+                        unset($ssh,$ftpParameters,$operario);
+                        //[FTP-ERROR010]: El Operario no existe en el sistema (Conflicto en directorio Interno).
                         $actualizarGestionOperario = false;
-                        exit($SWERROR->ErrorActual(7));
+                        exit($SWERROR->ErrorActual('FTPERROR010'));
                         unset($SWERROR);
+                    }else{
+
+                        //Verifica si el Operario con el nuevo rut ya existe en el directorio de la Empresa(Externo).
+                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
+                
+                        //Limpia la informacion obtenida.
+                        $estadoExiste = $estadoExiste[0];
+
+                        if($estadoExiste == '1'){
+
+                            //Se liberan los recursos.           
+                            unset($ssh,$ftpParameters,$operario);
+                            //[FTP-ERROR011]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Externo).
+                            $actualizarGestionEmpresa = false;
+                            exit($SWERROR->ErrorActual('FTPERROR011'));
+                            unset($SWERROR);
+                        }else{
+
+                            //Verifica si el Operario con el nuevo rut ya existe en el directorio de la Empresa(Interno).
+                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
+                
+                            //Limpia la informacion obtenida.
+                            $estadoExiste = $estadoExiste[0];
+
+                            if($estadoExiste == '1'){
+
+                                //Se liberan los recursos.           
+                                unset($ssh,$ftpParameters,$operario);
+                                //[FTP-ERROR012]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Interno).
+                                $actualizarGestionEmpresa = false;
+                                exit($SWERROR->ErrorActual('FTPERROR012'));
+                                unset($SWERROR);
+                            }
+                        }
                     }
                 }
             }
@@ -275,13 +295,11 @@ class gestionopController extends Controller{
             
                 if($estadoExiste == '0'){
 
-                    //TODO: Actualizar formato de error.
-                    //Se liberan los recursos.
-                    unset($ssh);
-                    unset($ftpParameters);
-                    //La empresa origen no existe.
+                    //Se liberan los recursos.           
+                    unset($ssh,$ftpParameters,$operario);
+                    //[FTP-ERROR013]: La Empresa origen no existe en el sistema (Conflicto en directorio Externo).
                     $actualizarGestionEmpresa = false;
-                    exit($SWERROR->ErrorActual(6));
+                    exit($SWERROR->ErrorActual('FTPERROR013'));
                     unset($SWERROR);
                 }else{
 
@@ -293,13 +311,11 @@ class gestionopController extends Controller{
 
                     if($estadoExiste == '0'){
 
-                        //TODO: Actualizar formato de error.
-                        //Se liberan los recursos.
-                        unset($ssh);
-                        unset($ftpParameters);
-                        //la empresa origen no existe.
+                        //Se liberan los recursos.           
+                        unset($ssh,$ftpParameters,$operario);
+                        //[FTP-ERROR014]: La Empresa origen no existe en el sistema (Conflicto en directorio Interno).
                         $actualizarGestionEmpresa = false;
-                        exit($SWERROR->ErrorActual(7));
+                        exit($SWERROR->ErrorActual('FTPERROR014'));
                         unset($SWERROR);
                     }else{
                      
@@ -311,13 +327,11 @@ class gestionopController extends Controller{
             
                         if($estadoExiste == '0'){
 
-                            //TODO: Actualizar formato de error.
-                            //Se liberan los recursos.
-                            unset($ssh);
-                            unset($ftpParameters);
-                            //la empresa destino no existe.
+                            //Se liberan los recursos.           
+                            unset($ssh,$ftpParameters,$operario);
+                            //[FTP-ERROR015]: La Empresa destino no existe en el sistema (Conflicto en directorio Externo).
                             $actualizarGestionEmpresa = false;
-                            exit($SWERROR->ErrorActual(6));
+                            exit($SWERROR->ErrorActual('FTPERROR015'));
                             unset($SWERROR);
                         }else{
 
@@ -329,14 +343,46 @@ class gestionopController extends Controller{
 
                             if($estadoExiste == '0'){
 
-                                //TODO: Actualizar formato de error.
-                                //Se liberan los recursos.
-                                unset($ssh);
-                                unset($ftpParameters);
-                                //la empresa destino no existe.
+                                //Se liberan los recursos.           
+                                unset($ssh,$ftpParameters,$operario);
+                                //[FTP-ERROR016]: La Empresa destino no existe en el sistema (Conflicto en directorio Interno).
                                 $actualizarGestionEmpresa = false;
-                                exit($SWERROR->ErrorActual(7));
+                                exit($SWERROR->ErrorActual('FTPERROR016'));
                                 unset($SWERROR);
+                            }else{
+
+                                //Verifica si el Operario ya existe en el directorio de la Empresa destino (Externo).
+                                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
+                
+                                //Limpia la informacion obtenida.
+                                $estadoExiste = $estadoExiste[0];
+
+                                if($estadoExiste == '1'){
+
+                                    //Se liberan los recursos.           
+                                    unset($ssh,$ftpParameters,$operario);
+                                    //[FTP-ERROR011]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Externo).
+                                    $actualizarGestionEmpresa = false;
+                                    exit($SWERROR->ErrorActual('FTPERROR011'));
+                                    unset($SWERROR);
+                                }else{
+
+                                    //Verifica si el Operario ya existe en el directorio de la Empresa destino (Interno).
+                                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
+                
+                                    //Limpia la informacion obtenida.
+                                    $estadoExiste = $estadoExiste[0];
+
+                                    if($estadoExiste == '1'){
+
+                                        //Se liberan los recursos.           
+                                        unset($ssh,$ftpParameters,$operario);
+                                        //[FTP-ERROR012]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Interno).
+                                        $actualizarGestionEmpresa = false;
+                                        exit($SWERROR->ErrorActual('FTPERROR012'));
+                                        unset($SWERROR);
+                                    }
+                                }
                             }
                         }
                     }
@@ -346,55 +392,52 @@ class gestionopController extends Controller{
             //Verifica si es posible realizar los cambios.
             if($actualizarGestionOperario == true && $actualizarGestionEmpresa == true){
                 
-
                 //Actualiza los cambios en la Base de Datos.
                 $operario->update(); 
 
                 if($rutOperarioTemp != $operario->rutOperario){
 
                     //Actualiza el nuevo username del Operario.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S usermod -l '.$operario->rutOperario.' '.$rutOperarioTemp);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S usermod -l '.$operario->rutOperario.' '.$rutOperarioTemp);
 
                     //Renombra los directorios relacionados al Operario.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioTemp.' /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioTemp.' /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioTemp.' /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioTemp.' /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario);
 
                     //Añade el nuevo username del operario en la lista de permisos VSFTPD y SSHD.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP." | sudo -S sed -i '$ a ".$operario->rutOperario."' /etc/vsftpd.userlist");
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP." | sudo -S sed -i '$ a DenyUsers ".$operario->rutOperario."' /etc/ssh/sshd_config");
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a ".$operario->rutOperario."' /etc/vsftpd.userlist");
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a DenyUsers ".$operario->rutOperario."' /etc/ssh/sshd_config");
 
                     //TODO: ELIMINA EL ANTIGUO RUT DEL OPERARIO DE LOS SERVICIOS.
 
                     //Reinicio de servicios para actualizar permisos.                    
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S service vsftpd restart');
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S service sshd restart');
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');
                 }
 
                 if($rutEmpresaTemp != $rutEmpresa){  
 
                     //Mueve la carpeta del Operario a la nueva Empresa.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
                 }
 
                 //El Operario es Interno, se le reasigna el home.
                 if($operario->tipoOperario=="Interno"){
 
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP." | sudo -S usermod -d /home/Interno/".$rutEmpresa." ".$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/".$rutEmpresa." ".$operario->rutOperario);
                 }else{
 
                     //En cualquier otro caso, se establece Operario Externo por defecto.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP." | sudo -S usermod -d /home/Externo/".$rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
                 }       
             }            
         } 
             
         //Finaliza secuencia de comandos.
         $ssh->exec('exit');
-        //Se liberan los recursos.       
-        unset($SWERROR);
-        unset($ssh);  
-        unset($ftpParameters);         
+        //Se liberan los recursos.           
+        unset($SWERROR,$ssh,$ftpParameters,$operario);       
 
         return redirect('gestionop')->with('edit','El operario se a editado');
     }
@@ -414,21 +457,19 @@ class gestionopController extends Controller{
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;   
         
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($ftpParameters->getServerFTP);
+        $ssh = new SSH2($ftpParameters->getServerFTP());
               
         //Intenta hacer la conexion al servidor FTP.
-        if(!$ssh->login($ftpParameters->getUserFTP,$ftpParameters->getPassFTP)){        
+        if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){        
             
-            //TODO: Actualizar formato de error.
-            //Se liberan los recursos.
-            unset($ssh);
-            unset($ftpParameters);
-            //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
-            exit($SWERROR->ErrorActual(1));
+            //Se liberan los recursos.           
+            unset($ssh,$ftpParameters,$operario);
+            //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
+            exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
-            //Verifica si el directorio existe.
+            //Verifica si el Operario existe en el directorio Externo.
             $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
@@ -436,16 +477,14 @@ class gestionopController extends Controller{
             
             if($estadoExiste != '1'){
 
-                //TODO: Actualizar formato de error.
-                //Se liberan los recursos.
-                unset($ssh);
-                unset($ftpParameters);
-                //[SWERROR 009]: El operario no existe en el sistema FTP (Conflicto en Externo).
-                exit($SWERROR->ErrorActual(8));
+                //Se liberan los recursos.           
+                unset($ssh,$ftpParameters,$operario);
+                //[FTP-ERROR009]: El Operario no existe en el sistema (Conflicto en directorio Externo).
+                exit($SWERROR->ErrorActual('FTPERROR009'));
                 unset($SWERROR);
             }else{
 
-                //Verifica si el directorio existe.
+                //Verifica si el Operario existe en el directorio Interno.
                 $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
@@ -453,24 +492,22 @@ class gestionopController extends Controller{
             
                 if($estadoExiste != '1'){
 
-                    //TODO: Actualizar formato de error.
-                    //Se liberan los recursos.
-                    unset($ssh);
-                    unset($ftpParameters);
-                    //[SWERROR 009]: El operario no existe en el sistema FTP (Conflicto en Internos).
-                    exit($SWERROR->ErrorActual(8));
+                    //Se liberan los recursos.           
+                    unset($ssh,$ftpParameters,$operario);
+                    //[FTP-ERROR010]: El Operario no existe en el sistema (Conflicto en directorio Interno).
+                    exit($SWERROR->ErrorActual('FTPERROR010'));
                     unset($SWERROR);
                 }else{
 
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S userdel '.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperario);
 
                     //Se elimina los directorios del operario. (Opcion 1)                  
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
 
                     //Se envia el directorio de la empresa a la basura. (Opcion 2)
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S gvfs-trash /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP.' | sudo -S gvfs-trash /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
 
                     //Se elimina el operario en la base de datos.
                     $operario->asignar()->delete();
@@ -481,10 +518,8 @@ class gestionopController extends Controller{
         
         //Finaliza secuencia de comandos.
         $ssh->exec('exit');
-        //Se liberan los recursos.       
-        unset($SWERROR);
-        unset($ssh);  
-        unset($ftpParameters);     
+        //Se liberan los recursos.           
+        unset($ssh,$ftpParameters,$operario);  
 
         return redirect()->back()->with('success','La empresa a sido eliminada.');
     }
