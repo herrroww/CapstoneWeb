@@ -8,39 +8,32 @@ use Session;
 use App\Componente;
 
 
-class DocumentoController extends Controller
-{
+class DocumentoController extends Controller{
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct()
-    {
+    public function __construct(){
+
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
-    {
-
+    public function index(Request $request){
         
-       
-
         if(!empty(Session::get('componente_id')) && $request){
             $query = trim($request->get('search'));
 
             $file = Documento::whereComponente_id(Session::get('componente_id') )
-            ->where('nombre',  'LIKE', '%' . $query . '%')
-            ->orderBy('id', 'asc')
-            ->paginate(7);
+                ->where('nombre',  'LIKE', '%' . $query . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(7);
 
-           $componente = Componente::findOrFail(Session::get('componente_id'));
-
+            $componente = Componente::findOrFail(Session::get('componente_id'));
 
             return view("documentos.index", ['file' =>$file, 'search' => $query, 'activemenu' => 'componente','componente' =>$componente]);
-
-                
         }
     }
 
@@ -49,8 +42,8 @@ class DocumentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
+
         return view('documentos.create',['activemenu' => 'componente']);
     }
 
@@ -60,8 +53,8 @@ class DocumentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+
        $data= new Documento;
        if($request->file('file')){
            $file=$request->file('file');
@@ -71,13 +64,14 @@ class DocumentoController extends Controller
            $data->file= $filename;
 
        }
+
        $data->nombre=$request->nombre;
        $data->descripcion=$request->descripcion;
        $data->privacidad=$request->privacidad;
        $data->componente_id = Session::get('componente_id');
        $data->save();
-       return redirect('documentosop')->with('create','Se creo correctamente.');
 
+       return redirect('documentosop')->with('create','Se creo correctamente.');
     }
 
     /**
@@ -86,16 +80,15 @@ class DocumentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
+
         $data=Documento::find($id);
-        return view('documentos.details',['activemenu' => 'componente'],compact('data'));
-       
+        return view('documentos.details',['activemenu' => 'componente'],compact('data'));       
     }
 
     public function download($file){
-        return response()->download('storage/'.$file);
-       
+
+        return response()->download('storage/'.$file);       
     }
 
     /**
@@ -104,8 +97,7 @@ class DocumentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id){
         //
     }
 
@@ -116,8 +108,7 @@ class DocumentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         //
     }
 
@@ -127,8 +118,7 @@ class DocumentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
         //
     }
 }

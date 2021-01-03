@@ -14,16 +14,19 @@ class FtpConexion{
 
     //Retorna la IP del servidor FTP.
     public function getServerFTP(){
+        
         return $this->serverFTP;
     }
 
     //Retorna el nombre de usuario FTP.
     public function getUserFTP(){
+
         return $this->userFTP;
     }
 
     //Retorna la contraseña de usuario FTP.
     public function getPassFTP(){
+
         return $this->passFTP;
     }
 }

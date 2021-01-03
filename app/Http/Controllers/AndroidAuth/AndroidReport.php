@@ -36,6 +36,5 @@ if(empty($rutOperario) || empty($nombreOperario) || empty($correoOperario) || em
 
         echo "Rechazado";
     }
-
 }
 ?>

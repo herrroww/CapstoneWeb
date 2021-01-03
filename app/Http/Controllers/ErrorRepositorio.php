@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 // Clase encargada de almacenar repositorio de los errores relacionados al sistema web.
-class ErrorRepositorio
-{   
+class ErrorRepositorio{   
 
     private $SWERROR = array(
         "[SWERROR 001]: Problema al conectar con el servidor FTP.",
@@ -22,6 +21,7 @@ class ErrorRepositorio
 
     // Dado un valor, retorna el error correspondiente.
     public function ErrorActual($valor){
+        
         return $this->SWERROR[$valor];
     }
 }

@@ -11,8 +11,8 @@ class CreateOperariosTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up(){
+
         Schema::create('operarios', function (Blueprint $table) {
             $table->id();
             $table->string('nombreOperario', 100);
@@ -25,11 +25,7 @@ class CreateOperariosTable extends Migration
            
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
-          
-            
-
-           
+            $table->timestamps();       
         });
     }
 
@@ -38,8 +34,8 @@ class CreateOperariosTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down(){
+        
         Schema::dropIfExists('operarios');
     }
 }

@@ -11,8 +11,7 @@ use App\Empresa;
 use OwenIt\Auditing\Contracts\Auditable;
 
 
-class Operario extends model implements Auditable
-{
+class Operario extends model implements Auditable{
 
     use \OwenIt\Auditing\Auditable;
     
@@ -20,10 +19,9 @@ class Operario extends model implements Auditable
 
         return $this->belongsTo('App\Empresa', 'empresa_id');
     }
-    public function asignar(){
-        return $this->hasMany('App\Asignar');
-        }
-   
 
-    
+    public function asignar(){
+
+        return $this->hasMany('App\Asignar');
+    }
 }

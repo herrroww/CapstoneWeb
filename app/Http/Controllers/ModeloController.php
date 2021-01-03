@@ -7,43 +7,32 @@ use App\Componente;
 use App\Modelo;
 use Session;
 
-class ModeloController extends Controller
-{
+class ModeloController extends Controller{
 
-    public function __construct()
-    {
+    public function __construct(){
+
         $this->middleware('auth');
     }
     
     public function index(Request $request){
 
-        
-
         if(!empty(Session::get('componente_id')) && $request){
 
-            $modelos = Modelo::whereComponente_id(Session::get('componente_id'))->get();
-           
-            
+            $modelos = Modelo::whereComponente_id(Session::get('componente_id'))->get();          
             
             $query = trim($request->get('search'));
 
-
-                return view("modelos.index", [ 'search' => $query, 'modelos' => $modelos]);
-
-                
+            return view("modelos.index", [ 'search' => $query, 'modelos' => $modelos]);                
         }
-        
     }
-    
-
-        
-    
 
     public function create(){
+
         return view('modelos.create');
     }
 
     public function store(Request $request){
+
         $modelo = new Modelo();
 
         $modelo->nombre = request('nombre');
@@ -57,10 +46,12 @@ class ModeloController extends Controller
     }
 
     public function edit($id){
+
         return view('modelos.edit', ['modelo' => Modelo::findOrFail($id)]);
     }
 
     public function update(Request $request, $id){
+
         $modelo = Modelo::findOrFail($id);
         
         $modelo->nombre = $request->get('nombre');
@@ -78,11 +69,5 @@ class ModeloController extends Controller
         $modelo->delete();
 
         return redirect('modelosop');
-
-        
-
-        
-    }
-
-        
+    }    
 }

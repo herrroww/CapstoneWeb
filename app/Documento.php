@@ -10,6 +10,7 @@ class Documento extends Model
 {
 
     public function componente(){
+        
         return $this->belongsTo("App\Componente");
     }
 

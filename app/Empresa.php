@@ -7,17 +7,17 @@ use App\Operario;
 use App\Empresa;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Empresa extends Model implements Auditable
-{
+class Empresa extends Model implements Auditable{
+    
     use \OwenIt\Auditing\Auditable;
 
     public function operario (){
-    return $this->hasMany('App\Operario');
+
+        return $this->hasMany('App\Operario');
     }
 
     public function asignar (){
-        return $this->hasMany('App\Asignar');
-        }
 
-    
+        return $this->hasMany('App\Asignar');
+    }
 }

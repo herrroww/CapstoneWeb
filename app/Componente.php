@@ -11,20 +11,23 @@ use App\Componente;
 use OwenIt\Auditing\Contracts\Auditable;
 
 
-class Componente extends Model implements Auditable
-{
+class Componente extends Model implements Auditable{
+
     use \OwenIt\Auditing\Auditable;
     
     /*public function modelo(){
         return $this->hasMany("App\Modelo");
     }*/
     public function documento(){
+
         return $this->hasMany("App\Documento");
     }
 
     public function asignar(){
+
         return $this->hasMany('App\Asignar');
-        }
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,8 +36,4 @@ class Componente extends Model implements Auditable
     protected $fillable = [
         'name', 'idComponente'
     ];
-
-    
-
-    
 }
