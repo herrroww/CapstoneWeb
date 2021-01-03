@@ -10,6 +10,7 @@ use App\Documento;
 use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
 use phpseclib\Net\SSH2;
+use Illuminate\Support\Facades\DB;
 
 class ComponenteController extends Controller{
 
@@ -253,7 +254,6 @@ class ComponenteController extends Controller{
         return redirect('componenteop')->with('edit','El Componente se a editado');
     }
 
-    //TODO: ELIMINAR EN FTP
     public function destroy($id){
 
         //Carga el repositorio de errores.
@@ -282,7 +282,7 @@ class ComponenteController extends Controller{
 
             //Se enlista a todos los operarios que tengan asignado dicho componente.
             $componentesAsignados = DB::table('asignars')
-                ->where('asignars.componente_id', '=', $componente->idComponente)
+                ->where('asignars.componente_id', '=', $componente->id)
                 ->select('asignars.*')
                 ->get();
 
