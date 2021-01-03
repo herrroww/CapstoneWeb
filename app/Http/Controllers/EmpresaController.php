@@ -302,14 +302,17 @@ class EmpresaController extends Controller{
 
                     //Se obtienen todos los operarios vinculados la empresa.
                     $operarios = DB::table('operarios')
-                        ->join('empresas', 'operarios.empresa_id', '=', 'empresas.id')
+                        ->where('operarios.empresa_id', '=', $empresa->id)
                         ->select('operarios.*')
                         ->get();
 
-                    //Elimina las cuentas de Operarios relacionadas con la empresa.
+                    //Elimina las cuentas de Operarios relacionadas con la empresa y las desvincula del servicio FTP.
                     foreach($operarios as $operario){
 
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperario);
+
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$operario->rutOperario."/d' /etc/vsftpd.userlist");
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$operario->rutOperario."/d' /etc/ssh/sshd_config");  
                     }
 
                     //Se elimina la empresa de la base de datos y los elementos relacionados a ella.
