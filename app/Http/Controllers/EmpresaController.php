@@ -12,18 +12,11 @@ use Illuminate\Support\Facades\DB;
 use Session;
 
 use App\Http\Controllers\ErrorRepositorio;
+use App\Http\Controllers\FtpConexion;
 
 use phpseclib\Net\SSH2;
 
-class EmpresaController extends Controller{  
-
-    //IP del servidor FTP.
-    private $serverFTP = '192.168.0.28';
-    
-    //Credenciales de usuario FTP
-    private $userFTP= 'capstone';
-    private $passFTP= 'capstone';
-
+class EmpresaController extends Controller{      
 
     public function __construct(){
 
@@ -55,27 +48,30 @@ class EmpresaController extends Controller{
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
+
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
         
-        /*Genera a la empresa y rellena los atributos con la informacion
-        * entregada por el usuario.
-        */
+        //Genera a la empresa y rellena los atributos con la informacion entregada por el usuario.
+        
         $empresa = new Empresa();
         $empresa->rut = request('rut');
         $empresa->nombre = request('nombre');
         $empresa->compania = request('compania');      
 
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->serverFTP);
+        $ssh = new SSH2($ftpParameters->getServerFTP());
               
         //Intenta hacer la conexion al servidor FTP.
-        if(!$ssh->login($this->userFTP,$this->passFTP)){
+        if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
             
             //TODO: Actualizar sistema de errores.
-            //Se liberan los recursos.       
-            unset($SWERROR);
+            //Se liberan los recursos.           
             unset($ssh);
+            unset($ftpParameters);
             //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
             exit($SWERROR->ErrorActual(1));
+            unset($SWERROR);
 
         }else{
 
@@ -88,11 +84,12 @@ class EmpresaController extends Controller{
             if($estadoExiste == '1'){
 
                 //TODO: Actualizar sistema de errores.
-                //Se liberan los recursos.       
-                unset($SWERROR);
+                //Se liberan los recursos.
                 unset($ssh);
+                unset($ftpParameters);
                 //[SWERROR 003]: La empresa ya existe en el sistema (Conflicto en OperariosExternos).
                 exit($SWERROR->ErrorActual(2));
+                unset($SWERROR);
             }else{
 
                 //Verifica si el directorio existe.
@@ -104,27 +101,32 @@ class EmpresaController extends Controller{
                 if($estadoExiste == '1'){
 
                     //TODO: Actualizar sistema de errores.
-                    //Se liberan los recursos.       
-                    unset($SWERROR);
+                    //Se liberan los recursos.
                     unset($ssh);
+                    unset($ftpParameters);
                     //[SWERROR 004]: La empresa ya existe en el sistema (Conflicto en OperariosInternos).
                     exit($SWERROR->ErrorActual(3));
+                    unset($SWERROR);
 
                 }else{
 
                     //Se crea el directorio de la empresa.
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir /home/Externo/'.$empresa->rut);
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S mkdir /home/Interno/'.$empresa->rut);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir /home/Externo/'.$empresa->rut);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir /home/Interno/'.$empresa->rut);
 
                     //Se almacena la empresa en la base de datos.
                     $empresa->save();
-
-                    //Se liberan los recursos.       
-                    unset($SWERROR);
-                    unset($ssh);
                 }
             }
-        } 
+        }
+        
+        //Finaliza secuencia de comandos.
+        $ssh->exec('exit');
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);  
+        unset($ftpParameters);  
+
         return redirect('empresaop')->with('create','La empresa se a creado correctamente');
     }
 
@@ -137,8 +139,9 @@ class EmpresaController extends Controller{
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
-        
-        $user = Auth::user();
+
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();        
         
         //Busca a la empresa dada una id de la tabla.
         $empresa = Empresa::findOrFail($id);        
@@ -153,23 +156,20 @@ class EmpresaController extends Controller{
         
         //Verifica si el nuevo rut de la empresa es diferente al antiguo.
         if($rutTemp != $empresa->rut){
-
-            //TODO: Actualizar sistema de errores.
-            //Se liberan los recursos.       
-            unset($SWERROR);
-            unset($ssh);
+            
             //Prepara la conexion al servidor FTP.
-            $ssh = new SSH2($this->serverFTP);
+            $ssh = new SSH2($ftpParameters->getServerFTP());
               
             //Intenta hacer la conexion al servidor FTP.
-            if(!$ssh->login($this->userFTP,$this->passFTP)){
+            if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
             
                 //TODO: Actualizar sistema de errores.
-                //Se liberan los recursos.       
-                unset($SWERROR);
+                //Se liberan los recursos.
                 unset($ssh);
+                unset($ftpParameters);
                 //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
                 exit($SWERROR->ErrorActual(1));
+                unset($SWERROR);
             }else{
 
                 //Verifica si el directorio existe en el directorio Externo.
@@ -181,11 +181,12 @@ class EmpresaController extends Controller{
                 if($estadoExiste != '1'){
 
                     //TODO: Actualizar sistema de errores.
-                    //Se liberan los recursos.       
-                    unset($SWERROR);
+                    //Se liberan los recursos.
                     unset($ssh);
+                    unset($ftpParameters);
                     //[SWERROR 005]: La empresa no existe en el sistema FTP (Conflicto en directorio Externo).
                     exit($SWERROR->ErrorActual(4));
+                    unset($SWERROR);
                 }else{
 
                     //Verifica si el directorio existe en el directorio Interno.
@@ -197,16 +198,17 @@ class EmpresaController extends Controller{
                     if($estadoExiste != '1'){
 
                         //TODO: Actualizar sistema de errores.
-                        //Se liberan los recursos.       
-                        unset($SWERROR);
+                        //Se liberan los recursos.
                         unset($ssh);
+                        unset($ftpParameters);
                         //[SWERROR 006]: La empresa no existe en el sistema FTP (Conflicto en directorio Interno).
                         exit($SWERROR->ErrorActual(5));
+                        unset($SWERROR);
                     }else{
 
                         //Cambia el nombre del directorio de la empresa.
-                        $ssh->exec('echo '.$this->passFTP.' | sudo -S mv /home/Externo/'.$rutTemp.' /home/Externo/'.$empresa->rut);
-                        $ssh->exec('echo '.$this->passFTP.' | sudo -S mv /home/Interno/'.$rutTemp.' /home/Interno/'.$empresa->rut);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutTemp.' /home/Externo/'.$empresa->rut);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutTemp.' /home/Interno/'.$empresa->rut);
 
                         //Se obtienen todos los operarios vinculados la empresa.
                         $operarios = DB::table('operarios')
@@ -220,23 +222,27 @@ class EmpresaController extends Controller{
                             //El Operario es Interno, se le reasigna el home.
                             if($operario->tipoOperario=="Interno"){
 
-                                $ssh->exec('echo '.$this->passFTP." | sudo -S usermod -d /home/Interno/".$empresa->rut." ".$operario->rut);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/".$empresa->rut." ".$operario->rut);
                             }else{
 
                                 //En cualquier otro caso, se establece Operario Externo por defecto.
-                                $ssh->exec('echo '.$this->passFTP." | sudo -S usermod -d /home/Externo/".$empresa->rut."/".$operario->rut." ".$operario->rut);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->rut."/".$operario->rut." ".$operario->rut);
                             }                      
                         }
 
                         //Se actualizan los cambios en la base de datos.
                         $empresa->update();
-                        //Se liberan los recursos.       
-                        unset($SWERROR);
-                        unset($ssh);
                     }
                 }
             }
-        }    
+        } 
+
+        //Finaliza secuencia de comandos.
+        $ssh->exec('exit');
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);  
+        unset($ftpParameters);  
 
         return redirect('empresaop')->with('edit','La empresa se a editado');
     }
@@ -246,20 +252,25 @@ class EmpresaController extends Controller{
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
+
+        //Busca la empresa a eliminar.
         $empresa = Empresa::findOrFail($id);        
 
         //Se prepara la conexion al servidor FTP.
-        $ssh = new SSH2($this->serverFTP);
+        $ssh = new SSH2($ftpParameters->getServerFTP());
               
         //Intenta hacer la conexion al servidor FTP.
-        if(!$ssh->login($this->userFTP,$this->passFTP)){
+        if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
 
             //TODO: Actualizar sistema de errores.
-            //Se liberan los recursos.       
-            unset($SWERROR);
-            unset($ssh);            
+            //Se liberan los recursos.
+            unset($ssh);
+            unset($ftpParameters);            
             //[SWERROR 002]: Problema al ingresar las credenciales de usuario FTP.
             exit($SWERROR->ErrorActual(1));
+            unset($SWERROR);
         }else{
 
             //Verifica si el directorio existe.
@@ -271,11 +282,12 @@ class EmpresaController extends Controller{
             if($estadoExiste != '1'){
 
                 //TODO: Actualizar sistema de errores.
-                //Se liberan los recursos.       
-                unset($SWERROR);
+                //Se liberan los recursos.
                 unset($ssh);
+                unset($ftpParameters);
                 //[SWERROR 005]: La empresa no existe en el sistema FTP (Conflicto en OperariosExternos).
                 exit($SWERROR->ErrorActual(4));
+                unset($SWERROR);
             }else{
 
                 //Verifica si el directorio existe.
@@ -286,20 +298,22 @@ class EmpresaController extends Controller{
 
                 if($estadoExiste != '1'){
 
-                    //Se liberan los recursos.       
-                    unset($SWERROR);
+                    //TODO: Actualizar sistema de errores.
+                    //Se liberan los recursos.
                     unset($ssh);
+                    unset($ftpParameters);
                     //[SWERROR 006]: La empresa no existe en el sistema FTP (Conflicto en OperariosInternos).
                     exit($SWERROR->ErrorActual(5));
+                    unset($SWERROR);
                 }else{
 
                     //Se elimina el directorio de la empresa.
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S rm -r /home/Externo/'.$empresa->rut);
-                    $ssh->exec('echo '.$this->passFTP.' | sudo -S rm -r /home/Interno/'.$empresa->rut);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$empresa->rut);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$empresa->rut);
 
                     //Se envia el directorio de la empresa a la basura. (Version Opcional)
-                    //$ssh->exec('echo '.$this->passFTP.' | sudo -S gvfs-trash /home/Externo/'.$empresa->rut);
-                    //$ssh->exec('echo '.$this->passFTP.' | sudo -S gvfs-trash /home/Interno/'.$empresa->rut);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$empresa->rut);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$empresa->rut);
 
                     //Se obtienen todos los operarios vinculados la empresa.
                     $operarios = DB::table('operarios')
@@ -310,21 +324,22 @@ class EmpresaController extends Controller{
                     //Elimina las cuentas de Operarios relacionadas con la empresa.
                     foreach($operarios as $operario){
 
-                        $ssh->exec('echo '.$this->passFTP.' | sudo -S userdel '.$operario->rut);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rut);
                     }
 
-                    $ssh->exec('exit');
-
                     //Se elimina la empresa de la base de datos.
-                    $empresa->delete();
-                       
-                    //Se liberan los recursos.       
-                    unset($SWERROR);
-                    unset($ssh);
+                    $empresa->delete();                    
                 }
             }
-        }  
+        }    
         
+        //Finaliza secuencia de comandos.
+        $ssh->exec('exit');
+        //Se liberan los recursos.       
+        unset($SWERROR);
+        unset($ssh);  
+        unset($ftpParameters);  
+
         return redirect()->back()->with('success','La empresa a sido eliminada.');         
     }
 }
