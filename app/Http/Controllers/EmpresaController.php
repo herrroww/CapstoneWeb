@@ -111,12 +111,12 @@ class EmpresaController extends Controller{
 
                 }else{
 
+                    //Se almacena la empresa en la base de datos.
+                    $empresa->save();
+
                     //Se crea el directorio de la empresa.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir /home/Externo/'.$empresa->rutEmpresa);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir /home/Interno/'.$empresa->rutEmpresa);
-
-                    //Se almacena la empresa en la base de datos.
-                    $empresa->save();
                 }
             }
         }
@@ -207,6 +207,9 @@ class EmpresaController extends Controller{
                         unset($SWERROR);
                     }else{
 
+                        //Se actualizan los cambios en la base de datos.
+                        $empresa->update();
+
                         //Cambia el nombre del directorio de la empresa.
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.' /home/Externo/'.$empresa->rutEmpresa);
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.' /home/Interno/'.$empresa->rutEmpresa);
@@ -230,9 +233,6 @@ class EmpresaController extends Controller{
                                 $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
                             }                      
                         }
-
-                        //Se actualizan los cambios en la base de datos.
-                        $empresa->update();
                     }
                 }
             }
