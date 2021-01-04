@@ -110,9 +110,8 @@ class asignaropController extends Controller{
                     unset($SWERROR);
                 }else{
 
-                    //TODO: ASEGURARSE DE QUE EL OPERARIO YA TENGA EL COMPONENTE
                     //Verifica si el Operario Destino posee el componente destino en directorio Externo.
-                    $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -128,7 +127,7 @@ class asignaropController extends Controller{
                     }else{
 
                         //Verifica si el Operario Destino posee el componente destino en directorio Interno.
-                        $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                        $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
