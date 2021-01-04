@@ -33,7 +33,8 @@ class ErrorRepositorio{
         'FTPERROR024' => "[FTP-ERROR024]: El Operario destino no existe en el sistema (Conflicto en directorio Interno).",
         'FTPERROR025' => "[FTP-ERROR025]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Externo).",
         'FTPERROR026' => "[FTP-ERROR026]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Interno).",
-
+        'FTPERROR???' => "[FTP-ERROR???]: ???",
+        'WEBERROR001' => "[WEB-ERROR001]: Problema al conectar con el servidor de Base de Datos."
     );
 
     // Dado un valor, retorna el error correspondiente.
@@ -47,5 +48,10 @@ class ErrorRepositorio{
     /*FTPERROR001
       Ubicacion original del error: ./CAPSTONEWEB/vendor/phpseclib\phpseclib/phpseclib/Net/SSH2.php
       Linea de Codigo: 1172
+    */
+
+    /*WEBERROR001
+      Ubicacion original del error: ./CAPSTONEWEB/vendor/laravel/framework/src/Illuminate/Database/Connection.php
+      Linea de Codigo: 674
     */
 }
