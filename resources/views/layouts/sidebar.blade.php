@@ -284,12 +284,12 @@
                                     @if($activemenu == 'reporteproblema')
                                     <i class="fas fa-info-circle color-white"></i>
                                     <p class='color-white'>
-                                        Reporte De Problemas
+                                        Reporte de Problemas
                                     </p>
                                     @else
                                     <i class="fas fa-info-circle"></i>
                                     <p>
-                                       Reporte De Problemas
+                                       Reporte de Problemas
                                     </p>
                                     @endif
                                 </a>

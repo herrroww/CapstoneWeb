@@ -63,12 +63,12 @@
 
   
 <div class="form-group">
-    <label for="contraseniaOperario">Contraseña Operario:</label>
+    <label for="contraseniaOperario">Contraseña Operario(Opcional):</label>
     <input type="text" class="form-control" name="contraseniaOperario" value="" placeholder="Escriba la contraseña" required>
   </div>
 
   <div class="form-group">
-    <label for="contraseniaOperario2">Contraseña Operario2:</label>
+    <label for="contraseniaOperario2">Confirme Contraseña Operario(Opcional):</label>
     <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
   </div>
 

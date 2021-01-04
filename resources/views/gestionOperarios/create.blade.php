@@ -56,11 +56,11 @@
   
 <div class="form-group">
     <label for="contraseniaOperario">Contraseña Operario:</label>
-    <input type="text" class="form-control" name="contraseniaOperario" placeholder="Escriba la contraseña" required>
+    <input type="text" class="form-control" name="contraseniaOperario" expression="^[A-Za-z][A-Za-z0-9]*$"  placeholder="Escriba la contraseña" required>
   </div>
 
   <div class="form-group">
-    <label for="contraseniaOperario2">Contraseña Operario2:</label>
+    <label for="contraseniaOperario2">Confirme Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
   </div>
 
