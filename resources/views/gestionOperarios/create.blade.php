@@ -59,6 +59,11 @@
     <input type="text" class="form-control" name="contraseniaOperario" placeholder="Escriba la contraseña" required>
   </div>
 
+  <div class="form-group">
+    <label for="contraseniaOperario2">Contraseña Operario2:</label>
+    <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
+  </div>
+
   
 
 

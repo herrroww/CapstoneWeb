@@ -20,6 +20,7 @@ class CreateOperariosTable extends Migration
             $table->string('correoOperario', 100)->unique();
             $table->string('tipoOperario', 100);
             $table->string('contraseniaOperario',100);
+            $table->string('contraseniaOperario2',100)->nullable();
             $table->string('contraseniaOperarioFTP',100);
             $table->string('telefonoOperario',100);
            
