@@ -19,7 +19,7 @@ if(empty($rutOperario) || empty($contraseniaOperario)) {
 
     // CREAMOS LA CONSULTA
     $sql = "SELECT operarios.nombreOperario,operarios.rutOperario,operarios.correoOperario,operarios.contraseniaOperario,operarios.tipoOperario,operarios.contraseniaOperarioFTP,operarios.telefonoOperario,empresas.rutEmpresa FROM operarios JOIN empresas ON empresas.id=operarios.empresa_id WHERE operarios.rutOperario='$rutOperario'";
-    
+        
     $query = $mysqli->query($sql);
 
     // CREAMOS UN ARRAY PARA GUARDAR LOS VALORES DEL REGISTRO
@@ -51,19 +51,19 @@ if(empty($rutOperario) || empty($contraseniaOperario)) {
                 $mysqli->query($sqlControlSesion);
 
                 // CREAMOS EL JSON Y LO MOSTRAMOS
-                echo json_encode($data);
+                die(json_encode($data));
             }                
         }
 
         if($operarioEncontrado == false){ 
             
             // echo usuario o contraseña no validos";
-            echo "ERROR 3";
+            die("ERROR 3");
         }
 
     } else {
         // echo "No existe ese registro";
-        echo "ERROR 2";
+        die("ERROR 2");
     }
 }
 ?>
