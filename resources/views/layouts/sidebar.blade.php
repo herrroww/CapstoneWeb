@@ -12,6 +12,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/scripts.js') }}" defer></script>
+    <script src="{{ asset('js/venobox.min.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="dist/js/adminlte.js"></script>
 
@@ -25,6 +27,7 @@
     <!-- Styles -->
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/venobox.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
@@ -111,8 +114,11 @@
                                 
                                 @guest
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                                @elseif($activemenu == 'user')
+                                <l class="color-white">{{ Auth::user()->name }}</l>
                                 @else
-                                {{ Auth::user()->name }}
+                                <l>{{ Auth::user()->name }}</l>
+                                
                                 <!--<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
                                     Cerrar Sesión
@@ -311,13 +317,25 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="usuarios"
+                            @if($activemenu == 'ayuda') 
+                                            <li class="nav-item bg-orange">
+                                                @else
+                                            <li class="nav-item">
+                                                @endif
+
+                                <a href="{{ route('ayudaop') }}"
                                     class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="fas fa-boxes"></i>
+                                    @if($activemenu == 'ayuda')
+                                    <i class="fas fa-boxes color-white"></i>
+                                    <p class='color-white'>
+                                        Ayuda
+                                    </p>
+                                    @else
+                                    <i class="fas fa-boxes "></i>
                                     <p>
                                         Ayuda
                                     </p>
+                                    @endif
                                 </a>
                             </li>
 

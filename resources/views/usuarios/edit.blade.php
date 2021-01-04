@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h3>Editar Usuario: {{ $users->name }}</h3>
+            <hr>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>

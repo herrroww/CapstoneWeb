@@ -88,4 +88,6 @@ Route::get('documentosopshow/{id}', 'DocumentoController@show')->name('documento
 
 Route::get('documentosopdownload/{file}','DocumentoController@download')->name('documentosopdownload');
 
+Route::get('ayudaop', 'AyudaController@index')->name('ayudaop');
+
 
