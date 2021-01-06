@@ -18,7 +18,6 @@ class CreateDocumentosTable extends Migration
             $table->string('nombre');
             $table->string('descripcion');
             $table->string('privacidad');
-            $table->string('file');
             
             $table->string('extension')->nullable();
             $table->integer('componente_id')->unsigned();
