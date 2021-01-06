@@ -8,6 +8,12 @@ use Session;
 use App\Componente;
 
 
+use App\Http\Controllers\ErrorRepositorio;
+use App\Http\Controllers\FtpConexion;
+use phpseclib\Net\SSH2;
+use phpseclib\Net\SFTP;
+
+
 class DocumentoController extends Controller{
 
     /**
@@ -55,23 +61,49 @@ class DocumentoController extends Controller{
      */
     public function store(Request $request){
 
-       $data= new Documento;
-       if($request->file('file')){
-           $file=$request->file('file');
-           $filename=time().'.'.$file->getClientOriginalExtension();
-           $request->file->move('storage/', $filename);
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
 
-           $data->file= $filename;
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
 
-       }
+        $data= new Documento;
+        if($request->file('file')){
 
-       $data->nombre=$request->nombre;
-       $data->descripcion=$request->descripcion;
-       $data->privacidad=$request->privacidad;
-       $data->componente_id = Session::get('componente_id');
-       $data->save();
+            $conn_id = ftp_connect($ftpParameters->getServerFTP());
 
-       return redirect('documentosop')->with('create','Se creo correctamente.');
+            // iniciar sesión con nombre de usuario y contraseña
+            $login_result = ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP());
+            
+            $file=$request->file('file');
+            
+            $temp = explode(".",$_FILES['file']['name']);
+
+            $source_file = $_FILES['file']['tmp_name'];
+            $dst = '/Componentes/Externo/Componente1';
+            $nombre = $_FILES['file']['name'];
+            $ext = pathinfo($nombre, PATHINFO_EXTENSION);
+            die($ext);
+
+            //Intenta subir el documento
+            if (ftp_put($conn_id,$dst.'/'.$nombre,$source_file,FTP_BINARY)) {
+                die("Se ha subido correctamente el archivo $nombre\n");
+            } else {
+                die("Ha ocurrido un problema al intentar subir el archivo $nombre\n");
+            }
+
+            $filename=time().'.'.$file->getClientOriginalExtension();
+            $data->file= $filename;
+            die($request);
+        }
+
+        $data->nombre=$request->nombre;
+        $data->descripcion=$request->descripcion;
+        $data->privacidad=$request->privacidad;
+        $data->componente_id = Session::get('componente_id');
+        $data->save();
+
+        return redirect('documentosop')->with('create','Se creo correctamente.');
     }
 
     /**
