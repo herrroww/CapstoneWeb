@@ -68,7 +68,7 @@ class gestionopController extends Controller{
         $operario->telefonoOperario = request('telefonoOperario');
 
         //$operario->rutOperarioFTP = preg_replace("/[^A-Za-z0-9]/",'',$operario->rutOperario);
-        $operario->contraseniaOperarioFTP = substr(preg_replace("/[^A-Za-z0-9]/","",$operario->contraseniaOperario),0,10);
+        $operario->contraseniaOperarioFTP = substr(preg_replace("/[^A-Za-z0-9]/","",$operario->contraseniaOperario),0,5);
 
         //Obtiene el rut de la Empresa seleccionada.
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
@@ -118,16 +118,16 @@ class gestionopController extends Controller{
                     
                     //Almacena el Operario en la base de datos.
                     $operario->save();
-                    
+
                     //Crea al Operario y lo asigna al grupo "operariosftp".
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S useradd -g operariosftp -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rutOperario); 
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S useradd -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rutOperario); 
                     
                     //Crea la carpeta del Operario en la carpeta Interno y le asigna el grupo "operariosftp".
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
                     
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario);
                     
                     //Añade al Operario en la lista de permisos VSFTPD y SSHD.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a ".$operario->rutOperario."' /etc/vsftpd.userlist");
@@ -137,11 +137,11 @@ class gestionopController extends Controller{
                     //El Operario es Interno, se le reasigna el home.
                     if($operario->tipoOperario=="Interno"){
 
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/".$rutEmpresa." ".$operario->rutOperario);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -m -d /home/Interno/ ".$operario->rutOperario);
                     }else{
 
                         //En cualquier otro caso, se establece Operario Externo por defecto.
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -m -d /home/Externo/".$rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
                     }
 
                     //Reinicio de servicios para actualizar permisos.                    
@@ -427,7 +427,7 @@ class gestionopController extends Controller{
                 //El Operario es Interno, se le reasigna el home.
                 if($operario->tipoOperario=="Interno"){
 
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/".$rutEmpresa." ".$operario->rutOperario);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/ ".$operario->rutOperario);
                 }else{
 
                     //En cualquier otro caso, se establece Operario Externo por defecto.
