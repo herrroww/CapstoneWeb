@@ -106,7 +106,7 @@ class gestionopController extends Controller
         
     }
 
-    function fetch(Request $request)
+    /**function fetch(Request $request)
     {
      if($request->get('query'))
      {
@@ -123,5 +123,5 @@ class gestionopController extends Controller
       $output .= '</ul>';
       echo $output;
      }
-    }
+    }**/
 }
