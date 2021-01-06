@@ -1,6 +1,8 @@
 hr
 {
     background-color: #1c3292 !important;
+    
+    height: 1px !important;
 }
 .contenedor-video a {
   background-color: rgba(255, 255, 255, 0.79);
