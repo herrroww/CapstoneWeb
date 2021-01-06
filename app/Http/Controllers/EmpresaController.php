@@ -218,7 +218,7 @@ class EmpresaController extends Controller{
                             //El Operario es Interno, se le reasigna el home.
                             if($operario->tipoOperario=="Interno"){
 
-                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/".$empresa->rutEmpresa." ".$operario->rutOperario);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/ ".$operario->rutOperario);
                             }else{
 
                                 //En cualquier otro caso, se establece Operario Externo por defecto.
