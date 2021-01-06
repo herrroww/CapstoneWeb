@@ -533,8 +533,7 @@ class gestionopController extends Controller{
         return redirect()->back()->with('success','La empresa a sido eliminada.');
     }
 
-
-    function fetch(Request $request)
+    /**function fetch(Request $request)
     {
      if($request->get('query'))
      {
@@ -551,5 +550,5 @@ class gestionopController extends Controller{
       $output .= '</ul>';
       echo $output;
      }
-    }
+    }**/
 }
