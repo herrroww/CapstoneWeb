@@ -14,8 +14,11 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/scripts.js') }}" defer></script>
     <script src="{{ asset('js/venobox.min.js') }}" defer></script>
+    <script src="{{ asset('js/main.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="dist/js/adminlte.js"></script>
+
+   
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -29,6 +32,11 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/venobox.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
+    
+
+  
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -139,7 +147,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
 
-                            @if($activemenu == 'home') 
+                           <!-- @if($activemenu == 'home') 
                                             <li class="nav-item bg-orange">
                                                 @else
                                             <li class="nav-item">
@@ -159,7 +167,7 @@
                                     </p>
                                     @endif
                                 </a>
-                            </li>
+                            </li>-->
 
                             
                             @if($activemenu == 'empresa') 

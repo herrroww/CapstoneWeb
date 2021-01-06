@@ -49,7 +49,7 @@
                     </div>
                 </form>
   
-   <a href="{{ route('empresaop1') }}"> <button type="button" style="margin-bottom:10px" class="btn  float-right bg-orange color-white" >Agregar Empresa </button></a>
+   <a href="{{ route('empresaop1') }}"> <button type="button" style="margin-bottom:10px" class="btn  float-right bg-orange color-white" ><i class="far fa-building"></i> Agregar Empresa </button></a>
   <h6>
     
 
@@ -63,7 +63,8 @@
       <th scope="col"class="bg-blue color-white">Nombre</th>
       <th scope="col"class="bg-blue color-white">Rut</th>
       <th scope="col"class="bg-blue color-white">Compañía</th>
-      <th scope="col"class="bg-blue color-white">Opciones</th>
+      <th scope="col"class="bg-blue color-white">Editar</th>
+      <th scope="col"class="bg-blue color-white">Eliminar</th>
     </tr>
   </thead>
   <tbody>
@@ -79,8 +80,8 @@
     <form action="{{ route('empresaopdes', $empresa->id) }}" method="POST" >
     @method('DELETE')
     @csrf
-    <td><a href="{{ route('empresaopedit', $empresa->id) }}"><button type="button" class="btn btn-primary ">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta Empresa?, Si elimina esta Empresa se eliminarán todos los Operarios vinculados a esta.')">Eliminar</button>
+    <td><a href="{{ route('empresaopedit', $empresa->id) }}"><button type="button" class="btn btn-primary "><i class="far fa-edit "></i></button></a>
+    <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta Empresa?, Si elimina esta Empresa se eliminarán todos los Operarios vinculados a esta.')"><i class="fas fa-times " ></i></button></td>
     </form>
     </td>
     </tr>

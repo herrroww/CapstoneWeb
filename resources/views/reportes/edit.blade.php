@@ -66,7 +66,7 @@
 
     <tr>
       <th scope="row">Fecha Reporte:  </th>
-      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}}</td>
+      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}</td>
     </tr>
 
     <tr>

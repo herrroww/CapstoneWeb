@@ -47,9 +47,17 @@
                         </div>
                     </div>
                 </form>
-   <a href="{{ route('gestionop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px">Agregar Operario </button></a>
-  
-<table class="table table-bordered">
+
+                <form class="float-right">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-append">
+                        <a href="{{ route('gestionop1') }}"><button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px"><i class="fas fa-user-plus"></i> Agregar Operario </button></a>
+                        </div>
+                    </div>
+                </form>
+    
+
+<table class="table table-bordered ">
   <thead>
     <tr>
 	    <th scope="col" class="bg-blue color-white">ID</th>
@@ -59,7 +67,8 @@
       <th scope="col" class="bg-blue color-white">Tipo De Operario</th>
       <th scope="col" class="bg-blue color-white">Empresa</th>
       <th scope="col" class="bg-blue color-white">Teléfono Operario</th>
-      <th scope="col" class="bg-blue color-white">Opciones</th>
+      <th scope="col" class="bg-blue color-white">Editar</th>
+      <th scope="col" class="bg-blue color-white">Eliminar</th>
     </tr>
   </thead>
   <tbody>
@@ -86,8 +95,8 @@
     <form action="{{ route('gestionopdes', $operario->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td><a href="{{ route('gestionopedit', $operario->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Operario?, Si elimina al Operario perdera la asignación de su(s) componente(s).')">Eliminar</button>
+    <td><a href="{{ route('gestionopedit', $operario->id) }}"><button type="button" class="btn btn-primary"><i class="far fa-edit "></i></button></a></td>
+    <td><button name ="eliminar" type="submit" class="btn btn-danger " onclick="return confirm('¿Estás seguro que quieres eliminar este Operario?, Si elimina al Operario perdera la asignación de su(s) componente(s).')"><i class="fas fa-times"></i></button>
     </form>
     </td>
     </tr>

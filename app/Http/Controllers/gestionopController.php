@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Operario;
 use App\Empresa;
 use App\Asignar;
+use DB;
+
 
 class gestionopController extends Controller
 {
@@ -102,5 +104,24 @@ class gestionopController extends Controller
         
 
         
+    }
+
+    function fetch(Request $request)
+    {
+     if($request->get('query'))
+     {
+      $query = $request->get('query');
+      $data = DB::table('empresas')
+        ->where('nombreEmpresa', 'LIKE', "%{$query}%")
+        ->get();
+      $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+      foreach($data as $row)
+      {
+       $output .= '<li><a href="#">'.$row->
+       nombreEmpresa.'</a></li>';
+      }
+      $output .= '</ul>';
+      echo $output;
+     }
     }
 }

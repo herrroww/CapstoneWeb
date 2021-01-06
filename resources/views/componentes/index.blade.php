@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </form>
-  <a href="{{ route('componenteop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px">Agregar Componente </button></a>
+  <a href="{{ route('componenteop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px"><i class="fas fa-boxes"></i> Agregar Componente </button></a>
   
 <table class="table table-bordered">
   <thead>
@@ -57,7 +57,9 @@
     <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Nombre</th>
       <th scope="col" class="bg-blue color-white">ID Componente</th>
-      <th scope="col" class="bg-blue color-white">Opciones</th>
+      <th scope="col" class="bg-blue color-white">Documentos</th>
+      <th scope="col" class="bg-blue color-white">Editar</th>
+      <th scope="col" class="bg-blue color-white">Eliminar</th>
     </tr>
   </thead>
   <tbody>
@@ -73,9 +75,9 @@
     @method('DELETE')
     @csrf
     <td> <!--<a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>-->
-    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white">Ver Documentos del Componente</button></a>
-    <a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Componente?, Si elimina este Componente se eliminarán las asignaciones en todos los Operarios que lo contengan.')">Eliminar</button>
+    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white"><i class="fas fa-file-alt"></i> Ver Documentos</button></a></td>
+    <td><a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary"><i class="far fa-edit "></i></button></a></td>
+    <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Componente?, Si elimina este Componente se eliminarán las asignaciones en todos los Operarios que lo contengan.')"><i class="fas fa-times " ></i></button></td>
     </form>
     </td>
     </tr>
