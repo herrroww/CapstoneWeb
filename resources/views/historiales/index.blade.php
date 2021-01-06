@@ -74,7 +74,7 @@
     
     <form action="" method="">
     <td> 
-    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white">Ver Cambios</button></a>
+    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white"><i class="far fa-eye"></i> Ver Cambios</button></a>
     </form>
     </td>
     </tr>      

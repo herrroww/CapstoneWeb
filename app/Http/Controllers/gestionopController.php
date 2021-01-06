@@ -11,6 +11,8 @@ use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
 use phpseclib\Net\SSH2;
 use App\Asignar;
+use DB;
+
 
 
 class gestionopController extends Controller{
@@ -529,5 +531,25 @@ class gestionopController extends Controller{
         unset($ssh,$ftpParameters,$operario);  
 
         return redirect()->back()->with('success','La empresa a sido eliminada.');
+    }
+
+
+    function fetch(Request $request)
+    {
+     if($request->get('query'))
+     {
+      $query = $request->get('query');
+      $data = DB::table('empresas')
+        ->where('nombreEmpresa', 'LIKE', "%{$query}%")
+        ->get();
+      $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+      foreach($data as $row)
+      {
+       $output .= '<li><a href="#">'.$row->
+       nombreEmpresa.'</a></li>';
+      }
+      $output .= '</ul>';
+      echo $output;
+     }
     }
 }

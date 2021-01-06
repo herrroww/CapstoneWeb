@@ -52,7 +52,7 @@
 
                
 
-   <a href="{{ route('asignarop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px" >Asignar Componente </button></a>
+   <a href="{{ route('asignarop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px" ><i class="fas fa-people-carry"></i> Asignar Componente </button></a>
   <h6>
   
   </h6>
@@ -63,7 +63,8 @@
       <th scope="col" class="bg-blue color-white">Operario</th>
       <th scope="col" class="bg-blue color-white">Tipo de Operario</th>
       <th scope="col" class="bg-blue color-white">Componente</th>
-      <th scope="col" class="bg-blue color-white">Opciones</th>
+      <th scope="col" class="bg-blue color-white">Editar</th>
+      <th scope="col" class="bg-blue color-white">Eliminar</th>
       
       
     </tr>
@@ -91,8 +92,8 @@
     <form action="{{ route('asignaropdes', $asignar->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td><a href="{{ route('asignaropedit', $asignar->id) }}"><button type="button" class="btn btn-primary">Editar</button></a>
-    <button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta asignación?')">Eliminar</button>
+    <td><a href="{{ route('asignaropedit', $asignar->id) }}"><button type="button" class="btn btn-primary"><i class="far fa-edit "></i></button></a>
+    <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar esta asignación?')"><i class="fas fa-times " ></i></button></td>
     </form>
     </td>
     </tr>

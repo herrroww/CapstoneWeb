@@ -33,39 +33,36 @@
     <input type="email" class="form-control" name="correoOperario" placeholder="Escriba correo del operario" required>
   </div>
 
-  <div class="form-group">
- <strong style="margin-bot: 10px">Empresa:</strong>
- 
- <select name="empresa" class="form-control">
-@foreach($empresa as $empresas)
-@empty($empresa)
- <option value="">No hay empresa seleccionada</option>
- @endempty
-<option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa }}</oprion>
 
-@endforeach
-
-</select>
-</div>
+<form>
 
   <div class="form-group">
     <label for="telefonoOperario">Teléfono Operario:</label>
     <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el teléfono del operario" required>
   </div>
 
-  
+  <form>
 <div class="form-group">
     <label for="contraseniaOperario">Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario" expression="^[A-Za-z][A-Za-z0-9]*$"  placeholder="Escriba la contraseña" required>
   </div>
 
+<form>
   <div class="form-group">
     <label for="contraseniaOperario2">Confirme Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
   </div>
 
   
-
+<form>
+    <div class="group">
+    <label for="contraseniaOperario2">Empresa:</label>
+      <input id="i1" list="countries" type="text">
+    </div>
+    <div>
+      <datalist id="countries" class="list"></datalist>
+    </div>
+  
 
   
   <form>
@@ -81,6 +78,8 @@
      <label for="tipoOperario2" class="custom-control-label" value="Interno">Interno</label>
    </div>
 
+   
+
   
   <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Enviar</button>
   
@@ -93,4 +92,34 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+
+ $('#empresaNombre').keyup(function(){ 
+        var query = $(this).val();
+        if(query != '')
+        {
+         var _token = $('input[name="_token"]').val();
+         $.ajax({
+          url:"{{ route('empresa.fetch') }}",
+          method:"POST",
+          data:{query:query, _token:_token},
+          success:function(data){
+           $('#empresaList').fadeIn();  
+                    $('#empresaList').html(data);
+          }
+         });
+        }
+    });
+
+    $(document).on('click', 'li', function(){  
+        $('#empresaNombre').val($(this).text());  
+        $('#empresaList').fadeOut();  
+    });  
+
+});
+</script>
+
 @endsection
+
