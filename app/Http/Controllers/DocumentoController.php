@@ -121,7 +121,7 @@ class DocumentoController extends Controller{
 
                 //Obtiene el nombre y la extension del documento a enviar.
                 $nombre = $_FILES['file']['name'];
-                $ext = pathinfo($nombre, PATHINFO_EXTENSION);
+                $ext = $nombre;
 
                 //Se prepara la conexion al servidor FTP.
                 $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -159,7 +159,8 @@ class DocumentoController extends Controller{
                         }                        
                     }else{         
                         
-                        $data->nombre = pathinfo($nombre, PATHINFO_FILENAME);
+                        $data->nombre = $request->nombre;
+                        $data->descripcion=$request->descripcion;
                         $data->privacidad = $tipoPrivacidad;
                         $data->extension = $ext;
                         $data->componente_id = $pkComponenteSeleccionado;
@@ -236,8 +237,106 @@ class DocumentoController extends Controller{
     }
 
     public function download($id){
-        return response()->download('storage/'.$id);
-       
+
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
+
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
+
+        //Carga el PK del Componente seleccionado.
+        $pkComponenteSeleccionado = Session::get('componente_id');
+        
+        $idComponenteSeleccionado = Componente::FindOrFail($pkComponenteSeleccionado)->idComponente;
+
+        //Prepara el Documento a leer.
+        $data = Documento::findOrFail($id);
+
+        //Prepara la privacidad del Componente destino.
+        $ubicacionComponente;
+
+        if($data->privacidad == "Publico"){
+
+            $ubicacionComponente = "Externo";
+        }else{
+
+            $ubicacionComponente = "Interno";
+        }
+
+        //Prepara la conexion al servidor FTP.
+        $ssh = new SSH2($ftpParameters->getServerFTP());
+
+        //Prepara parametros para la conexion FTP.
+        $conn_id = ftp_connect($ftpParameters->getServerFTP());
+        $login_result = ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP());
+        
+        if((!$conn_id) || (!$login_result)){
+
+            unset($ftpParameters,$pkComponenteSeleccionado,$idComponenteSeleccionado,$data);
+            //[FTP-ERROR027]: Problema al conectar al servidor FTP para insertar documento.
+            exit($SWERROR->ErrorActual('FTPERROR027'));
+            unset($SWERROR);
+        }else{
+
+            //Intenta hacer la conexion al servidor FTP.
+            if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
+        
+                //Se liberan los recursos.
+                unset($documento,$ftpParameters,$ssh);
+                //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
+                exit($SWERROR->ErrorActual('FTPERROR002'));
+                unset($SWERROR);
+            }else{
+
+                //Verifica si el Documento existe en el directorio del Componente seleccionado en la ubicacion del documento seleccionado.
+                $estadoExiste = $ssh->exec('[ -f /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/'.$data->extension.' ] && echo "1" || echo "0"');
+
+                //Limpia la informacion obtenida.
+                $estadoExiste = $estadoExiste[0];
+            
+                if($estadoExiste != '1'){
+
+                    //Se liberan los recursos.           
+                    unset($ftpParameters,$pkComponenteSeleccionado,$idComponenteSeleccionado,$data);
+                    if($ubicacionComponente == "Externo"){
+
+                        //[FTP-ERROR031]: El documento no existe en el Componente (Conflicto en directorio Externo).
+                        exit($SWERROR->ErrorActual('FTPERROR031'));
+                        unset($SWERROR);
+                    }else{
+
+                        //[FTP-ERROR032]: El documento no existe en el Componente (Conflicto en directorio Interno).
+                        exit($SWERROR->ErrorActual('FTPERROR032'));
+                        unset($SWERROR);
+                    }                        
+                }else{
+
+                    //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
+
+                    /*Mueve el archivo correspondiente a la carpeta ComponentesTemp del supervisor.
+                    */                        
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S cp /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/'.$data->extension.' /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp');
+                    
+                    $documentoFTP = '/ComponentesTemp/'.$data->extension;
+
+                    //die($data->extension.'//'.$documentoFTP);
+                    // intenta descargar $server_file y guardarlo en $local_file
+                    if (ftp_get($conn_id,'storage/'.$data->extension,$documentoFTP,FTP_BINARY)){
+
+                        //Se ha descargado el archivo con exito
+                    }
+                    ftp_close($conn_id);  
+                }
+                
+                //Se termina secuencia de comandos.
+                $ssh->exec('exit');   
+                //Se liberan los recursos.           
+                unset($ssh,$ftpParameters);  
+            }
+        }
+        
+        return response()->download('storage/'.$data->extension);       
     }
 
     /**
@@ -267,15 +366,75 @@ class DocumentoController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){   
+
+        //Carga el repositorio de errores.
+        $SWERROR = new ErrorRepositorio();
+
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
+
+        //Carga el PK del Componente seleccionado.
+        $pkComponenteSeleccionado = Session::get('componente_id');
+        
+        $idComponenteSeleccionado = Componente::FindOrFail($pkComponenteSeleccionado)->idComponente;
+
+        //Busca el Documento seleccionado en la Base de Datos.
         $documento = Documento::findOrFail($id);
+        
+        //Prepara la conexion al servidor FTP.
+        $ssh = new SSH2($ftpParameters->getServerFTP());
 
+        //Intenta hacer la conexion al servidor FTP.
+        if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
+        
+            //Se liberan los recursos.
+            unset($documento,$ftpParameters,$ssh);
+            //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
+            exit($SWERROR->ErrorActual('FTPERROR002'));
+            unset($SWERROR);
+        }else{
 
+            //Elimina el Componente de la Base de Datos.
+            $documento->delete();
 
-        $documento->delete();
+            //Elimina el Documento del Componente ubicado en el repositorio Componentes.
+            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Componentes/Externo/'.$idComponenteSeleccionado.'/'.$documento->extension);
+
+            //Elimina el Documento del Componente ubicado en el repositorio Componentes.
+            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Componentes/Interno/'.$idComponenteSeleccionado.'/'.$documento->extension);
+
+            //Se enlista a todos los operarios que tengan asignado dicho componente.
+            $componentesAsignados = DB::table('asignars')
+                ->where('asignars.componente_id', '=', $pkComponenteSeleccionado)
+                ->select('asignars.*')
+                ->get();
+
+            //Revisa a cada operario en busca del componente con el nombre antiguo.
+            foreach($componentesAsignados as $componenteAsignado){
+
+                $rutOperario = Operario::findOrFail($componenteAsignado->operario_id)->rutOperario;
+                $rutEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->rutEmpresa;
+
+                //Elimina el componente antiguo del operario.
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                
+                //Asigna la carpeta del Componente al Operario correspondiente.
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperario);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperario);
+                
+                //Asigna al Operador como propietario del Componente asignado.
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+            } 
+            
+            //Se termina secuencia de comandos.
+            $ssh->exec('exit');   
+            //Se liberan los recursos.           
+            unset($documento,$ssh,$ftpParameters);  
+        }       
 
         return redirect()->back()->with('success','El documento a sido eliminado.');
-
     }
 }
