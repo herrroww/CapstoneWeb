@@ -214,6 +214,9 @@ class DocumentoController extends Controller{
                         }                        
                     }   
 
+                    //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
+
                     //Se termina secuencia de comandos.
                     $ssh->exec('exit');   
                     //Se liberan los recursos.           
@@ -328,6 +331,9 @@ class DocumentoController extends Controller{
                     }
                     ftp_close($conn_id);  
                 }
+
+                //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
                 
                 //Se termina secuencia de comandos.
                 $ssh->exec('exit');   
