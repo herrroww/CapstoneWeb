@@ -63,9 +63,9 @@
       <td>{{$data->extension}}</td>
       <td>{{$data->descripcion}}</td>
       <td>{{$data->privacidad}}</td>
-      <!--<td><a href="{{ route('documentosopshow', $data->id) }}">View</a></td>-->
+      <td><a href="{{ route('documentosopshow', $data->id) }}">View</a></td>
       
-      <td><a href=" {{ route('documentosopdownload', $data->file) }}" ><div class="text-center" ><h5><i class="fas fa-file-download "></i></h5></div></a></td>
+      <td><a href=" {{ route('documentosopdownload', $data->id) }}" ><div class="text-center" ><h5><i class="fas fa-file-download "></i></h5></div></a></td>
 
       
       
