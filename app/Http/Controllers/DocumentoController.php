@@ -159,11 +159,21 @@ class DocumentoController extends Controller{
                         }                        
                     }else{         
                         
+                        //Se obtiene la informacion del Documento.
                         $data->nombre = $request->nombre;
                         $data->descripcion=$request->descripcion;
                         $data->privacidad = $tipoPrivacidad;
                         $data->extension = $ext;
                         $data->componente_id = $pkComponenteSeleccionado;
+
+                        //Se añade al historico de gestion.
+                        DB::table('historicogestion')->insert(['nombreGestion' => 'Documento', 
+                                                               'tipoGestion' => 'Crear',
+                                                               'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                               'descripcionGestion' => 'Se ha Creado => Documento: '.$data->nombre.', Archivo: '.$data->extension.', en el Componente: '.$idComponenteSeleccionado,
+                                                               'created_at' => now()]);
+
+                        //Se almacena la informacion del documento en la Base de Datos.
                         $data->save();
 
                         //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
@@ -400,6 +410,13 @@ class DocumentoController extends Controller{
             exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
+
+            //Se añade al historico de gestion.
+            DB::table('historicogestion')->insert(['nombreGestion' => 'Documento', 
+                                                   'tipoGestion' => 'Eliminar',
+                                                   'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                   'descripcionGestion' => 'Se ha Eliminado => Documento: '.$documento->nombre.', Archivo: '.$documento->extension.', en el Componente: '.$idComponenteSeleccionado,
+                                                   'created_at' => now()]);
 
             //Elimina el Componente de la Base de Datos.
             $documento->delete();
