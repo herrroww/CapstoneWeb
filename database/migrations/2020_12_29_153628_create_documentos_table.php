@@ -17,9 +17,8 @@ class CreateDocumentosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('descripcion');
-            $table->string('privacidad');
-            
-            $table->string('extension')->nullable();
+            $table->string('privacidad');           
+            $table->string('extension');            
             $table->integer('componente_id')->unsigned();
             $table->foreign('componente_id')->references('id')->on('componentes');
             $table->timestamps();
