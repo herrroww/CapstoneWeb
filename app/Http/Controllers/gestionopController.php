@@ -9,9 +9,9 @@ use App\Operario;
 use App\Empresa;
 use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
+use Illuminate\Support\Facades\DB;
 use phpseclib\Net\SSH2;
 use App\Asignar;
-use DB;
 
 
 
@@ -44,10 +44,7 @@ class gestionopController extends Controller{
         
         $empresa = Empresa::all();
         $operario = Operario::all();
-        $data = array("lista_empresas" => $empresa);
-
-        
-        
+        $data = array("lista_empresas" => $empresa);     
 
         return view('gestionOperarios.create',['activemenu' => 'operario'],compact('empresa'));
     }   
@@ -77,8 +74,9 @@ class gestionopController extends Controller{
         //$operario->rutOperarioFTP = preg_replace("/[^A-Za-z0-9]/",'',$operario->rutOperario);
         $operario->contraseniaOperarioFTP = substr(preg_replace("/[^A-Za-z0-9]/","",$operario->contraseniaOperario),0,5);
 
-        //Obtiene el rut de la Empresa seleccionada.
+        //Obtiene el rut y nombre de la Empresa seleccionada.
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
+        $nombreEmpresa = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;
  
         //Prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -123,6 +121,13 @@ class gestionopController extends Controller{
                     unset($SWERROR);
                 }else{
                     
+                    //Se añade al historico de gestion.
+                    DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                                                           'tipoGestion' => 'Crear',
+                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                           'descripcionGestion' => 'Se ha Creado => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa,
+                                                           'created_at' => now()]);
+
                     //Almacena el Operario en la base de datos.
                     $operario->save();
 
@@ -185,11 +190,15 @@ class gestionopController extends Controller{
         $operario = Operario::findOrFail($id);
 
         //Extrae el rut y tipo (Externo o Interno) antiguo del Operario.
+        $nombreOperarioTemp = $operario->nombreOperario;
         $rutOperarioTemp = $operario->rutOperario;
+        $correoOperarioTemp = $operario->correoOperario;
         $tipoOperarioTemp = $operario->tipoOperario;
+        $telefonoOperarioTemp = $operario->telefonoOperario;
 
         //Obtiene el rut de la Empresa del Operario seleccionado.
         $rutEmpresaTemp = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
+        $nombreEmpresaTemp = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;
         
         //Añaden los nuevos parametros correspondientes.        
         $operario->nombreOperario = $request->get('nombreOperario');
@@ -204,8 +213,9 @@ class gestionopController extends Controller{
         $actualizarGestionOperario = true;
         $actualizarGestionEmpresa = true;
         
-        //Obtiene el rut de la nueva Empresa.
+        //Obtiene el rut y nombre de la nueva Empresa.
         $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
+        $nombreEmpresa = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;
 
         //Se prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -399,6 +409,13 @@ class gestionopController extends Controller{
             //Verifica si es posible realizar los cambios.
             if($actualizarGestionOperario == true && $actualizarGestionEmpresa == true){
                 
+                //Se añade al historico de gestion.
+                DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                                                       'tipoGestion' => 'Editar',
+                                                       'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                       'descripcionGestion' => 'Modificacion Actual => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Correo: '.$operario->correoOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa.', Contraseña: *, Telefono: '.$operario->telefonoOperario.'  | Datos Antiguos => Operario: '.$nombreOperarioTemp.', Rut: '.$rutOperarioTemp.', Correo: '.$correoOperarioTemp.', Tipo Operario: '.$tipoOperarioTemp.', Empresa: '.$nombreEmpresaTemp.', Contraseña: *, Telefono: '.$telefonoOperarioTemp,
+                                                       'created_at' => now()]);
+
                 //Actualiza los cambios en la Base de Datos.
                 $operario->update(); 
 
@@ -462,8 +479,9 @@ class gestionopController extends Controller{
         //Busca al operario dada una id de la tabla.
         $operario = Operario::findOrFail($id);
 
-        //Se obtiene el rut de la empresa del operario seleccionado.
-        $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;   
+        //Se obtiene el rut y nombre de la empresa del operario seleccionado.
+        $rutEmpresa = Empresa::FindOrFail($operario->empresa_id)->rutEmpresa;
+        $nombreEmpresa = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;    
         
         //Se prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -508,6 +526,13 @@ class gestionopController extends Controller{
                     unset($SWERROR);
                 }else{
 
+                    //Se añade al historico de gestion.
+                    DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                                                           'tipoGestion' => 'Eliminar',
+                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                           'descripcionGestion' => 'Se ha Eliminado => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa,
+                                                           'created_at' => now()]);
+
                     //Se elimina el usuario del sistema.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperario);
 
@@ -537,23 +562,4 @@ class gestionopController extends Controller{
 
         return redirect()->back()->with('success','La empresa a sido eliminada.');
     }
-
-    /**function fetch(Request $request)
-    {
-     if($request->get('query'))
-     {
-      $query = $request->get('query');
-      $data = DB::table('empresas')
-        ->where('nombreEmpresa', 'LIKE', "%{$query}%")
-        ->get();
-      $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
-      foreach($data as $row)
-      {
-       $output .= '<li><a href="#">'.$row->
-       nombreEmpresa.'</a></li>';
-      }
-      $output .= '</ul>';
-      echo $output;
-     }
-    }**/
 }
