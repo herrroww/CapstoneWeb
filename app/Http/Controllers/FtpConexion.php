@@ -6,11 +6,11 @@ namespace App\Http\Controllers;
 class FtpConexion{   
 
     //IP del servidor FTP.
-    private $serverFTP = '192.168.0.28';
+    private $serverFTP = '192.168.0.19';
     
     //Credenciales de usuario FTP
     private $userFTP= 'capstone';
-    private $passFTP= 'capstone';
+    private $passFTP= 'asdasd';
 
     //Retorna la IP del servidor FTP.
     public function getServerFTP(){
