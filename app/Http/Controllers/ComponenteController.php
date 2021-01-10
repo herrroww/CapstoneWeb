@@ -95,6 +95,13 @@ class ComponenteController extends Controller{
                     exit($SWERROR->ErrorActual('FTPERROR018'));
                     unset($SWERROR);
                 }else{
+
+                    //Se añade al historico de gestion.
+                    DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+                                                           'tipoGestion' => 'Crear',
+                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                           'descripcionGestion' => 'Se ha Creado => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente,
+                                                           'created_at' => now()]);
                     
                     //Se guardan los cambios en la Base de Datos.
                     $componente->save();
@@ -129,8 +136,9 @@ class ComponenteController extends Controller{
         //Se obtiene la informacion del Componente seleccionado.
         $componente = Componente::findOrFail($id);
 
-        //Se guarda de forma temporal la ID original del Componente seleccionado.
+        //Se guarda de forma temporal la ID y el nombre original del Componente seleccionado.
         $idComponenteTemp = $componente->idComponente;
+        $nombreComponenteTemp = $componente->nombreComponente;
 
         //Se obtiene la informacion obtenida de la Vista.
         $componente->nombreComponente = $request->get('nombreComponente');
@@ -212,8 +220,16 @@ class ComponenteController extends Controller{
                                 //[FTP-ERROR018]: El Componente ya existe en el repositorio Componentes (Conflicto en directorio Interno).
                                 exit($SWERROR->ErrorActual('FTPERROR018'));
                                 unset($SWERROR);
-                            }else{                                
+                            }else{       
+                                
+                                //Se añade al historico de gestion.
+                                DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+                                                                       'tipoGestion' => 'Editar',
+                                                                       'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                                       'descripcionGestion' => 'Modificacion Actual => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente.' | Datos Antiguos => Componente: '.$nombreComponenteTemp.', ID: '.$idComponenteTemp,
+                                                                       'created_at' => now()]);
 
+                                //Se actualiza el componente en la Base de Datos.
                                 $componente->update();
 
                                 //Se actualiza el nombre del directorio del Componente.
@@ -280,6 +296,13 @@ class ComponenteController extends Controller{
             exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
+
+            //Se añade al historico de gestion.
+            DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+                                                   'tipoGestion' => 'Eliminar',
+                                                   'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                   'descripcionGestion' => 'Se ha Eliminado => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente,
+                                                   'created_at' => now()]);
 
             $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Componentes/Externo/'.$componente->idComponente);
             $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Componentes/Interno/'.$componente->idComponente);
