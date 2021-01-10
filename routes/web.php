@@ -85,9 +85,9 @@ Route::get('documentosop', 'DocumentoController@index')->name('documentosop');
 Route::get('documentosop1', 'DocumentoController@create')->name('documentosop1');
 Route::post('documentosop1', 'DocumentoController@store')->name('documentosop1');
 Route::get('documentosopshow/{id}', 'DocumentoController@show')->name('documentosopshow');
+Route::delete('documentoopdes/{id}', 'DocumentoController@destroy')->name('documentoopdes');
 
-
-Route::get('documentosopdownload/{file}','DocumentoController@download')->name('documentosopdownload');
+Route::get('documentosopdownload/{id}','DocumentoController@download')->name('documentosopdownload');
 
 Route::get('ayudaop', 'AyudaController@index')->name('ayudaop');
 

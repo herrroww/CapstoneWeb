@@ -17,8 +17,11 @@
     <script src="{{ asset('js/main.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="dist/js/adminlte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    
 
-   
+    
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -89,9 +92,12 @@
                 <!-- Brand Logo -->
                 <a href="" class="brand-link">
                 <!--<a href="{{ url('/') }}" class="brand-link">-->
-                    <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    <!--<img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                         style="opacity: .8">
-                    <span class="brand-text font-weight-light">Capstone Web</span>
+                    <span class="brand-text font-weight-light">Capstone Web</span>-->
+                    <i class="fas fa-laptop"></i>
+                    <span class="brand-text font-weight">Sistema Administrativo</span>
+                </a>
                 </a>
 
                
@@ -225,12 +231,12 @@
                                     @if($activemenu == 'componente')
                                     <i class="fas fa-boxes color-white"></i>
                                     <p class='color-white'>
-                                        Gestión Componente Mecánico
+                                        Gestión Componente 
                                     </p>
                                     @else
                                     <i class="fas fa-boxes"></i>
                                     <p>
-                                        Gestión Componente Mecánico
+                                        Gestión Componente 
                                     </p>
                                     @endif
                                 </a>
@@ -249,12 +255,12 @@
                                     @if($activemenu == 'asignar')
                                     <i class="fas fa-chart-bar color-white "></i>
                                     <p class='color-white'>
-                                        Asignar Componente Mecánico
+                                        Asignar Componente 
                                     </p>
                                     @else
                                     <i class="fas fa-chart-bar "></i>
                                     <p>
-                                        Asignar Componente Mecánico
+                                        Asignar Componente 
                                     </p>
                                     @endif
                                 </a>
@@ -372,10 +378,10 @@
             <!-- /.content-wrapper -->
             <footer class="main-footer">
                 <!-- NO QUITAR -->
-                <strong>Proyecto Capstone
-                    <div class="float-right d-none d-sm-inline-block">
+               <!-- <strong>Proyecto Capstone-->
+                   <!-- <div class="float-right d-none d-sm-inline-block">
                         <b>Version</b> 1.0
-                    </div>
+                    </div>-->
             </footer>
 
             <!-- Control Sidebar -->

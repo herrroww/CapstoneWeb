@@ -6,7 +6,6 @@
 
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Lista De Componentes</h2>
-    </div>
     <hr>
 <div class="container-fluid">
 
@@ -37,19 +36,17 @@
   </div>
     @endif
 
-  <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
+    <nav class="navbar navbar-light float-right">
+                <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('componenteop1')}}"><i class="fas fa-boxes mr-1" aria-hidden="true"></i>Agregar Componente</a>
+                <form method="GET" action="{{route('componenteop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
                 </form>
-  <a href="{{ route('componenteop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px"><i class="fas fa-boxes"></i> Agregar Componente </button></a>
-  
+            </nav>
+
+  <!-- SEARCH FORM -->
+<div class="col-12 pt-3 pb-3 table-responsive">
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -57,7 +54,7 @@
     <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Nombre</th>
       <th scope="col" class="bg-blue color-white">ID Componente</th>
-      <th scope="col" class="bg-blue color-white">Documentos</th>
+      <th scope="col" class="bg-blue color-white">Ver Documentos</th>
       <th scope="col" class="bg-blue color-white">Editar</th>
       <th scope="col" class="bg-blue color-white">Eliminar</th>
     </tr>
@@ -75,7 +72,7 @@
     @method('DELETE')
     @csrf
     <td> <!--<a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>-->
-    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white"><i class="fas fa-file-alt"></i> Ver Documentos</button></a></td>
+    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white"><i class="fas fa-file-alt"></i></button></a></td>
     <td><a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary"><i class="far fa-edit "></i></button></a></td>
     <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Componente?, Si elimina este Componente se eliminarán las asignaciones en todos los Operarios que lo contengan.')"><i class="fas fa-times " ></i></button></td>
     </form>
@@ -83,14 +80,13 @@
     </tr>
 	@endforeach
   </tbody>
-  @if($search)
+  
+</table>
+@if($search)
   <a href="{{ url()->previous() }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Volver</button>
- </div>
+  <button type="button" class="btn btn-secondary float-right">Volver</button>
 </a>
  @endif
-</table>
     {{ $componentes->links()}}
 </div>
 @endsection

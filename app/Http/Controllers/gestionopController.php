@@ -41,9 +41,14 @@ class gestionopController extends Controller
     
     public function create(){
 
+        
+        
         $empresa = Empresa::all();
         $operario = Operario::all();
         $data = array("lista_empresas" => $empresa);
+
+        
+        
 
         return view('gestionOperarios.create',['activemenu' => 'operario'],compact('empresa'));
     }

@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Lista de Documentos: {{ $componente->nombreComponente }}</h2>
-    </div>
+    
     <hr>
 
 
@@ -17,30 +17,26 @@
   </div>
   </h6>
     @endif
-  <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm" >
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                                
-                            </button>
-                        </div>
-                    </div>
-                </form>
- 
-
-
-<a href="{{ route('documentosop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px">Agregar Documento 
-  </button></a>
-  
-
-  
-  
 
     
-  </h6>
+@if(session('success'))
+  <div class="alert alert-danger" role="alert">
+ El Documento se ha eliminado correctamente.
+  </div>
+    @endif
+  <!-- SEARCH FORM -->
+
+ 
+  <nav class="navbar navbar-light float-right">
+                <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('documentosop1')}}"><i class="fas fa-folder-plus mr-1" aria-hidden="true"></i>Agregar Documentos</a>
+                <form method="GET" action="{{route('documentosop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
+                </form>
+            </nav>
+            
+  <div class="col-12 pt-3 pb-3 table-responsive">
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -52,6 +48,7 @@
       <th scope="col" class="bg-blue color-white">Privacidad</th>
      <!-- <th scope="col" class="bg-blue color-white">Ver</th>-->
       <th scope="col" class="bg-blue color-white" >Descargar</th>
+      <th scope="col" class="bg-blue color-white" >Eliminar</th>
     </tr>
   </thead>
   <tbody>
@@ -64,8 +61,16 @@
       <td>{{$data->descripcion}}</td>
       <td>{{$data->privacidad}}</td>
       <!--<td><a href="{{ route('documentosopshow', $data->id) }}">View</a></td>-->
-      
-      <td><a href=" {{ route('documentosopdownload', $data->file) }}" ><div class="text-center" ><h5><i class="fas fa-file-download "></i></h5></div></a></td>
+
+      <form action="{{ route('documentoopdes', $data->id) }}" method="POST" >
+    @method('DELETE')
+    @csrf
+    <td><a href=" {{ route('documentosopdownload', $data->id) }}" ><div class="text-center" ><h5><i class="fas fa-file-download "></i></h5></div></a></td>
+    <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Documento? "><i class="fas fa-times " ></i></button></td>
+  
+    </form>
+      </tr>
+     
 
       
       
@@ -74,23 +79,19 @@
   </tbody>
 
   
-  @if($search)
-  <a href="{{ route('documentosop') }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Volver</button>
- </div>
+
+</table>
+@if($search)
+  <a href="{{ route('documentosop') }}" >
+  <button type="button" class="btn btn-secondary float-right"> "Volver</button>
 </a>
 @else
-  <a href="{{ route('componenteop') }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Volver</button>
- </div>
+  <a href="{{ route('componenteop') }}"  >
+  <button type="button" class="btn btn-secondary float-right" >Volver</button>
 </a>
  @endif
 
- 
-
-</table>
+{{ $file->links()}}
 
 
 </div>

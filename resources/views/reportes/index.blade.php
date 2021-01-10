@@ -4,7 +4,6 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Reporte De Problemas</h2>
-    </div>
     <hr> 
 
 <div class="container-fluid">
@@ -30,18 +29,16 @@
 
     
   </h6>
-  <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm" style="margin-bottom:10px">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
+  <nav class="navbar navbar-light float-right">           
+                <form method="GET" action="{{route('reporteop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por estado" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
                 </form>
- 
+            </nav>
+  <!-- SEARCH FORM -->
+   
+<div class="col-12 pt-3 pb-3 table-responsive">
  
 <table class="table table-bordered">
   <thead>
@@ -72,20 +69,19 @@
     
     @csrf
     <td>
-    <a href="{{ route('reporteopedit', $reporteproblema->id) }}"><button name ="revisar" type="submit" class="btn btn-primary" >Revisar</button></a>
+    <a href="{{ route('reporteopedit', $reporteproblema->id) }}"><button name ="revisar" type="submit" class="btn btn-primary" ><i class="fas fa-clipboard-check"></i></button></a>
     </form>
     </td>
     </tr>
 	@endforeach
   </tbody>
-  @if($search)
+  
+</table>
+@if($search)
   <a href="{{ url()->previous() }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Back</button>
- </div>
+  <button type="button" class="btn btn-secondary float-right">Back</button>
 </a>
  @endif
-</table>
     {{ $reporteproblemas->links()}}
 </div>
 @endsection

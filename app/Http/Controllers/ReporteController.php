@@ -18,7 +18,7 @@ class ReporteController extends Controller
             $query = trim($request->get('search'));
 
             $reporteproblemas = Reporteproblema::where('nombreOperario',  'LIKE', '%' . $query . '%')
-                ->orwhere('rutOperario',  'LIKE', '%' . $query . '%')
+                ->orwhere('estado',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->paginate(7);

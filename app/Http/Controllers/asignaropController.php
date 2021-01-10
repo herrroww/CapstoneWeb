@@ -46,6 +46,8 @@ class asignaropController extends Controller
         $data = array("lista_componentes" => $componente);
         $data1 = array("lista_operarios" => $operario);
 
+        
+
 
         return view('asignarComponente.create', ['activemenu' => 'asignar'], compact('operario','componente'));
     }

@@ -93,8 +93,8 @@ class DocumentoController extends Controller
        
     }
 
-    public function download($file){
-        return response()->download('storage/'.$file);
+    public function download($id){
+        return response()->download('storage/'.$id);
        
     }
 
@@ -129,6 +129,13 @@ class DocumentoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $documento = Documento::findOrFail($id);
+
+
+
+        $documento->delete();
+
+        return redirect()->back()->with('success','El documento a sido eliminado.');
+
     }
 }

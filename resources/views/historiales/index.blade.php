@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Historial de Gestión</h2>
-    </div>
+    
     <hr>  
     
 <div class="container-fluid">
@@ -16,17 +16,17 @@
     @endif
 
   <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm " style="margin-bottom:10px">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
+  <nav class="navbar navbar-light float-right">           
+                <form method="GET" action="{{route('historialop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
                 </form>
-
+            </nav>
+  <!-- SEARCH FORM -->
+  
+    
+<div class="col-12 pt-3 pb-3 table-responsive">
 <div class="container-fluid">
         <table class="table table-bordered" >
           <thead >
@@ -36,7 +36,7 @@
               <th scope="col" class="bg-blue color-white">Acción</th>
               <th scope="col" class="bg-blue color-white">Usuario</th>
               <th scope="col" class="bg-blue color-white">Fecha</th>
-              <th scope="col" class="bg-blue color-white">Cambios</th>
+              <th scope="col" class="bg-blue color-white">Ver Cambios</th>
             </tr>
           </thead>
           <tbody id="audits">
@@ -74,7 +74,7 @@
     
     <form action="" method="">
     <td> 
-    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white"><i class="far fa-eye"></i> Ver Cambios</button></a>
+    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white"><i class="far fa-eye"></i></button></a>
     </form>
     </td>
     </tr>      
@@ -82,14 +82,16 @@
     </tbody>
 
         
-    @if($search)
+    
+        </table>
+
+        @if($search)
   <a href="{{ url()->previous() }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Volver</button>
+  <button type="button" class="btn btn-secondary float-right">Volver</button>
  </div>
 </a>
  @endif
-        </table>
+
         {{ $audits->links()}}
 
       </div>
