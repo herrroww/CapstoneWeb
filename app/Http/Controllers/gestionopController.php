@@ -121,10 +121,10 @@ class gestionopController extends Controller{
                     //Almacena el Operario en la base de datos.
                     $operario->save();
 
-                    //Crea al Operario y lo asigna al grupo "operariosftp".
+                    //Crea al Operario.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S useradd -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rutOperario); 
                     
-                    //Crea la carpeta del Operario en la carpeta Interno y le asigna el grupo "operariosftp".
+                    //Crea la carpeta del Operario en la carpeta Interno.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario);
                     
