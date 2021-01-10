@@ -8,6 +8,7 @@ use App\Empresa;
 use App\Componente;
 use App\Asignar;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
 use phpseclib\Net\SSH2;
@@ -173,6 +174,13 @@ class asignaropController extends Controller{
                                     unset($SWERROR);
                                 }else{
 
+                                    //Se añade al historico de gestion.
+                                    DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+                                                                           'tipoGestion' => 'Crear',
+                                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                                           'descripcionGestion' => 'Se ha Asignado => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente,
+                                                                           'created_at' => now()]);
+
                                     //Crea la asignacion el la tabla de BD.
                                     $asignar = new Asignar();
                                     $asignar->operario_id = $operario->id;
@@ -231,6 +239,7 @@ class asignaropController extends Controller{
 
         //Obtiene la Empresa a la que pertenece el Operario.
         $rutEmpresaTemp = Empresa::findOrFail($operarioTemp->empresa_id)->rutEmpresa;
+        $nombreEmpresaTemp = Empresa::findOrFail($operarioTemp->empresa_id)->nombreEmpresa;
         
         //Obtiene el Componente asignado al Operario.
         $idComponenteTemp = Componente::findOrFail($asignar->componente_id)->idComponente;
@@ -389,6 +398,14 @@ class asignaropController extends Controller{
                                                 unset($SWERROR);
                                             }else{                    
                             
+                                                //Se añade al historico de gestion.
+                                                DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+                                                                                       'tipoGestion' => 'Editar',
+                                                                                       'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                                                       'descripcionGestion' => 'Modificacion Actual => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente.' | Datos Antiguos => Rut Operario: '.$rutOperarioTemp.', de la Empresa: '.$nombreEmpresaTemp.' el ID Componente: '.$idComponenteTemp,
+                                                                                       'created_at' => now()]);
+                                                
+                                                //Se actualiza la asignacion a la Base de Datos.
                                                 $asignar->operario_id = $operario->id;
                                                 $asignar->componente_id = $request->get('componente');
                                                 $asignar->empresa_id = $operario->empresa_id;
@@ -457,6 +474,14 @@ class asignaropController extends Controller{
             exit($SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
+
+            //Se añade al historico de gestion.
+            DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+                                                   'tipoGestion' => 'Eliminar',
+                                                   'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                   'descripcionGestion' => 'Se ha Eliminado Asignacion => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente,
+                                                   'created_at' => now()]);
+
 
             //Se elimina los directorios del Componente del Operario. (Opcion 1)                  
             $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente);
