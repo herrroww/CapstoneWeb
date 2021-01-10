@@ -187,17 +187,18 @@ class asignaropController extends Controller{
                                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$empresa->rutEmpresa."/".$operario->rutOperario);
 
                                     //Asigna al Operador como propietario del Componente asignado.
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperario.'/'.$componente->idComponente);
                                 }   
                             }                             
                         }
                     }                                    
                 }
-            }
-        }        
 
-        $ssh->exec('exit');
+                //Termina secuencia de comandos.
+                $ssh->exec('exit');
+            }
+        }    
 
         //Se liberan los recursos.       
         unset($SWERROR,$ssh,$ftpParameters,$operario,$empresa,$componente);
@@ -403,10 +404,10 @@ class asignaropController extends Controller{
                                                 $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponente." /home/Interno/".$rutEmpresa."/".$operario->rutOperario);
 
                                                 //Asigna al Operador como propietario del Componente asignado.
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente);
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperario.'/'.$idComponente);
 
-                                                //Libera recursos.
+                                                //Termina la secuencia de comandos.
                                                 $ssh->exec('exit');
                                                 //Se liberan los recursos.       
                                                 unset($ssh,$ftpParameters,$asignar,$operario,$SWERROR,$asignar);                                                
