@@ -33,6 +33,12 @@ class ErrorRepositorio{
         'FTPERROR024' => "[FTP-ERROR024]: El Operario destino no existe en el sistema (Conflicto en directorio Interno).",
         'FTPERROR025' => "[FTP-ERROR025]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Externo).",
         'FTPERROR026' => "[FTP-ERROR026]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Interno).",
+        'FTPERROR027' => "[FTP-ERROR027]: Problema al conectar al servidor FTP para insertar documento.",
+        'FTPERROR028' => "[FTP-ERROR028]: Problema al conectar al servidor FTP para decargar documento.",
+        'FTPERROR029' => "[FTP-ERROR029]: El documento ya existe en el Componente (Conflicto en directorio Externo).",
+        'FTPERROR030' => "[FTP-ERROR030]: El documento ya existe en el Componente (Conflicto en directorio Interno).",
+        'FTPERROR031' => "[FTP-ERROR031]: El documento no existe en el Componente (Conflicto en directorio Externo).",
+        'FTPERROR032' => "[FTP-ERROR032]: El documento no existe en el Componente (Conflicto en directorio Interno).",
         'FTPERROR???' => "[FTP-ERROR???]: ???",
         'WEBERROR001' => "[WEB-ERROR001]: Problema al conectar con el servidor de Base de Datos."
     );
