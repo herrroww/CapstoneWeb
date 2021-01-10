@@ -104,9 +104,17 @@ class EmpresaController extends Controller{
 
                 }else{
 
+                    //Se añade al historico de gestion.
+                    DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                                                           'tipoGestion' => 'Crear',
+                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                           'descripcionGestion' => 'Se ha Creado => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania,
+                                                           'created_at' => now()]);
+                    
                     //Se almacena la empresa en la base de datos.
                     $empresa->save();
 
+                    
                     //Se crea el directorio de la empresa.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$empresa->rutEmpresa);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$empresa->rutEmpresa);
@@ -138,8 +146,10 @@ class EmpresaController extends Controller{
         //Busca a la empresa dada una id de la tabla.
         $empresa = Empresa::findOrFail($id);        
 
-        //Se extrae el rut antiguo de la empresa.
+        //Se la informacion antigua de la empresa.
         $rutEmpresaTemp = $empresa->rutEmpresa;
+        $nombreEmpresaTemp = $empresa->nombreEmpresa;
+        $companiaEmpresaTemp = $empresa->compania;
 
         //Se añaden los nuevos parametros correspondientes.
         $empresa->rutEmpresa = $request->get('rutEmpresa');
@@ -192,6 +202,13 @@ class EmpresaController extends Controller{
                         unset($SWERROR);
                     }else{
 
+                        //Se añade al historico de gestion.
+                        DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                                                               'tipoGestion' => 'Editar',
+                                                               'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                               'descripcionGestion' => 'Modificacion Actual => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania.' | Datos Antiguos => Empresa: '.$nombreEmpresaTemp.', Rut: '.$rutEmpresaTemp.', Compañia: '.$companiaEmpresaTemp,
+                                                               'created_at' => now()]);
+
                         //Se actualizan los cambios en la base de datos.
                         $empresa->update();
 
@@ -199,19 +216,12 @@ class EmpresaController extends Controller{
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.' /home/Externo/'.$empresa->rutEmpresa);
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.' /home/Interno/'.$empresa->rutEmpresa);
 
-                        //Se obtienen todos los operarios vinculados a la empresa.
-                        
-                        //TODO: PROBAR
+                        //Se obtienen todos los operarios vinculados a la empresa.                        
                         $operarios = DB::table('operarios')
                             ->where('operarios.empresa_id', '=', $empresa->id)
                             ->select('*')
                             ->get();
                             
-                        /*$operarios = DB::table('operarios')
-                            ->join('empresas', 'operarios.empresa_id', '=', 'empresas.id')
-                            ->select('operarios.*')
-                            ->get();*/
-
                         //Asigna nuevo home a los Operarios relacionados con la empresa.
                         foreach($operarios as $operario){
 
@@ -291,6 +301,13 @@ class EmpresaController extends Controller{
                     exit($SWERROR->ErrorActual('FTPERROR006'));
                     unset($SWERROR);
                 }else{
+
+                    //Se añade al historico de gestion.
+                    DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                                                           'tipoGestion' => 'Eliminar',
+                                                           'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                           'descripcionGestion' => 'Se ha Eliminado => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania,
+                                                           'created_at' => now()]);
 
                     //Se elimina el directorio de la empresa.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$empresa->rutEmpresa);
