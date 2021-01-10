@@ -207,20 +207,20 @@ class DocumentoController extends Controller{
                         //Revisa a cada operario en busca del componente con el nombre antiguo.
                         foreach($componentesAsignados as $componenteAsignado){
 
-                            $rutOperario = Operario::findOrFail($componenteAsignado->operario_id)->rutOperario;
+                            $rutOperarioFTP = Operario::findOrFail($componenteAsignado->operario_id)->rutOperarioFTP;
                             $rutEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->rutEmpresa;
 
                             //Elimina el componente antiguo del operario.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
 
                             //Asigna la carpeta del Componente al Operario correspondiente.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperario);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperario);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperarioFTP);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperarioFTP);
 
                             //Asigna al Operador como propietario del Componente asignado.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                         }                        
                     }   
 
@@ -436,20 +436,20 @@ class DocumentoController extends Controller{
             //Revisa a cada operario en busca del componente con el nombre antiguo.
             foreach($componentesAsignados as $componenteAsignado){
 
-                $rutOperario = Operario::findOrFail($componenteAsignado->operario_id)->rutOperario;
+                $rutOperarioFTP = Operario::findOrFail($componenteAsignado->operario_id)->rutOperarioFTP;
                 $rutEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->rutEmpresa;
 
                 //Elimina el componente antiguo del operario.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                 
                 //Asigna la carpeta del Componente al Operario correspondiente.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperario);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperario);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperarioFTP);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperarioFTP);
                 
                 //Asigna al Operador como propietario del Componente asignado.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
             } 
             
             //Se termina secuencia de comandos.
