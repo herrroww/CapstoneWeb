@@ -228,11 +228,11 @@ class EmpresaController extends Controller{
                             //El Operario es Interno, se le reasigna el home.
                             if($operario->tipoOperario=="Interno"){
 
-                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/ ".$operario->rutOperario);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Interno/ ".$operario->rutOperarioFTP);
                             }else{
 
                                 //En cualquier otro caso, se establece Operario Externo por defecto.
-                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperario." ".$operario->rutOperario);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
                             }                      
                         }
                     }
@@ -326,10 +326,10 @@ class EmpresaController extends Controller{
                     //Elimina las cuentas de Operarios relacionadas con la empresa y las desvincula del servicio FTP.
                     foreach($operarios as $operario){
 
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperario);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S userdel '.$operario->rutOperarioFTP);
 
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$operario->rutOperario."/d' /etc/vsftpd.userlist");
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$operario->rutOperario."/d' /etc/ssh/sshd_config");  
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$operario->rutOperarioFTP."/d' /etc/vsftpd.userlist");
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$operario->rutOperarioFTP."/d' /etc/ssh/sshd_config");  
                     }
 
                     //Se elimina la empresa de la base de datos y los elementos relacionados a ella.
