@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Reporteproblema;
 
@@ -36,7 +37,16 @@ class ReporteController extends Controller{
 
         $reporteproblema = Reporteproblema::findOrFail($id);
 
+        $estadoReporteTemp = $reporteproblema->estado;
+
         $reporteproblema->estado = $request->get('estado');
+
+        //Se añade al historico de gestion.
+        DB::table('historicogestion')->insert(['nombreGestion' => 'Reporte', 
+                                               'tipoGestion' => 'Editar',
+                                               'responsableGestion' => $ftpParameters->getUserFTP(),
+                                               'descripcionGestion' => 'Modificacion Actual => Estado de Reporte: '.$reporteProblema->estado.', ID de Reporte: '.$reporteProblema->id.' | Datos Antiguos => Estado de Reporte: '.$estadoReporteTemp.', ID de Reporte: '.$reporteProblema->id,
+                                               'created_at' => now()]);
         
         $reporteproblema->update();
 
