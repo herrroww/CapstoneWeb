@@ -87,7 +87,7 @@ Route::post('documentosop1', 'DocumentoController@store')->name('documentosop1')
 Route::get('documentosopshow/{id}', 'DocumentoController@show')->name('documentosopshow');
 
 
-Route::get('documentosopdownload/{file}','DocumentoController@download')->name('documentosopdownload');
+Route::get('documentosopdownload','DocumentoController@download')->name('documentosopdownload');
 
 Route::get('ayudaop', 'AyudaController@index')->name('ayudaop');
 
