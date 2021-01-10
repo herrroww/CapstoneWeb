@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Lista de Operarios</h2>
-    </div>
+    
     <hr>
 
 <div class="container-fluid">
@@ -35,28 +35,20 @@
   El Operario se ha editado correctamente.
   </div>
     @endif
+    </div>
   </h6>
+  <nav class="navbar navbar-light float-right">
+                <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('gestionop1')}}"><i class="fa fa-user-plus mr-1" aria-hidden="true"></i>Agregar Operario</a>
+                <form method="GET" action="{{route('gestionop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
+                </form>
+            </nav>
   <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <form class="float-right">
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-append">
-                        <a href="{{ route('gestionop1') }}"><button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px"><i class="fas fa-user-plus"></i> Agregar Operario </button></a>
-                        </div>
-                    </div>
-                </form>
+  
     
-
+<div class="col-12 pt-3 pb-3 table-responsive">
 <table class="table table-bordered ">
   <thead>
     <tr>
@@ -102,14 +94,13 @@
     </tr>
 	@endforeach
   </tbody>
-  @if($search)
-  <a href="{{ url()->previous() }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
+ 
+</table>
+@if($search)
+  <a href="{{ url()->previous() }}" class="float-right">
   <button type="button" class="btn btn-secondary">Volver</button>
- </div>
 </a>
  @endif
-</table>
     {{ $operarios->links()}}
 </div>
 @endsection

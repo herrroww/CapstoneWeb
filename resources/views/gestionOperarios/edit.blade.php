@@ -40,17 +40,17 @@
 
   <div class="form-group">
  <strong style="margin-bot: 10px">Empresa:</strong>
- <select name="empresa" class="form-control">
+ <select name="empresa" class="form-control" id="empresaselect">
 
  @if($operario->empresa == null)
  <option value="">No hay empresa seleccionada</option>
  @else
- <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}}</option>
+ <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
  @endif
  
  @foreach($empresa as $empresas)
 @if($empresas->id != $operario->empresa_id)
-  <option value="{{ $empresas->id }}">{{ $empresas->nombreEmpresa }}</option>
+  <option value="{{ $empresas->id }}">{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
   @endif
   @endforeach
   </select>
@@ -97,6 +97,9 @@
         </div>
      </div>
 </form>
+<script type="text/javascript">
+$('#empresaselect').select2();
+</script>
 
         </div>
     </div>

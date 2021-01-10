@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Asignar Componente</h2>
-    </div>
+   
     <hr>
 
 
@@ -36,26 +36,17 @@
   </div>
     @endif
 
-    
+    <nav class="navbar navbar-light float-right">
+                <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('asignarop1')}}"><i class="fas fa-people-carry mr-1" aria-hidden="true"></i>Asignar Componente</a>
+                <form method="GET" action="{{route('asignarop')}}" class="form-inline">
+                    @csrf
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+                    <button class="btn bg-orange color-white my-2 my-sm-0" type="submit"><i class="fa fa-search mr-1" aria-hidden="true"></i>Buscar</button>
+                </form>
+            </nav>
 
   <!-- SEARCH FORM -->
-  <form class="form-inline ml-3 float-right">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" name="search" type="search" placeholder="Búsqueda"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                        <button class="btn bg-orange color-white" type="submit"><i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-               
-
-   <a href="{{ route('asignarop1') }}"> <button type="button" class="btn bg-orange color-white float-right" style="margin-bottom:10px" ><i class="fas fa-people-carry"></i> Asignar Componente </button></a>
-  <h6>
-  
-  </h6>
+<div class="col-12 pt-3 pb-3 table-responsive">
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -99,14 +90,12 @@
     </tr>
 	@endforeach
   </tbody>
-  @if($search)
+</table>
+@if($search)
   <a href="{{ url()->previous() }}">
-  <div style="position: absolute; left: 90%; bottom: 10%;">
-  <button type="button" class="btn btn-secondary">Volver</button>
- </div>
+  <button type="button" class="btn btn-secondary float-right">Volver</button>
 </a>
  @endif
-</table>
     {{ $asignars->links()}}
 </div>
 @endsection

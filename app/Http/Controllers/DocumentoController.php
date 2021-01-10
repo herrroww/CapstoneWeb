@@ -235,9 +235,9 @@ class DocumentoController extends Controller{
         return view('documentos.details',['activemenu' => 'componente'],compact('data'));       
     }
 
-    public function download($file){
-
-        return response()->download('storage/'.$file);       
+    public function download($id){
+        return response()->download('storage/'.$id);
+       
     }
 
     /**
@@ -267,7 +267,15 @@ class DocumentoController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        //
+    public function destroy($id)
+    {
+        $documento = Documento::findOrFail($id);
+
+
+
+        $documento->delete();
+
+        return redirect()->back()->with('success','El documento a sido eliminado.');
+
     }
 }

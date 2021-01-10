@@ -23,7 +23,7 @@
 
   <div class="form-group">
  <strong style="margin-bot: 10px">Operario:</strong>
- <select name="operario" class="form-control">
+ <select name="operario" class="form-control" id="operariosselect">
 
  @if($asignar->operario == null)
  <option value="">No hay operario seleccionada</option>
@@ -41,7 +41,7 @@
   
   <div class="form-group">
  <strong style="margin-bot: 10px">Componente:</strong>
- <select name="componente" class="form-control">
+ <select name="componente" class="form-control" id="componenteselect">
 
  @if($asignar->componente == null)
  <option value="">No hay componente seleccionada</option>
@@ -69,6 +69,13 @@
         </div>
      </div>
 </form>
+<script type="text/javascript">
+$('#operariosselect').select2();
+</script>
+
+<script type="text/javascript">
+$('#componenteselect').select2();
+</script>
 
         </div>
     </div>

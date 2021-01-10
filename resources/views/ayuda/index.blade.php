@@ -12,32 +12,32 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Ejemplo que muestra cómo Agregar empresa correctamente.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Ejemplo que muestra cómo editar empresa correctamente.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Ejemplo que muestra cómo eliminar empresa correctamente.</p>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
@@ -69,7 +69,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
@@ -86,7 +86,7 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
@@ -96,7 +96,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
@@ -106,7 +106,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
@@ -123,7 +123,7 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
@@ -133,7 +133,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
@@ -143,7 +143,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
@@ -160,7 +160,7 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
@@ -170,7 +170,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
@@ -180,7 +180,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
@@ -197,7 +197,7 @@
     <div class="card-group mt-2">
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate" style="height: 150px;width: 100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo1.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=pgvvuZzjUmU" class="venobox-video" data-vbtype="video"
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
@@ -207,7 +207,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top" src="{{ asset('dist/img/brazo2.jpg') }}" alt="Card image">
+                <img class="card-img-top" src="{{ asset('dist/img/brazo2.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=iI5Z9rJ_lwM" class="venobox-video" data-vbtype="video"
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
@@ -217,7 +217,7 @@
         </div>
         <div class="card m-2" style="width: 18rem;">
             <div class="contenedor-video d-inline-block position-relative text-truncate img-fluid" style="height: 150px;width:100%">
-                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.jpg') }}" alt="Card image">
+                <img class="card-img-top img-fluid" src="{{ asset('dist/img/brazo3.png') }}" alt="Card image">
                 <a href="https://www.youtube.com/watch?v=sWgvIAkfqXQ" class="venobox-video" data-vbtype="video"
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>

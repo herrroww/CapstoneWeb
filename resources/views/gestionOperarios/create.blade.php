@@ -1,13 +1,14 @@
+
 @extends('layouts.sidebar')
 
 @section('content')
+
 
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
             <h3>Agregar Operario</h3>
             <hr>
-
 
 
 
@@ -36,13 +37,10 @@
   <div class="form-group">
  <strong style="margin-bot: 10px">Empresa:</strong>
  
- <select name="empresa" class="form-control">
+ <select name="empresa" class="form-control" id="empresaselect">
+ <option value="" required>Seleccionar Empresa</oprion>
 @foreach($empresa as $empresas)
-@empty($empresa)
- <option value="">No hay empresa seleccionada</option>
- @endempty
-<option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa }}</oprion>
-
+<option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa}} | Rut:{{ $empresas->rutEmpresa}}</oprion>
 @endforeach
 
 </select>
@@ -52,23 +50,32 @@
     <label for="telefonoOperario">Teléfono Operario:</label>
     <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el teléfono del operario" required>
   </div>
+  
+		
+<!--<form action="gestionop1" method="POST" class="formulario" id="formulario">-->
+			<!-- Grupo: Contraseña -->
+			<div class="formulario__grupo" id="grupo__contraseniaOperario">
+				<label for="contraseniaOperario" class="formulario__label">Contraseña</label>
+				<div class="formulario__grupo-input">
+					<input type="text" class="form-control" name="contraseniaOperario" id="contraseniaOperario">
+					<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
+				</div>
+				<p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+			</div>
+
+			<!-- Grupo: Contraseña 2 -->
+			<div class="formulario__grupo" id="grupo__contraseniaOperario2">
+				<label for="contraseniaOperario2" class="formulario__label">Repetir Contraseña</label>
+				<div class="formulario__grupo-input">
+					<input type="text" class="form-control" name="contraseniaOperario2" id="contraseniaOperario2">
+					<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
+				</div>
+				<p class="formulario__input-error">Ambas contraseñas deben ser iguales.</p>
+			</div>
+      
 
   
-<div class="form-group">
-    <label for="contraseniaOperario">Contraseña Operario:</label>
-    <input type="text" class="form-control" name="contraseniaOperario" expression="^[A-Za-z][A-Za-z0-9]*$"  placeholder="Escriba la contraseña" required>
-  </div>
 
-  <div class="form-group">
-    <label for="contraseniaOperario2">Confirme Contraseña Operario:</label>
-    <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
-  </div>
-
-  
-
-
-  
-  <form>
   <strong  class="" >Tipo de Operario: </strong>
 
   <div style="margin-top: 10px" class="custom-control custom-radio" >
@@ -90,7 +97,17 @@
         </div>
      </div>
 </form>
+
         </div>
     </div>
 </div>
+
+<script src="js/formulario.js"></script>
+	<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+$('#empresaselect').select2();
+</script>
+
+
 @endsection

@@ -17,14 +17,9 @@
     <div class="form-group">
     
     <strong style="margin-bot: 10px">Operario:</strong>
-    <select name="operario" class="form-control">
-    <strong style="margin-bot: 10px">Operario:</strong>
+    <select name="operario" class="form-control" id="operariosselect">
+    <option value="" required>Seleccionar Operario</oprion>
 @foreach($operario as $operarios)
-@empty($operario)
- <option value="">No hay operario seleccionada</option>
- @endempty
-
- 
 
 <option value="{{ $operarios->id  }}" required>{{ $operarios->nombreOperario }} | Operario {{ $operarios->tipoOperario }} | Empresa: {{ $operarios->empresa->nombreEmpresa }} |</oprion>
 
@@ -37,12 +32,9 @@
 </div>
 <div class="form-group">
 <strong style="margin-bot: 10px">Componente:</strong>
-<select name="componente" class="form-control">
-<strong style="margin-bot: 10px">Componente:</strong>
+<select name="componente" class="form-control" id="componenteselect">
+<option value="" required>Seleccionar Componente</oprion>
 @foreach($componente as $componentes)
-@empty($componente)
- <option value="">No hay componente seleccionada</option>
- @endempty
 <option value="{{ $componentes->id }}" required>{{ $componentes->nombreComponente }}</oprion>
 
 @endforeach
@@ -61,6 +53,20 @@
         </div>
      </div>
 </form>
+
+<script type="text/javascript">
+$('#operariosselect').select2();
+
+
+</script>
+
+<script type="text/javascript">
+$('#componenteselect').select2();
+
+
+
+</script>
+
         </div>
     </div>
 </div>
