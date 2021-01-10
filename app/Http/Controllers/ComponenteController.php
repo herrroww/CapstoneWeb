@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Session;
 use Illuminate\Http\Request;
 use App\Componente;
+use App\Operario;
+use App\Empresa;
 use App\Modelo;
 use App\Documento;
 use App\Http\Controllers\ErrorRepositorio;
@@ -101,6 +103,7 @@ class ComponenteController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Externo/'.$componente->IdComponente);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Interno/'.$componente->IdComponente);
                 
+                    //Termina la secuencia de comandos.
                     $ssh->exec('exit');
                     //Se liberan los recursos.       
                     unset($SWERROR,$ssh,$ftpParameters,$componente);
@@ -238,9 +241,10 @@ class ComponenteController extends Controller{
                                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$rutEmpresa."/".$rutOperario);
 
                                     //Asigna al Operador como propietario del Componente asignado.
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$componente->idComponente);
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.':operariosftp /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$componente->idComponente);
-                                }                                
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$rutEmpresa.'/'.$rutOperario.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$componente->idComponente);
+                                }
+                                //Termina secuencia de comandos.                                
                                 $ssh->exec('exit');
                                 unset($componentesAsignados);
                             }
@@ -297,6 +301,7 @@ class ComponenteController extends Controller{
                 $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperario.'/'.$componente->idComponente);
             }
 
+            //Termina la secuencia de comandos.
             $ssh->exec('exit');
             unset($componentesAsignados);
         }
