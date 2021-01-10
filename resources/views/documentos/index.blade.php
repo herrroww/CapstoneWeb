@@ -43,7 +43,7 @@
 	  <!--<th scope="col">Id</th>-->
       <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Nombre</th>
-      <th scope="col" class="bg-blue color-white">Extensión</th>
+      <th scope="col" class="bg-blue color-white">Archivo</th>
       <th scope="col" class="bg-blue color-white">Descripción</th>
       <th scope="col" class="bg-blue color-white">Privacidad</th>
      <!-- <th scope="col" class="bg-blue color-white">Ver</th>-->
