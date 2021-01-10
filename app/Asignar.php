@@ -3,12 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
 
-class Asignar extends Model implements Auditable
-{
-    use \OwenIt\Auditing\Auditable;
+class Asignar extends Model{
 
     public function componente(){
 
@@ -19,6 +16,5 @@ class Asignar extends Model implements Auditable
     public function operario(){
 
         return $this->belongsTo('App\Operario', 'operario_id');
-
     }
 }
