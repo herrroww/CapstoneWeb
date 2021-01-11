@@ -65,13 +65,28 @@
     </tr>
 
     <tr>
-      <th scope="row">Fecha Reporte:  </th>
-      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}</td>
+      <th scope="row">Estado:  </th>
+      <td colspan="2">{{ $reporteproblema->estado}}</td>
     </tr>
 
     <tr>
+      <th scope="row">Recibido el:  </th>
+      <td colspan="2">{{ $reporteproblema->created_at}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Fecha Emisión:  </th>
+      <td colspan="2">{{ $reporteproblema->fechaReporteProblema}}</td>
+    </tr>
+    
+    <tr>
       <th scope="row">Título De Reporte: </th>
       <td colspan="2">{{ $reporteproblema->tituloReporteProblema}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Cod. De Componente: </th>
+      <td colspan="2">{{ $reporteproblema->codigoComponente}}</td>
     </tr>
 
     <tr>
