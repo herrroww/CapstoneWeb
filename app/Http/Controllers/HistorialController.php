@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\Empresa;
 use App\Operario;
 use App\Historial;
+use App\HistoricoGestion;
+
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -24,18 +27,18 @@ class HistorialController extends Controller{
             $query = trim($request->get('search'));
 
 
-            $audits = \OwenIt\Auditing\Models\Audit::with('user')
-                ->where('event',  'LIKE', '%' . $query . '%')
+            $historicogestion = DB::table('historico_gestions')
+                ->where('nombreGestion',  'LIKE', '%' . $query . '%')
                 ->orwhere('created_at',  'LIKE', '%' . $query . '%')
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
         
-        return view('historiales.index', ['audits' => $audits, 'search' => $query, 'empresas' => $empresas, 'operarios' => $operarios, 'activemenu' => 'historial']);
+        return view('historiales.index', ['historicogestion' => $historicogestion, 'search' => $query, 'activemenu' => 'historial']);
         }
     }
 
     public function show($id){
 
-        return view('historiales.show', ['audit' => \OwenIt\Auditing\Models\Audit::findOrFail($id), 'activemenu' => 'historial']);
+        return view('historiales.show', ['historicogestion' => HistoricoGestion::findOrFail($id), 'activemenu' => 'historial']);
     }
 }
