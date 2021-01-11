@@ -175,7 +175,7 @@ class asignaropController extends Controller{
                                 }else{
 
                                     //Se añade al historico de gestion.
-                                    DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+                                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Asignacion', 
                                                                            'tipoGestion' => 'Crear',
                                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                                            'descripcionGestion' => 'Se ha Asignado => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente,
@@ -255,6 +255,7 @@ class asignaropController extends Controller{
 
             //Obtiene la Empresa a la que pertenece el Operario.
             $rutEmpresa = Empresa::findOrFail($operario->empresa_id)->rutEmpresa;
+            $nombreEmpresa =Empresa::findOrFail($operario->empresa_id)->nombreEmpresa;
 
             //Prepara la conexion al servidor FTP.
             $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -399,10 +400,10 @@ class asignaropController extends Controller{
                                             }else{                    
                             
                                                 //Se añade al historico de gestion.
-                                                DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+                                                DB::table('historico_gestions')->insert(['nombreGestion' => 'Asignacion', 
                                                                                        'tipoGestion' => 'Editar',
                                                                                        'responsableGestion' => $ftpParameters->getUserFTP(),
-                                                                                       'descripcionGestion' => 'Modificacion Actual => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente.' | Datos Antiguos => Rut Operario: '.$rutOperarioTemp.', de la Empresa: '.$nombreEmpresaTemp.' el ID Componente: '.$idComponenteTemp,
+                                                                                       'descripcionGestion' => 'Modificacion Actual => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$nombreEmpresa.' el ID Componente: '.$idComponente.' | Datos Antiguos => Rut Operario: '.$rutOperarioTemp.', de la Empresa: '.$nombreEmpresaTemp.' el ID Componente: '.$idComponenteTemp,
                                                                                        'created_at' => now()]);
                                                 
                                                 //Se actualiza la asignacion a la Base de Datos.
@@ -457,6 +458,7 @@ class asignaropController extends Controller{
 
         //Obtiene la Empresa a la que pertenece el Operario.
         $rutEmpresa = Empresa::findOrFail($operario->empresa_id)->rutEmpresa;
+        $nombreEmpresa = Empresa::findOrFail($operario->empresa_id)->nombreEmpresa;
         
         //Obtiene el Componente asignado al Operario.
         $idComponente = Componente::findOrFail($asignar->componente_id)->idComponente;
@@ -476,10 +478,10 @@ class asignaropController extends Controller{
         }else{
 
             //Se añade al historico de gestion.
-            DB::table('historicogestion')->insert(['nombreGestion' => 'Asignacion', 
+            DB::table('historico_gestions')->insert(['nombreGestion' => 'Asignacion', 
                                                    'tipoGestion' => 'Eliminar',
                                                    'responsableGestion' => $ftpParameters->getUserFTP(),
-                                                   'descripcionGestion' => 'Se ha Eliminado Asignacion => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$empresa->nombreEmpresa.' el ID Componente: '.$componente->idComponente,
+                                                   'descripcionGestion' => 'Se ha Eliminado Asignacion => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$nombreEmpresa.' el ID Componente: '.$idComponente,
                                                    'created_at' => now()]);
 
 
