@@ -23,7 +23,8 @@ class CreateReporteproblemasTable extends Migration
             $table->string('estado', 100)->nullable();
             $table->string('fechaReporteProblema', 100);
             $table->string('tituloReporteProblema', 100);
-            $table->string('contenidoReporteProblema', 100);
+            $table->string('codigoComponente', 100);
+            $table->string('contenidoReporteProblema', 500);
             $table->timestamps();
         });
     }
