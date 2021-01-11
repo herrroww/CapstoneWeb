@@ -52,7 +52,7 @@
      <textarea name="message" class="form-control"></textarea>
     </div>
     <div class="form-group">
-     <input type="submit" name="send" class="btn btn-info" value="Enviar" />
+     <input type="submit" name="send" class="btn btn-primary" value="Enviar" />
     </div>
    </form>
    
