@@ -32,49 +32,25 @@
           <thead >
             <tr>
              <th scope="col" class="bg-blue color-white">ID</th>
-              <th scope="col" class="bg-blue color-white">Modelo</th>
+              <th scope="col" class="bg-blue color-white">Gestión</th>
               <th scope="col" class="bg-blue color-white">Acción</th>
               <th scope="col" class="bg-blue color-white">Usuario</th>
               <th scope="col" class="bg-blue color-white">Fecha</th>
               <th scope="col" class="bg-blue color-white">Ver Cambios</th>
             </tr>
           </thead>
-          <tbody id="audits">
-            @foreach($audits as $audit)
+          <tbody id="historicogestion">
+            @foreach($historicogestion as $historicoaux)
               <tr>
-              <td>{{ $audit->id }}</td>
-              @if ( $audit->auditable_type == "App\Operario")
-                <td>Operario (ID: {{ $audit->auditable_id}})</td>
-                
-                @elseif ( $audit->auditable_type == "App\Empresa")
-                <td>Empresa (ID: {{ $audit->auditable_id}})</td>
-                @elseif ($audit->auditable_type == "App\Asignar")
-                <td> Asignar Componente (ID: {{ $audit->auditable_id }})</td>
-                @elseif ($audit->auditable_type == "App\Componente")
-                <td> Componente (ID: {{ $audit->auditable_id}})</td>
-                @else
-                <td>{{ $audit->auditable_type }}</td>
-                @endif
-              
-                @if ( $audit->event == "created"  )
-                <td>Creado </td>
-                
-                @elseif ( $audit->event == "deleted")
-                <td>Eliminado</td>
-                @elseif ( $audit->event == "updated" )
-                <td>Editado  </td>
-                @else
-                <td>{{ $audit->event }}</td>
-                @endif
-                
-                
-                <td>{{ $audit->user->name }}</td>
-                <td>{{ $audit->created_at }}</td>
-    
+              <td>{{$historicoaux->id}}</td>
+              <td>{{$historicoaux->nombreGestion}}</td>
+              <td>{{$historicoaux->tipoGestion}}</td>
+              <td>{{$historicoaux->responsableGestion}}</td>
+              <td>{{$historicoaux->created_at}}</td>     
     
     <form action="" method="">
-    <td> 
-    <a href="{{ route('historialopshow', $audit->id) }}"><button type="button" class="btn bg-orange color-white"><i class="far fa-eye"></i></button></a>
+    <td>
+    <a href="{{ route('historialopshow', $historicoaux->id) }}"><button type="button" class="btn bg-orange color-white"><i class="far fa-eye"></i></button></a> 
     </form>
     </td>
     </tr>      
@@ -92,7 +68,7 @@
 </a>
  @endif
 
-        {{ $audits->links()}}
+        {{ $historicogestion->links()}}
 
       </div>
     @endsection
