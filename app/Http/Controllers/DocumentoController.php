@@ -167,7 +167,7 @@ class DocumentoController extends Controller{
                         $data->componente_id = $pkComponenteSeleccionado;
 
                         //Se añade al historico de gestion.
-                        DB::table('historicogestion')->insert(['nombreGestion' => 'Documento', 
+                        DB::table('historico_gestions')->insert(['nombreGestion' => 'Documento', 
                                                                'tipoGestion' => 'Crear',
                                                                'responsableGestion' => $ftpParameters->getUserFTP(),
                                                                'descripcionGestion' => 'Se ha Creado => Documento: '.$data->nombre.', Archivo: '.$data->extension.', en el Componente: '.$idComponenteSeleccionado,
@@ -178,6 +178,9 @@ class DocumentoController extends Controller{
 
                         //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
+
+                        //Activar modo pasivo
+                        ftp_pasv($conn_id, true);
 
                         //Envia el componente al directorio ComponenteTemp del usuario FTP.
                         ftp_put($conn_id,$dst.'/'.$nombre,$source_file,FTP_BINARY);
@@ -332,8 +335,10 @@ class DocumentoController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S cp /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/'.$data->extension.' /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp');
                     
                     $documentoFTP = '/ComponentesTemp/'.$data->extension;
-
-                    //die($data->extension.'//'.$documentoFTP);
+                    
+                    //Activar modo pasivo
+                    ftp_pasv($conn_id, true);
+                    
                     // intenta descargar $server_file y guardarlo en $local_file
                     if (ftp_get($conn_id,'storage/'.$data->extension,$documentoFTP,FTP_BINARY)){
 
@@ -412,7 +417,7 @@ class DocumentoController extends Controller{
         }else{
 
             //Se añade al historico de gestion.
-            DB::table('historicogestion')->insert(['nombreGestion' => 'Documento', 
+            DB::table('historico_gestions')->insert(['nombreGestion' => 'Documento', 
                                                    'tipoGestion' => 'Eliminar',
                                                    'responsableGestion' => $ftpParameters->getUserFTP(),
                                                    'descripcionGestion' => 'Se ha Eliminado => Documento: '.$documento->nombre.', Archivo: '.$documento->extension.', en el Componente: '.$idComponenteSeleccionado,
