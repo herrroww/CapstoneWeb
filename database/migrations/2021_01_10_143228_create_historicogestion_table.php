@@ -13,12 +13,12 @@ class CreateHistoricogestionTable extends Migration
      */
     public function up()
     {
-        Schema::create('historicogestion', function (Blueprint $table) {
+        Schema::create('historico_gestions', function (Blueprint $table) {
             $table->id();
             $table->string('nombreGestion');
             $table->string('tipoGestion');
             $table->string('responsableGestion');
-            $table->string('descripcionGestion');
+            $table->string('descripcionGestion',500);
             $table->timestamps();
         });
     }
