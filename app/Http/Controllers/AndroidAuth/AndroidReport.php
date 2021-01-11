@@ -18,7 +18,7 @@ $tituloReporteProblema = $_POST['tituloReporteProblema'];
 $codigoComponente = $_POST['codigoComponente'];
 $contenidoReporteProblema = $_POST['contenidoReporteProblema'];
 
-$consulta = "INSERT INTO reporteproblemas (rutOperario,nombreOperario,correoOperario,numeroOperario,prioridad,estado,fechaReporteProblema,tituloReporteProblema,contenidoReporteProblema,created_at) VALUES ('$rutOperario','$nombreOperario','$correoOperario','$numeroOperario','$prioridad','$estado','$fechaReporteProblema','$tituloReporteProblema','$contenidoReporteProblema',now())";
+$consulta = "INSERT INTO reporteproblemas (rutOperario,nombreOperario,correoOperario,numeroOperario,prioridad,estado,fechaReporteProblema,tituloReporteProblema,codigoComponente,contenidoReporteProblema,created_at) VALUES ('$rutOperario','$nombreOperario','$correoOperario','$numeroOperario','$prioridad','$estado','$fechaReporteProblema','$tituloReporteProblema','$codigoComponente','$contenidoReporteProblema',now())";
 
 
 // VERIFICAMOS QUE NO ESTEN VACIAS LAS VARIABLES
