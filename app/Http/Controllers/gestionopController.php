@@ -121,7 +121,7 @@ class gestionopController extends Controller{
                 }else{
                     
                     //Se añade al historico de gestion.
-                    DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Operario', 
                                                            'tipoGestion' => 'Crear',
                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                            'descripcionGestion' => 'Se ha Creado => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa,
@@ -412,7 +412,7 @@ class gestionopController extends Controller{
             if($actualizarGestionOperario == true && $actualizarGestionEmpresa == true){
                 
                 //Se añade al historico de gestion.
-                DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                DB::table('historico_gestions')->insert(['nombreGestion' => 'Operario', 
                                                        'tipoGestion' => 'Editar',
                                                        'responsableGestion' => $ftpParameters->getUserFTP(),
                                                        'descripcionGestion' => 'Modificacion Actual => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Correo: '.$operario->correoOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa.', Contraseña: *, Telefono: '.$operario->telefonoOperario.'  | Datos Antiguos => Operario: '.$nombreOperarioTemp.', Rut: '.$rutOperarioTemp.', Correo: '.$correoOperarioTemp.', Tipo Operario: '.$tipoOperarioTemp.', Empresa: '.$nombreEmpresaTemp.', Contraseña: *, Telefono: '.$telefonoOperarioTemp,
@@ -529,7 +529,7 @@ class gestionopController extends Controller{
                 }else{
 
                     //Se añade al historico de gestion.
-                    DB::table('historicogestion')->insert(['nombreGestion' => 'Operario', 
+                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Operario', 
                                                            'tipoGestion' => 'Eliminar',
                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                            'descripcionGestion' => 'Se ha Eliminado => Operario: '.$operario->nombreOperario.', Rut: '.$operario->rutOperario.', Tipo Operario: '.$operario->tipoOperario.', Empresa: '.$nombreEmpresa,
