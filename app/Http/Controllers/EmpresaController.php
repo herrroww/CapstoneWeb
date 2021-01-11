@@ -55,7 +55,7 @@ class EmpresaController extends Controller{
         
         //Genera a la empresa y rellena los atributos con la informacion entregada por el usuario.
         $empresa = new Empresa();
-        $empresa->rutEmpresa = request('rutEmpresa');
+        $empresa->rutEmpresa = str_replace(' ','_',request('rutEmpresa'));
         $empresa->nombreEmpresa = request('nombreEmpresa');
         $empresa->compania = request('compania');      
 
@@ -105,7 +105,7 @@ class EmpresaController extends Controller{
                 }else{
 
                     //Se añade al historico de gestion.
-                    DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Empresa', 
                                                            'tipoGestion' => 'Crear',
                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                            'descripcionGestion' => 'Se ha Creado => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania,
@@ -203,7 +203,7 @@ class EmpresaController extends Controller{
                     }else{
 
                         //Se añade al historico de gestion.
-                        DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                        DB::table('historico_gestions')->insert(['nombreGestion' => 'Empresa', 
                                                                'tipoGestion' => 'Editar',
                                                                'responsableGestion' => $ftpParameters->getUserFTP(),
                                                                'descripcionGestion' => 'Modificacion Actual => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania.' | Datos Antiguos => Empresa: '.$nombreEmpresaTemp.', Rut: '.$rutEmpresaTemp.', Compañia: '.$companiaEmpresaTemp,
@@ -303,7 +303,7 @@ class EmpresaController extends Controller{
                 }else{
 
                     //Se añade al historico de gestion.
-                    DB::table('historicogestion')->insert(['nombreGestion' => 'Empresa', 
+                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Empresa', 
                                                            'tipoGestion' => 'Eliminar',
                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                            'descripcionGestion' => 'Se ha Eliminado => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania,
