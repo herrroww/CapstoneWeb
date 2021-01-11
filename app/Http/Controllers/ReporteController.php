@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\FtpConexion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Reporteproblema;
@@ -35,20 +36,23 @@ class ReporteController extends Controller{
     
     public function update(Request $request, $id){
 
-        $reporteproblema = Reporteproblema::findOrFail($id);
+        //Prepara los parametros de conexion al servidor FTP.
+        $ftpParameters = new FtpConexion();
 
-        $estadoReporteTemp = $reporteproblema->estado;
+        $reporteProblema = Reporteproblema::findOrFail($id);
 
-        $reporteproblema->estado = $request->get('estado');
+        $estadoReporteTemp = $reporteProblema->estado;
+
+        $reporteProblema->estado = $request->get('estado');
 
         //Se añade al historico de gestion.
-        DB::table('historicogestion')->insert(['nombreGestion' => 'Reporte', 
+        DB::table('historico_gestions')->insert(['nombreGestion' => 'Reporte', 
                                                'tipoGestion' => 'Editar',
                                                'responsableGestion' => $ftpParameters->getUserFTP(),
                                                'descripcionGestion' => 'Modificacion Actual => Estado de Reporte: '.$reporteProblema->estado.', ID de Reporte: '.$reporteProblema->id.' | Datos Antiguos => Estado de Reporte: '.$estadoReporteTemp.', ID de Reporte: '.$reporteProblema->id,
                                                'created_at' => now()]);
         
-        $reporteproblema->update();
+        $reporteProblema->update();
 
         return redirect('reporteop')->with('edit','Se a modificado correctamente');
     }
