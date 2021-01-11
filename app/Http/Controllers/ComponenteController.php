@@ -97,7 +97,7 @@ class ComponenteController extends Controller{
                 }else{
 
                     //Se añade al historico de gestion.
-                    DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+                    DB::table('historico_gestions')->insert(['nombreGestion' => 'Componente', 
                                                            'tipoGestion' => 'Crear',
                                                            'responsableGestion' => $ftpParameters->getUserFTP(),
                                                            'descripcionGestion' => 'Se ha Creado => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente,
@@ -223,7 +223,7 @@ class ComponenteController extends Controller{
                             }else{       
                                 
                                 //Se añade al historico de gestion.
-                                DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+                                DB::table('historico_gestions')->insert(['nombreGestion' => 'Componente', 
                                                                        'tipoGestion' => 'Editar',
                                                                        'responsableGestion' => $ftpParameters->getUserFTP(),
                                                                        'descripcionGestion' => 'Modificacion Actual => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente.' | Datos Antiguos => Componente: '.$nombreComponenteTemp.', ID: '.$idComponenteTemp,
@@ -298,7 +298,7 @@ class ComponenteController extends Controller{
         }else{
 
             //Se añade al historico de gestion.
-            DB::table('historicogestion')->insert(['nombreGestion' => 'Componente', 
+            DB::table('historico_gestions')->insert(['nombreGestion' => 'Componente', 
                                                    'tipoGestion' => 'Eliminar',
                                                    'responsableGestion' => $ftpParameters->getUserFTP(),
                                                    'descripcionGestion' => 'Se ha Eliminado => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente,
