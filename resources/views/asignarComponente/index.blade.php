@@ -31,9 +31,15 @@
 
     
     @if(session('edit'))
-  <div class="alert alert-warning" role="alert">
-  La asignación se ha editado correctamente.
-  </div>
+      <div class="alert alert-warning" role="alert">
+        La asignación se ha editado correctamente.
+      </div>
+    @endif
+
+    @if(session('alert'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('alert') }}
+      </div>
     @endif
 
     <nav class="navbar navbar-light float-right">
