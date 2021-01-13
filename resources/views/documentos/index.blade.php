@@ -24,6 +24,12 @@
  El Documento se ha eliminado correctamente.
   </div>
     @endif
+
+    @if(session('alert'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('alert') }}
+      </div>
+    @endif
   <!-- SEARCH FORM -->
 
  
@@ -59,8 +65,11 @@
       <td>{{$data->nombre}}</td>
       <td>{{$data->extension}}</td>
       <td>{{$data->descripcion}}</td>
-      <td>{{$data->privacidad}}</td>
-      <!--<td><a href="{{ route('documentosopshow', $data->id) }}">View</a></td>-->
+      @if($data->privacidad=="Publico")
+        <td>Público</td>
+      @else
+        <td>{{$data->privacidad}}</td>
+      @endif
 
       <form action="{{ route('documentoopdes', $data->id) }}" method="POST" >
     @method('DELETE')
@@ -83,12 +92,12 @@
 </table>
 @if($search)
   <a href="{{ route('documentosop') }}" >
-  <button type="button" class="btn btn-secondary float-right"> "Volver</button>
-</a>
+  <button type="button" class="btn btn-secondary float-right">Volver</button>
+  </a>
 @else
   <a href="{{ route('componenteop') }}"  >
-  <button type="button" class="btn btn-secondary float-right" >Volver</button>
-</a>
+  <button type="button" class="btn btn-secondary float-right">Volver</button>
+  </a>
  @endif
 
 {{ $file->links()}}
