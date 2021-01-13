@@ -249,12 +249,12 @@ class EmpresaController extends Controller{
                             }                      
                         }
                     }
+                    //Finaliza secuencia de comandos.
+                    $ssh->exec('exit'); 
                 }
-            }
+            }            
         } 
-
-        //Finaliza secuencia de comandos.
-        $ssh->exec('exit'); 
+                
         //Se liberan los recursos.           
         unset($SWERROR,$ssh,$ftpParameters,$empresa);
 

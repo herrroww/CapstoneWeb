@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 class FtpConexion{   
 
     //IP del servidor FTP.
-    private $serverFTP = '192.168.0.19';
+    private $serverFTP = '192.168.0.22';
     
     //Credenciales de usuario FTP
     private $userFTP= 'capstone';

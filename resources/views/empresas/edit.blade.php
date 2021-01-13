@@ -6,16 +6,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h3>Editar Empresa: {{ $empresa->nombre }}</h3>
-            <hr>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-                 </ul>
-                    </div>
-                    @endif
+            <hr>        
 
 <form action="" method="POST">
     @method('PATCH')
@@ -48,7 +39,7 @@
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('empresaop')}}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
  </a>
 

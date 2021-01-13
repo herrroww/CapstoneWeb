@@ -62,7 +62,7 @@
   
   <button style="margin-top: 20px" type="submit"  class="btn btn-primary">Editar</button>
 
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('asignarop')}}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
  </a>
 

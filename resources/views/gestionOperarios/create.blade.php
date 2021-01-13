@@ -93,7 +93,7 @@
   
   <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Enviar</button>
   
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('gestionop')}}">
   <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Cancelar</button>
 </a>
         </div>
