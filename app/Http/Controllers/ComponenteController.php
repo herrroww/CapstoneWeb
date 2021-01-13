@@ -43,6 +43,12 @@ class ComponenteController extends Controller{
 
     public function store(Request $request){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreComponente' => 'required|min:4|max:100',
+            'idComponente' => 'required|min:2|max:20',
+        ]); 
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -62,7 +68,7 @@ class ComponenteController extends Controller{
             //Se liberan los recursos.
             unset($ftpParameters,$ssh,$componente);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -77,7 +83,7 @@ class ComponenteController extends Controller{
                 //Se liberan los recursos.
                 unset($ftpParameters,$ssh,$componente);
                 //[FTP-ERROR017]: El Componente ya existe en el repositorio Componentes (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR017'));
+                return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR017'));
                 unset($SWERROR);
             }else{
 
@@ -92,7 +98,7 @@ class ComponenteController extends Controller{
                     //Se liberan los recursos.
                     unset($ftpParameters,$ssh,$componente);
                     //[FTP-ERROR018]: El Componente ya existe en el repositorio Componentes (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERROR018'));
+                    return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR018'));
                     unset($SWERROR);
                 }else{
 
@@ -127,6 +133,12 @@ class ComponenteController extends Controller{
 
     public function update(Request $request, $id){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreComponente' => 'required|min:4|max:100',
+            'idComponente' => 'required|min:2|max:20',
+        ]); 
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -156,7 +168,7 @@ class ComponenteController extends Controller{
                 //Se liberan los recursos.
                 unset($ftpParameters,$ssh,$componente);
                 //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-                exit($SWERROR->ErrorActual('FTPERROR002'));
+                return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
                 unset($SWERROR);
             }else{
 
@@ -172,7 +184,7 @@ class ComponenteController extends Controller{
                     unset($ssh,$ftpParameters,$asignar,$operario);
 
                     //[FTP-ERROR019]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Externo).
-                    exit($SWERROR->ErrorActual('FTPERROR019'));
+                    return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR019'));
                     unset($SWERROR);
                 }else{
 
@@ -188,7 +200,7 @@ class ComponenteController extends Controller{
                         unset($ssh,$ftpParameters,$asignar,$operario);
 
                         //[FTP-ERROR020]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Interno).
-                        exit($SWERROR->ErrorActual('FTPERROR020'));
+                        return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR020'));
                         unset($SWERROR);
                     }else{
 
@@ -203,7 +215,7 @@ class ComponenteController extends Controller{
                             //Se liberan los recursos.
                             unset($ftpParameters,$ssh,$componente);
                             //[FTP-ERROR017]: El Componente ya existe en el repositorio Componentes (Conflicto en directorio Externo).
-                            exit($SWERROR->ErrorActual('FTPERROR017'));
+                            return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR017'));
                             unset($SWERROR);
                         }else{
 
@@ -218,7 +230,7 @@ class ComponenteController extends Controller{
                                 //Se liberan los recursos.
                                 unset($ftpParameters,$ssh,$componente);
                                 //[FTP-ERROR018]: El Componente ya existe en el repositorio Componentes (Conflicto en directorio Interno).
-                                exit($SWERROR->ErrorActual('FTPERROR018'));
+                                return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR018'));
                                 unset($SWERROR);
                             }else{       
                                 
@@ -268,7 +280,24 @@ class ComponenteController extends Controller{
                     }
                 }
             }
+
+        }else{
+            
+            //Si la nombre del Componente sufre cambio, se establece conexion con el servidor FTP.
+            if($nombreComponenteTemp != $componente->nombreComponente){
+                
+                //Se añade al historico de gestion.
+                DB::table('historico_gestions')->insert(['nombreGestion' => 'Componente', 
+                'tipoGestion' => 'Editar',
+                'responsableGestion' => $ftpParameters->getUserFTP(),
+                'descripcionGestion' => 'Modificacion Actual => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente.' | Datos Antiguos => Componente: '.$nombreComponenteTemp.', ID: '.$idComponenteTemp,
+                'created_at' => now()]);
+
+                //Se actualiza el componente en la Base de Datos.
+                $componente->update();
+            }
         }
+
         //Se liberan los recursos.       
         unset($SWERROR,$ssh,$ftpParameters,$componente);
         return redirect('componenteop')->with('edit','El Componente se a editado');
@@ -293,7 +322,7 @@ class ComponenteController extends Controller{
             //Se liberan los recursos.
             unset($ftpParameters,$ssh,$componente);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
