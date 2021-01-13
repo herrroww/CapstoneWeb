@@ -10,13 +10,15 @@
     @csrf
   <div class="form-group">
     <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombre" placeholder="Escriba el nombre del Documento" required>
+    <input type="text" class="form-control" name="nombre" placeholder="Escriba el nombre del Documento" value="{{ old('nombre') }}" required>
+    {!! $errors->first('nombre','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
   <div class="form-group">
     <label for="descripcion">Descripción:</label>
-    <input type="text" class="form-control" name="descripcion" placeholder="Escriba la descripción del documento" required>
+    <input type="text" class="form-control" name="descripcion" placeholder="Escriba la descripción del documento" value="{{ old('descripcion') }}" required>
+    {!! $errors->first('descripcion','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   
