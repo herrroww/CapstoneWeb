@@ -47,6 +47,13 @@ class EmpresaController extends Controller{
 
     public function store(Request $request){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreEmpresa' => 'required|min:9|max:100',
+            'rutEmpresa' => 'required|min:11|max:100',
+            'compania' => 'required|min:2|max:100'
+        ]);  
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -68,7 +75,7 @@ class EmpresaController extends Controller{
             //Se liberan los recursos.           
             unset($ssh,$ftpParameters,$empresa);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
 
         }else{
@@ -84,7 +91,7 @@ class EmpresaController extends Controller{
                 //Se liberan los recursos.
                 unset($ssh,$ftpParameters,$empresa);
                 //[FTP-ERROR003]: La empresa ya existe en el sistema (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR003'));
+                return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR003'));
                 unset($SWERROR);
             }else{
 
@@ -99,7 +106,7 @@ class EmpresaController extends Controller{
                     //Se liberan los recursos.
                     unset($ssh,$ftpParameters,$empresa);
                     //[FTP-ERROR004]: La empresa ya existe en el sistema (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERROR004'));
+                    return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR004'));
                     unset($SWERROR);
 
                 }else{
@@ -125,8 +132,7 @@ class EmpresaController extends Controller{
         //Finaliza secuencia de comandos.
         $ssh->exec('exit');
         //Se liberan los recursos.       
-        unset($SWERROR,$ssh,$ftpParameters,$empresa);
-
+        unset($SWERROR,$ssh,$ftpParameters,$empresa);        
         return redirect('empresaop')->with('create','La empresa se a creado correctamente');
     }
 
@@ -136,6 +142,13 @@ class EmpresaController extends Controller{
     }
 
     public function update(Request $request, $id){
+
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreEmpresa' => 'required|min:9|max:100',
+            'rutEmpresa' => 'required|min:11|max:100',
+            'compania' => 'required|min:2|max:100'
+        ]);  
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
@@ -168,7 +181,7 @@ class EmpresaController extends Controller{
                 //Se liberan los recursos.           
                 unset($ssh,$ftpParameters,$empresa);
                 //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-                exit($SWERROR->ErrorActual('FTPERROR002'));
+                return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
                 unset($SWERROR);
             }else{
 
@@ -183,7 +196,7 @@ class EmpresaController extends Controller{
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters,$empresa);
                     //[FTP-ERROR005]: La empresa no existe en el sistema (Conflicto en directorio Externo).
-                    exit($SWERROR->ErrorActual('FTPERROR005'));
+                    return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR005'));
                     unset($SWERROR);
                 }else{
 
@@ -198,7 +211,7 @@ class EmpresaController extends Controller{
                         //Se liberan los recursos.           
                         unset($ssh,$ftpParameters,$empresa);
                         //[FTP-ERROR006]: La empresa no existe en el sistema (Conflicto en directorio Interno).
-                        exit($SWERROR->ErrorActual('FTPERROR006'));
+                        return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR006'));
                         unset($SWERROR);
                     }else{
 
@@ -268,7 +281,7 @@ class EmpresaController extends Controller{
             //Se liberan los recursos.           
             unset($ssh,$ftpParameters,$empresa);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -283,7 +296,7 @@ class EmpresaController extends Controller{
                 //Se liberan los recursos.           
                 unset($ssh,$ftpParameters,$empresa);
                 //[FTP-ERROR005]: La empresa no existe en el sistema (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR005'));
+                return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR005'));
                 unset($SWERROR);
             }else{
 
@@ -298,7 +311,7 @@ class EmpresaController extends Controller{
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters,$empresa);
                     //[FTP-ERROR006]: La empresa no existe en el sistema (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERROR006'));
+                    return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR006'));
                     unset($SWERROR);
                 }else{
 
