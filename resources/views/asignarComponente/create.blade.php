@@ -19,14 +19,12 @@
     <strong style="margin-bot: 10px">Operario:</strong>
     <select name="operario" class="form-control" id="operariosselect">
     <option value="" required>Seleccionar Operario</oprion>
+
 @foreach($operario as $operarios)
-
 <option value="{{ $operarios->id  }}" required>{{ $operarios->nombreOperario }} | Operario {{ $operarios->tipoOperario }} | Empresa: {{ $operarios->empresa->nombreEmpresa }} |</oprion>
-
-
 @endforeach
-
 </select>
+{!! $errors->first('operario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
 
 
 </div>
@@ -36,10 +34,9 @@
 <option value="" required>Seleccionar Componente</oprion>
 @foreach($componente as $componentes)
 <option value="{{ $componentes->id }}" required>{{ $componentes->nombreComponente }}</oprion>
-
 @endforeach
-
 </select>
+{!! $errors->first('componente','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
   
 
