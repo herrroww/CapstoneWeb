@@ -53,12 +53,7 @@
       <th scope="row">Número Operario: </th>
       <td colspan="2">{{ $reporteproblema->numeroOperario}} </td>
     </tr>
-
-    <tr>
-      <th scope="row">Correo Operario: </th>
-      <td colspan="2">{{ $reporteproblema->correoOperario}}</td>
-    </tr>
-
+    
     <tr>
       <th scope="row">Prioridad:  </th>
       <td colspan="2">{{ $reporteproblema->prioridad}}</td>
