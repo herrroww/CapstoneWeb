@@ -6,15 +6,7 @@
         <div class="col-sm-6">
             <h3>Editar Componente: {{ $componente->nombreComponente }}</h3>
             <hr>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-                 </ul>
-                    </div>
-                    @endif
+
 
 <form action="" method="POST">
     @method('PATCH')
@@ -22,12 +14,14 @@
   <div class="form-group">
     <label for="nombreComponente">Nombre:</label>
     <input type="text" class="form-control" name="nombreComponente" value="{{ $componente->nombreComponente }}" placeholder="Escriba nombre del componente" required>
+    {!! $errors->first('nombreComponente','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
   <div class="form-group">
     <label for="idComponente">ID Componente:</label>
     <input type="text" class="form-control" name="idComponente" value="{{ $componente->idComponente }}" placeholder="Escriba el id del componente" required>
+    {!! $errors->first('idComponente','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   
