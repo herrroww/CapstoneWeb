@@ -7,22 +7,13 @@
             <h3>Editar Operario: {{ $operario->nombreOperario }}</h3>
             <hr>
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-                 </ul>
-                    </div>
-                    @endif
-
 <form action="" method="POST">
     @method('PATCH')
     @csrf
   <div class="form-group">
     <label for="nombreOperario">Nombre:</label>
     <input type="text" class="form-control" name="nombreOperario" value="{{ $operario->nombreOperario }}" placeholder="Escriba nombre operario" required>
+    {!! $errors->first('nombreOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
@@ -30,46 +21,51 @@
   <label style="margin-top: 20px" for="rutOperario">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
   Colocar rut con puntos y guión ejemplo: 11.111.111-1</div>
     <input type="text" class="form-control" name="rutOperario" value="{{ $operario->rutOperario }}" placeholder="Escriba rut del operario" required>
+    {!! $errors->first('rutOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
   <div class="form-group">
     <label for="correoOperario">Correo:</label>
     <input type="email" class="form-control" name="correoOperario" value="{{ $operario->correoOperario }}" placeholder="Escriba correo del operario" required>
+    {!! $errors->first('correoOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
-  <div class="form-group">
- <strong style="margin-bot: 10px">Empresa:</strong>
- <select name="empresa" class="form-control" id="empresaselect">
-
- @if($operario->empresa == null)
- <option value="">No hay empresa seleccionada</option>
- @else
- <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
- @endif
- 
- @foreach($empresa as $empresas)
-@if($empresas->id != $operario->empresa_id)
-  <option value="{{ $empresas->id }}">{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
-  @endif
-  @endforeach
-  </select>
-  </div>
-  
   <div class="form-group">
     <label for="telefonoOperario">Teléfono Operario:</label>
     <input type="text" class="form-control" name="telefonoOperario" value="{{ $operario->telefonoOperario}}" placeholder="Escriba el teléfono del operario" required>
+    {!! $errors->first('telefonoOperario','<br><div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
-  
 <div class="form-group">
-    <label for="contraseniaOperario">Contraseña Operario(Opcional):</label>
+  <strong style="margin-bot: 10px">Empresa:</strong>
+ 
+  <select name="empresa" class="form-control" id="empresaselect">
+    @if($operario->empresa == null)
+      <option value="">No hay empresa seleccionada</option>
+    @else
+      <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
+    @endif
+ 
+    @foreach($empresa as $empresas)
+      @if($empresas->id != $operario->empresa_id)
+        <option value="{{ $empresas->id }}">{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
+      @endif
+    @endforeach
+  </select>
+  {!! $errors->first('empresa','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
+</div>
+
+<div class="form-group">
+    <label for="contraseniaOperario">Nueva Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario" value="" placeholder="Escriba la contraseña" required>
+    {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <div class="form-group">
-    <label for="contraseniaOperario2">Confirme Contraseña Operario(Opcional):</label>
+    <label for="contraseniaOperario2">Confirme Nueva Contraseña Operario:</label>
     <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
+    {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
 <form>
