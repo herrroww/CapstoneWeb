@@ -36,6 +36,12 @@
   </div>
     @endif
 
+    @if(session('alert'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('alert') }}
+      </div>
+    @endif
+
     <nav class="navbar navbar-light float-right">
                 <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('componenteop1')}}"><i class="fas fa-boxes mr-1" aria-hidden="true"></i>Agregar Componente</a>
                 <form method="GET" action="{{route('componenteop')}}" class="form-inline">
