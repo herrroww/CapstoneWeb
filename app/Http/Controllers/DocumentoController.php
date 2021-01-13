@@ -66,6 +66,12 @@ class DocumentoController extends Controller{
      */
     public function store(Request $request){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombre' => 'required|min:4|max:100',
+            'descripcion' => 'required|max:100',
+        ]); 
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -84,14 +90,13 @@ class DocumentoController extends Controller{
         if($request->file('file')){
 
             //Prepara parametros para la conexion FTP.
-            $conn_id = ftp_connect($ftpParameters->getServerFTP());
-            $login_result = ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP());
-            
-            if((!$conn_id) || (!$login_result)){
+            $conn_id = ftp_connect($ftpParameters->getServerFTP());            
+
+            if((!$conn_id) || @!ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP())){
 
                 unset($ftpParameters,$pkComponenteSeleccionado,$idComponenteSeleccionado,$data);
                 //[FTP-ERROR027]: Problema al conectar al servidor FTP para insertar documento.
-                exit($SWERROR->ErrorActual('FTPERROR027'));
+                return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR027'));
                 unset($SWERROR);
             }else{
 
@@ -132,7 +137,7 @@ class DocumentoController extends Controller{
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters);
                     //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-                    exit($SWERROR->ErrorActual('FTPERROR002'));
+                    return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
                     unset($SWERROR);
                 }else{
 
@@ -149,12 +154,12 @@ class DocumentoController extends Controller{
                         if($ubicacionComponente == "Externo"){
 
                             //[FTP-ERROR029]: El documento ya existe en el Componente (Conflicto en directorio Externo).
-                            exit($SWERROR->ErrorActual('FTPERROR029'));
+                            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR029'));
                             unset($SWERROR);
                         }else{
 
                             //[FTP-ERROR030]: El documento ya existe en el Componente (Conflicto en directorio Interno).
-                            exit($SWERROR->ErrorActual('FTPERROR030'));
+                            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR030'));
                             unset($SWERROR);
                         }                        
                     }else{         
@@ -284,13 +289,12 @@ class DocumentoController extends Controller{
 
         //Prepara parametros para la conexion FTP.
         $conn_id = ftp_connect($ftpParameters->getServerFTP());
-        $login_result = ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP());
         
-        if((!$conn_id) || (!$login_result)){
+        if((!$conn_id) || @!ftp_login($conn_id, $ftpParameters->getUserFTP(), $ftpParameters->getPassFTP())){
 
             unset($ftpParameters,$pkComponenteSeleccionado,$idComponenteSeleccionado,$data);
             //[FTP-ERROR027]: Problema al conectar al servidor FTP para insertar documento.
-            exit($SWERROR->ErrorActual('FTPERROR027'));
+            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR027'));
             unset($SWERROR);
         }else{
 
@@ -300,7 +304,7 @@ class DocumentoController extends Controller{
                 //Se liberan los recursos.
                 unset($documento,$ftpParameters,$ssh);
                 //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-                exit($SWERROR->ErrorActual('FTPERROR002'));
+                return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
                 unset($SWERROR);
             }else{
 
@@ -317,12 +321,12 @@ class DocumentoController extends Controller{
                     if($ubicacionComponente == "Externo"){
 
                         //[FTP-ERROR031]: El documento no existe en el Componente (Conflicto en directorio Externo).
-                        exit($SWERROR->ErrorActual('FTPERROR031'));
+                        return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR031'));
                         unset($SWERROR);
                     }else{
 
                         //[FTP-ERROR032]: El documento no existe en el Componente (Conflicto en directorio Interno).
-                        exit($SWERROR->ErrorActual('FTPERROR032'));
+                        return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR032'));
                         unset($SWERROR);
                     }                        
                 }else{
@@ -412,7 +416,7 @@ class DocumentoController extends Controller{
             //Se liberan los recursos.
             unset($documento,$ftpParameters,$ssh);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
