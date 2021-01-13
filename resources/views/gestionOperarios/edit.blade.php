@@ -58,13 +58,13 @@
 
 <div class="form-group">
     <label for="contraseniaOperario">Nueva Contraseña Operario:</label>
-    <input type="text" class="form-control" name="contraseniaOperario" value="" placeholder="Escriba la contraseña" required>
+    <input type="text" class="form-control" name="contraseniaOperario" value="" placeholder="Escriba la contraseña">
     {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <div class="form-group">
     <label for="contraseniaOperario2">Confirme Nueva Contraseña Operario:</label>
-    <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña" required>
+    <input type="text" class="form-control" name="contraseniaOperario2" value="" placeholder="Escriba la contraseña">
     {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
