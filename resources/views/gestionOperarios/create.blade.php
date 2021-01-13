@@ -11,12 +11,12 @@
             <hr>
 
 
-
 <form action="gestionop1" method="POST">
     @csrf
   <div class="form-group">
     <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" name="nombreOperario" placeholder="Escriba nombre operario" required>
+    <input type="text" class="form-control" name="nombreOperario" placeholder="Escriba nombre operario" value="{{ old('nombreOperario') }}" required>
+    {!! $errors->first('nombreOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
@@ -25,49 +25,51 @@
     <label style="margin-top: 20px" for="rut">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
   Colocar rut solo con guión ejemplo: 11.111.111-1</div>
   
-    <input type="text" class="form-control" name="rutOperario" placeholder="Escriba rut del operario" required>
+    <input type="text" class="form-control" name="rutOperario" placeholder="Escriba rut del operario" value="{{ old('rutOperario') }}" required>
+    {!! $errors->first('rutOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
   <div class="form-group">
     <label for="correo">Correo:</label>
-    <input type="email" class="form-control" name="correoOperario" placeholder="Escriba correo del operario" required>
-  </div>
-
-  <div class="form-group">
- <strong style="margin-bot: 10px">Empresa:</strong>
- 
- <select name="empresa" class="form-control" id="empresaselect">
- <option value="" required>Seleccionar Empresa</oprion>
-@foreach($empresa as $empresas)
-<option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa}} | Rut:{{ $empresas->rutEmpresa}}</oprion>
-@endforeach
-
-</select>
-</div>
+    <input type="email" class="form-control" name="correoOperario" placeholder="Escriba correo del operario" value="{{ old('correoOperario') }}" required>
+    {!! $errors->first('correoOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
+  </div>  
 
   <div class="form-group">
     <label for="telefonoOperario">Teléfono Operario:</label>
-    <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el teléfono del operario" required>
+    <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el teléfono del operario" value="{{ old('telefonoOperario') }}" required>
+    {!! $errors->first('telefonoOperario','<br><div class="alert alert-danger"><small>:message</small></div><br>') !!}
+  </div>
+
+  <div class="form-group">
+    <strong style="margin-bot: 10px">Empresa:</strong>
+ 
+    <select name="empresa" class="form-control" id="empresaselect">
+      <option value="" required>Seleccionar Empresa</oprion>
+      @foreach($empresa as $empresas)
+        <option value="{{ $empresas->id }}" required>{{ $empresas->nombreEmpresa}} | Rut:{{ $empresas->rutEmpresa}}</oprion>
+      @endforeach      
+    </select>
+    {!! $errors->first('empresa','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
   
-		
-<!--<form action="gestionop1" method="POST" class="formulario" id="formulario">-->
-			<!-- Grupo: Contraseña -->
-			<div class="formulario__grupo" id="grupo__contraseniaOperario">
-				<label for="contraseniaOperario" class="formulario__label">Contraseña</label>
-				<div class="formulario__grupo-input">
-					<input type="text" class="form-control" name="contraseniaOperario" id="contraseniaOperario">
-					<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
-				</div>
-				<p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
-			</div>
+	<div class="formulario__grupo" id="grupo__contraseniaOperario">
+		<label for="contraseniaOperario">Contraseña</label>
+		<div class="formulario__grupo-input">
+			<input type="text" class="form-control" name="contraseniaOperario" id="contraseniaOperario">
+        {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
+				<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
+		</div>
+		<p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+	</div>
 
 			<!-- Grupo: Contraseña 2 -->
 			<div class="formulario__grupo" id="grupo__contraseniaOperario2">
-				<label for="contraseniaOperario2" class="formulario__label">Repetir Contraseña</label>
+				<label for="contraseniaOperario2">Repetir Contraseña</label>
 				<div class="formulario__grupo-input">
 					<input type="text" class="form-control" name="contraseniaOperario2" id="contraseniaOperario2">
+          {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
 					<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
 				</div>
 				<p class="formulario__input-error">Ambas contraseñas deben ser iguales.</p>
