@@ -38,7 +38,7 @@ class asignaropController extends Controller{
         }
     }
     
-    public function create(){
+    public function create(){        
 
         $componente = Componente::all();
         $operario = Operario::all();
@@ -50,6 +50,12 @@ class asignaropController extends Controller{
     }
 
     public function store(Request $request){
+
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([            
+            'operario' => 'required|min:1',
+            'componente' => 'required|min:1',
+        ]); 
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
@@ -75,7 +81,7 @@ class asignaropController extends Controller{
             //Se liberan los recursos.       
             unset($ssh,$ftpParameters,$operario,$empresa,$componente);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -91,7 +97,7 @@ class asignaropController extends Controller{
                 unset($ssh,$ftpParameters,$operario,$empresa,$componente);
 
                 //[FTP-ERROR009]: El Operario no existe en el sistema (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR009'));
+                return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR009'));
                 unset($SWERROR);
             }else{
 
@@ -107,7 +113,7 @@ class asignaropController extends Controller{
                     unset($ssh,$ftpParameters,$operario,$empresa,$componente);
 
                     //[FTP-ERROR010]: El Operario no existe en el sistema (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERROR010'));
+                    return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR010'));
                     unset($SWERROR);
                 }else{
 
@@ -123,7 +129,7 @@ class asignaropController extends Controller{
                         unset($ssh,$ftpParameters,$asignar,$operario);
                         //[FTP-ERROR025]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Externo).
                         $actualizarGestionOperario = false;
-                        exit($SWERROR->ErrorActual('FTPERROR025'));
+                        return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR025'));
                         unset($SWERROR);
                     }else{
 
@@ -139,7 +145,7 @@ class asignaropController extends Controller{
                             unset($ssh,$ftpParameters,$asignar,$operario);
                             //[FTP-ERROR026]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Interno).
                             $actualizarGestionOperario = false;
-                            exit($SWERROR->ErrorActual('FTPERROR026'));
+                            return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR026'));
                             unset($SWERROR);
                         }else{
 
@@ -154,7 +160,7 @@ class asignaropController extends Controller{
                                 //Se liberan los recursos.       
                                 unset($ssh,$ftpParameters,$operario,$empresa,$componente);
                                 //[FTP-ERROR019]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Externo).
-                                exit($SWERROR->ErrorActual('FTPERROR019'));
+                                return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR019'));
                                 unset($SWERROR);
                             }else{
 
@@ -170,7 +176,7 @@ class asignaropController extends Controller{
                                     unset($ssh,$ftpParameters,$operario,$empresa,$componente);
 
                                     //[FTP-ERROR020]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Interno).
-                                    exit($SWERROR->ErrorActual('FTPERROR020'));
+                                    return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR020'));
                                     unset($SWERROR);
                                 }else{
 
@@ -267,7 +273,7 @@ class asignaropController extends Controller{
                 unset($ssh,$ftpParameters,$asignar,$operario);
 
                 //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-                exit($SWERROR->ErrorActual('FTPERROR002'));
+                return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
                 unset($SWERROR);
             }else{
 
@@ -283,7 +289,7 @@ class asignaropController extends Controller{
                     unset($ssh,$ftpParameters,$asignar,$operario);
                     //[FTP-ERROR021]: El Operario origen no existe en el sistema (Conflicto en directorio Externo).
                     $actualizarGestionOperario = false;
-                    exit($SWERROR->ErrorActual('FTPERROR021'));
+                    return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR021'));
                     unset($SWERROR);
                 }else{
 
@@ -299,7 +305,7 @@ class asignaropController extends Controller{
                         unset($ssh,$ftpParameters,$asignar,$operario);
                         //[FTP-ERROR022]: El Operario origen no existe en el sistema (Conflicto en directorio Interno).
                         $actualizarGestionOperario = false;
-                        exit($SWERROR->ErrorActual('FTPERROR022'));
+                        return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR022'));
                         unset($SWERROR);
                     }else{
 
@@ -315,7 +321,7 @@ class asignaropController extends Controller{
                             unset($ssh,$ftpParameters,$asignar,$operario);
                             //[FTP-ERROR023]: El Operario destino no existe en el sistema (Conflicto en directorio Externo).
                             $actualizarGestionOperario = false;
-                            exit($SWERROR->ErrorActual('FTPERROR023'));
+                            return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR023'));
                             unset($SWERROR);
                         }else{
 
@@ -331,7 +337,7 @@ class asignaropController extends Controller{
                                 unset($ssh,$ftpParameters,$asignar,$operario);
                                 //[FTP-ERROR024]: El Operario destino no existe en el sistema (Conflicto en directorio Interno).
                                 $actualizarGestionOperario = false;
-                                exit($SWERROR->ErrorActual('FTPERROR024'));
+                                return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR024'));
                                 unset($SWERROR);
                             }else{
 
@@ -347,7 +353,7 @@ class asignaropController extends Controller{
                                     unset($ssh,$ftpParameters,$asignar,$operario);
                                     //[FTP-ERROR025]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Externo).
                                     $actualizarGestionOperario = false;
-                                    exit($SWERROR->ErrorActual('FTPERROR025'));
+                                    return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR025'));
                                     unset($SWERROR);
                                 }else{
 
@@ -363,7 +369,7 @@ class asignaropController extends Controller{
                                         unset($ssh,$ftpParameters,$asignar,$operario);
                                         //[FTP-ERROR026]: El Operario destino ya posee un Componente con dicha ID (Conflicto en directorio Interno).
                                         $actualizarGestionOperario = false;
-                                        exit($SWERROR->ErrorActual('FTPERROR026'));
+                                        return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR026'));
                                         unset($SWERROR);
                                     }else{
 
@@ -379,7 +385,7 @@ class asignaropController extends Controller{
                                             unset($ssh,$ftpParameters,$asignar,$operario);
 
                                             //[FTP-ERROR019]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Externo).
-                                            exit($SWERROR->ErrorActual('FTPERROR019'));
+                                            return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR019'));
                                             unset($SWERROR);
                                         }else{
 
@@ -395,7 +401,7 @@ class asignaropController extends Controller{
                                                 unset($ssh,$ftpParameters,$asignar,$operario);
 
                                                 //[FTP-ERROR020]: El Componente no existe en el repositorio Componentes (Conflicto en directorio Interno).
-                                                exit($SWERROR->ErrorActual('FTPERROR020'));
+                                                return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR020'));
                                                 unset($SWERROR);
                                             }else{                    
                             
@@ -473,7 +479,7 @@ class asignaropController extends Controller{
             unset($ssh,$ftpParameters,$asignar,$operario);
 
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
