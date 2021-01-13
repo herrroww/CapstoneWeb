@@ -14,13 +14,15 @@
     @csrf
   <div class="form-group ">
     <label for="nombreComponente">Nombre:</label>
-    <input type="text" class="form-control" name="nombreComponente" placeholder="Escriba el nombre del componente" required>
+    <input type="text" class="form-control" name="nombreComponente" placeholder="Escriba el nombre del componente" value="{{ old('nombreComponente') }}" required>
+    {!! $errors->first('nombreComponente','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   <form>
   <div class="form-group ">
     <label for="idComponente">ID Componente:</label>
-    <input type="text" class="form-control" name="idComponente" placeholder="Escriba el id del componente" required>
+    <input type="text" class="form-control" name="idComponente" placeholder="Escriba el id del componente" value="{{ old('idComponente') }}" required>
+    {!! $errors->first('idComponente','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
   
