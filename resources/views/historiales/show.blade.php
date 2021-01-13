@@ -55,7 +55,7 @@
     </table>
 
     <form>
-    <a href="{{ route('reporteop') }}">
+    <a href="{{ url()->previous() }}">
     <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Volver</button>
     </a>
     </form>      
