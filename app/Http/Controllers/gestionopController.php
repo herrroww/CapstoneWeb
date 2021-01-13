@@ -10,6 +10,8 @@ use App\Empresa;
 use App\Http\Controllers\ErrorRepositorio;
 use App\Http\Controllers\FtpConexion;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use phpseclib\Net\SSH2;
 use App\Asignar;
 
@@ -51,6 +53,18 @@ class gestionopController extends Controller{
 
     public function store(Request $request){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreOperario' => 'required|min:9|max:100',
+            'rutOperario' => 'required|min:11|max:100',
+            'correoOperario' => 'required|email|max:100',
+            'telefonoOperario' => 'required|max:100',
+            'empresa' => 'required|min:1',
+            'contraseniaOperario' => 'required|
+                                      min:6|
+                                      same:contraseniaOperario2'
+        ]);        
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -86,7 +100,7 @@ class gestionopController extends Controller{
             //Se liberan los recursos.           
             unset($ssh,$ftpParameters,$operario);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -101,7 +115,7 @@ class gestionopController extends Controller{
                 //Se liberan los recursos.           
                 unset($ssh,$ftpParameters,$operario);
                 //[FTP-ERROR007]: El Operario ya existe en el sistema (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR007'));
+                return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR007'));
                 unset($SWERROR);
             }else{
 
@@ -116,7 +130,7 @@ class gestionopController extends Controller{
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters,$operario);
                     //[FTP-ERROR008]: El Operario ya existe en el sistema (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERRROR008'));
+                    return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR008'));
                     unset($SWERROR);
                 }else{
                     
@@ -179,6 +193,18 @@ class gestionopController extends Controller{
 
     public function update(OperarioFormRequest $request, $id){
 
+        //Se establecen las reglas de validacion.
+        $validatedData = $request->validate([
+            'nombreOperario' => 'required|min:9|max:100',
+            'rutOperario' => 'required|min:11|max:100',
+            'correoOperario' => 'required|email|max:100',
+            'telefonoOperario' => 'required|max:100',
+            'empresa' => 'required|min:1',
+            'contraseniaOperario' => 'required|
+                                      min:6|
+                                      same:contraseniaOperario2'
+        ]);     
+
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
 
@@ -228,7 +254,7 @@ class gestionopController extends Controller{
             //Se liberan los recursos.           
             unset($ssh,$ftpParameters,$operario);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -247,7 +273,7 @@ class gestionopController extends Controller{
                     unset($ssh,$ftpParameters,$operario);
                     //[FTP-ERROR009]: El Operario no existe en el sistema (Conflicto en directorio Externo).
                     $actualizarGestionOperario = false;
-                    exit($SWERROR->ErrorActual('FTPERROR009'));
+                    return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR009'));
                     unset($SWERROR);
                 }else{
 
@@ -263,7 +289,7 @@ class gestionopController extends Controller{
                         unset($ssh,$ftpParameters,$operario);
                         //[FTP-ERROR010]: El Operario no existe en el sistema (Conflicto en directorio Interno).
                         $actualizarGestionOperario = false;
-                        exit($SWERROR->ErrorActual('FTPERROR010'));
+                        return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR010'));
                         unset($SWERROR);
                     }else{
 
@@ -279,7 +305,7 @@ class gestionopController extends Controller{
                             unset($ssh,$ftpParameters,$operario);
                             //[FTP-ERROR011]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Externo).
                             $actualizarGestionEmpresa = false;
-                            exit($SWERROR->ErrorActual('FTPERROR011'));
+                            return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR011'));
                             unset($SWERROR);
                         }else{
 
@@ -295,7 +321,7 @@ class gestionopController extends Controller{
                                 unset($ssh,$ftpParameters,$operario);
                                 //[FTP-ERROR012]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Interno).
                                 $actualizarGestionEmpresa = false;
-                                exit($SWERROR->ErrorActual('FTPERROR012'));
+                                return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR012'));
                                 unset($SWERROR);
                             }
                         }
@@ -318,7 +344,7 @@ class gestionopController extends Controller{
                     unset($ssh,$ftpParameters,$operario);
                     //[FTP-ERROR013]: La Empresa origen no existe en el sistema (Conflicto en directorio Externo).
                     $actualizarGestionEmpresa = false;
-                    exit($SWERROR->ErrorActual('FTPERROR013'));
+                    return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR013'));
                     unset($SWERROR);
                 }else{
 
@@ -334,7 +360,7 @@ class gestionopController extends Controller{
                         unset($ssh,$ftpParameters,$operario);
                         //[FTP-ERROR014]: La Empresa origen no existe en el sistema (Conflicto en directorio Interno).
                         $actualizarGestionEmpresa = false;
-                        exit($SWERROR->ErrorActual('FTPERROR014'));
+                        return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR014'));
                         unset($SWERROR);
                     }else{
                      
@@ -350,7 +376,7 @@ class gestionopController extends Controller{
                             unset($ssh,$ftpParameters,$operario);
                             //[FTP-ERROR015]: La Empresa destino no existe en el sistema (Conflicto en directorio Externo).
                             $actualizarGestionEmpresa = false;
-                            exit($SWERROR->ErrorActual('FTPERROR015'));
+                            return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR015'));
                             unset($SWERROR);
                         }else{
 
@@ -366,7 +392,7 @@ class gestionopController extends Controller{
                                 unset($ssh,$ftpParameters,$operario);
                                 //[FTP-ERROR016]: La Empresa destino no existe en el sistema (Conflicto en directorio Interno).
                                 $actualizarGestionEmpresa = false;
-                                exit($SWERROR->ErrorActual('FTPERROR016'));
+                                return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR016'));
                                 unset($SWERROR);
                             }else{
 
@@ -382,7 +408,7 @@ class gestionopController extends Controller{
                                     unset($ssh,$ftpParameters,$operario);
                                     //[FTP-ERROR011]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Externo).
                                     $actualizarGestionEmpresa = false;
-                                    exit($SWERROR->ErrorActual('FTPERROR011'));
+                                    return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR011'));
                                     unset($SWERROR);
                                 }else{
 
@@ -398,7 +424,7 @@ class gestionopController extends Controller{
                                         unset($ssh,$ftpParameters,$operario);
                                         //[FTP-ERROR012]: La Empresa destino ya posee un Operador con dicho rut (Conflicto en directorio Interno).
                                         $actualizarGestionEmpresa = false;
-                                        exit($SWERROR->ErrorActual('FTPERROR012'));
+                                        return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR012'));
                                         unset($SWERROR);
                                     }
                                 }
@@ -494,7 +520,7 @@ class gestionopController extends Controller{
             //Se liberan los recursos.           
             unset($ssh,$ftpParameters,$operario);
             //[FTP-ERROR002]: Problema con las credenciales del servidor FTP.
-            exit($SWERROR->ErrorActual('FTPERROR002'));
+            return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR002'));
             unset($SWERROR);
         }else{
 
@@ -509,7 +535,7 @@ class gestionopController extends Controller{
                 //Se liberan los recursos.           
                 unset($ssh,$ftpParameters,$operario);
                 //[FTP-ERROR009]: El Operario no existe en el sistema (Conflicto en directorio Externo).
-                exit($SWERROR->ErrorActual('FTPERROR009'));
+                return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR009'));
                 unset($SWERROR);
             }else{
 
@@ -524,7 +550,7 @@ class gestionopController extends Controller{
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters,$operario);
                     //[FTP-ERROR010]: El Operario no existe en el sistema (Conflicto en directorio Interno).
-                    exit($SWERROR->ErrorActual('FTPERROR010'));
+                    return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR010'));
                     unset($SWERROR);
                 }else{
 
