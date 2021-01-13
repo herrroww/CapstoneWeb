@@ -36,6 +36,12 @@
   </div>
     @endif
     </div>
+    @if(session('alert'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('alert') }}
+      </div>
+    @endif
+    </div>
   </h6>
   <nav class="navbar navbar-light float-right">
                 <a class="btn bg-orange color-white mr-4 my-2 my-sm-0" href="{{route('gestionop1')}}"><i class="fa fa-user-plus mr-1" aria-hidden="true"></i>Agregar Operario</a>
