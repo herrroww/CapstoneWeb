@@ -37,6 +37,12 @@
   La Empresa se ha editado correctamente.
   </div>
     @endif
+
+    @if(session('alert'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('alert') }}
+      </div>
+    @endif
     </div>
 
     <nav class="navbar navbar-light float-right">
