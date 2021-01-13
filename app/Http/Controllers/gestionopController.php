@@ -200,8 +200,7 @@ class gestionopController extends Controller{
             'correoOperario' => 'required|email|max:100',
             'telefonoOperario' => 'required|max:100',
             'empresa' => 'required|min:1',
-            'contraseniaOperario' => 'required|
-                                      min:6|
+            'contraseniaOperario' => 'nullable|min:6|
                                       same:contraseniaOperario2'
         ]);     
 
@@ -232,7 +231,10 @@ class gestionopController extends Controller{
         $operario->correoOperario = $request->get('correoOperario');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
-        $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
+        if(request('contraseniaOperario') != ""){
+
+            $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
+        }        
         $operario->telefonoOperario =  $request->get('telefonoOperario');
 
         $operario->rutOperarioFTP = preg_replace("/[^A-Za-z0-9]/","",$operario->rutOperario);
@@ -247,7 +249,7 @@ class gestionopController extends Controller{
 
         //Se prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
-              
+           
         //Intenta hacer la conexion al servidor FTP.
         if(!$ssh->login($ftpParameters->getUserFTP(),$ftpParameters->getPassFTP())){
             
