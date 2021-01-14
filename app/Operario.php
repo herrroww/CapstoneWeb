@@ -24,6 +24,12 @@ class Operario extends model implements Auditable
         return $this->hasMany('App\Asignar');
         }
    
+    public function get()
+    {
+        $operarios = Operario::get();
+        $operariosArray[''] = 'Seleccionar un operario';
+        foreach ($faculties as $faculty) {}
+    }
 
     
 }

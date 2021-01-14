@@ -104,5 +104,16 @@ class asignaropController extends Controller
 
         
     }
+
+    public function getTipo(Request $request)
+    {
+        if ($request->ajax()) {
+            $operarios = Operario::where('operario_id', $request->operario_id)->get();
+            foreach ($operarios as $operario) {
+                $operariosArray[$career->id] = $career->name;
+            }
+            return response()->json($careersArray);
+        }
+    }
 }
 

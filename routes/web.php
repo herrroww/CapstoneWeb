@@ -69,6 +69,8 @@ Route::post('asignarop1', 'asignaropController@store')->name('asignarop1');
 Route::get('asignaropedit/{id}', 'asignaropController@edit')->name('asignaropedit');
 Route::patch('asignaropedit/{id}', 'asignaropController@update')->name('asignaropedit');
 Route::delete('asignaropdes/{id}', 'asignaropController@destroy')->name('asignaropdes');
+Route::get('asignargetop', 'AsignarController@getTipo')->name('asignargetop');
+
 
 Route::get('historialop', 'HistorialController@index')->name('historialop');
 Route::get('historialopshow/{id}', 'HistorialController@show')->name('historialopshow');

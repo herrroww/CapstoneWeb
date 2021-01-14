@@ -19,6 +19,8 @@
     <script src="dist/js/adminlte.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+   
+   
     
 
     
@@ -37,7 +39,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 
-    
+  
 
   
 </head>
@@ -391,6 +393,8 @@
             <!-- /.control-sidebar -->
         </div>
     </div>
+
+    @yield('scripts')
 </body>
 
 </html>

@@ -28,6 +28,34 @@
 
 </select>
 
+<div class="form-group">
+    
+    <strong style="margin-bot: 10px">Operario:</strong>
+    <select name="operario" class="form-control" id="operariosselect">
+    <option value="" required>Seleccionar Tipo De Operario</oprion>
+@foreach($operario as $operarios)
+
+<option value="{{ $operarios->id  }}" required> {{ $operarios->tipoOperario }} </oprion>
+
+
+@endforeach
+
+</select>
+
+<div class="form-group">
+    
+    <strong style="margin-bot: 10px">Operario:</strong>
+    <select name="operario" class="form-control" id="operariosselect">
+    <option value="" required>Seleccionar Empresa de Operario</oprion>
+@foreach($operario as $operarios)
+
+<option value="{{ $operarios->id  }}" required> {{ $operarios->empresa->nombreEmpresa }} </oprion>
+
+
+@endforeach
+
+</select>
+
 
 </div>
 <div class="form-group">

@@ -78,7 +78,7 @@
   
 </table>
 @if($search)
-  <a href="{{ url()->previous() }}">
+  <a href="{{ route('reporteop') }}">
   <button type="button" class="btn btn-secondary float-right">Back</button>
 </a>
  @endif

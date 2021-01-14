@@ -4,7 +4,6 @@
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Lista de Documentos: {{ $componente->nombreComponente }}</h2>
-    
     <hr>
 
 
@@ -16,6 +15,12 @@
   Se agregó el documento correctamente.
   </div>
   </h6>
+    @endif
+
+    @if($search)
+  <div class="alert alert-primary" role="alert">
+  Se encontraron los siguientes resultados:
+  </div>
     @endif
 
     
@@ -83,7 +88,7 @@
 </table>
 @if($search)
   <a href="{{ route('documentosop') }}" >
-  <button type="button" class="btn btn-secondary float-right"> "Volver</button>
+  <button type="button" class="btn btn-secondary float-right"> Volver</button>
 </a>
 @else
   <a href="{{ route('componenteop') }}"  >

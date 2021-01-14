@@ -51,7 +51,8 @@ class DocumentoController extends Controller
      */
     public function create()
     {
-        return view('documentos.create',['activemenu' => 'componente']);
+        $componente = Componente::findOrFail(Session::get('componente_id'));
+        return view('documentos.create',['activemenu' => 'componente','componente' =>$componente]);
     }
 
     /**
@@ -88,8 +89,9 @@ class DocumentoController extends Controller
      */
     public function show($id)
     {
+        $componente = Componente::findOrFail(Session::get('componente_id'));
         $data=Documento::find($id);
-        return view('documentos.details',['activemenu' => 'componente'],compact('data'));
+        return view('documentos.details',['activemenu' => 'componente','componente' =>$componente],compact('data'));
        
     }
 
