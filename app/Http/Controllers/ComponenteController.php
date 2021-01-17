@@ -27,6 +27,7 @@ class ComponenteController extends Controller{
             $query = trim($request->get('search'));
 
             $componentes = Componente::where('nombreComponente',  'LIKE', '%' . $query . '%')
+                ->orwhere('nombreComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('idComponente',  'LIKE', '%' . $query . '%')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
@@ -205,7 +206,7 @@ class ComponenteController extends Controller{
                     }else{
 
                         //Verifica si el Componente existe en el directorio Externo del repositorio de Componentes.
-                        $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->IdComponente.' ] && echo "1" || echo "0"');
+                        $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->idComponente.' ] && echo "1" || echo "0"');
             
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
@@ -220,7 +221,7 @@ class ComponenteController extends Controller{
                         }else{
 
                             //Verifica si el Componente existe en el directorio Interno del repositorio de Componentes.
-                            $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->IdComponente.' ] && echo "1" || echo "0"');
+                            $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                             //Limpia la informacion obtenida.
                             $estadoExiste = $estadoExiste[0];
