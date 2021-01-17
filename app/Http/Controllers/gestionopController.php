@@ -28,9 +28,35 @@ class gestionopController extends Controller{
 
         if($request){
             
-            $query = trim($request->get('search'));            
+            $query = trim($request->get('search'));  
+            
+            //Prepara variables para el filtro.
+            $empresasTemp = Empresa::all();
+            $empresaEncontrada = false;
 
-            $operarios = Operario::where('nombreOperario',  'LIKE', '%' . $query . '%')
+            //Verifica si el filtro de busqueda corresponde a una Empresa.
+            foreach($empresasTemp as $empresa){
+
+                //Si encuentra a un Operario perteneciente a una Empresa buscada.
+                if($query != "" && $empresa->nombreEmpresa == $query && !$empresaEncontrada){
+
+                    $empresaEncontrada = true;
+
+                    //Filtra lo operardores segun la Empresa encontrada.
+                    $operarios = Operario::where('empresas.nombreEmpresa', 'LIKE', $query)
+                                    ->join('empresas', 'empresa_id',  'LIKE', 'empresas.id')
+                                    ->orderBy('id', 'asc')
+                                    ->select('operarios.*')
+                                    ->paginate(7);
+
+                }
+            }
+
+            //Si el filtro de busqueda no corresponde a una Empresa.
+            if(!$empresaEncontrada){
+
+                //Filtra por busqueda de Operario.
+                $operarios = Operario::where('nombreOperario',  'LIKE', '%' . $query . '%')
                 ->orwhere('nombreOperario',  'LIKE', '%' . $query . '%')
                 ->orwhere('rutOperario',  'LIKE', '%' . $query . '%')
                 ->orwhere('correoOperario',  'LIKE', '%' . $query . '%')
@@ -38,6 +64,7 @@ class gestionopController extends Controller{
                 ->orwhere('telefonoOperario',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
+            }            
 
             return view('gestionOperarios.index', ['operarios' => $operarios, 'search' => $query, 'activemenu' => 'operario']);
         }
@@ -76,7 +103,6 @@ class gestionopController extends Controller{
 
         //Genera al Operario y rellena los atributos con la informacion entregada por el usuario.        
         $operario = new Operario();
-
 
         $operario->nombreOperario = request('nombreOperario');
         $operario->rutOperario = request('rutOperario');
