@@ -62,13 +62,15 @@
         </table>
 
         @if($search)
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('historialop')}}">
   <button type="button" class="btn btn-secondary float-right">Volver</button>
  </div>
 </a>
- @endif
-
-        {{ $historicogestion->links()}}
+@endif
+  
+    
+    {{ $historicogestion->appends('search',$search)->links() }}
+    
 
       </div>
     @endsection
