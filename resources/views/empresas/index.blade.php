@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid text-center">
     <div class="col-12 pt-3 pb-3 text-center" >
         <h2>Lista de Empresas</h2>
     
@@ -54,7 +54,7 @@
                 </form>
             </nav>
   <!-- SEARCH FORM -->
-  <div class="col-12 pt-3 pb-3 table-responsive">
+  <div class="col-12 pt-3 pb-3 table-responsive ">
 <table class="table table-bordered ">
   <thead>
     <tr>
@@ -91,11 +91,11 @@
   
 </table>
 @if($search)
-  <a href="{{ url()->previous() }}" class="float-right">
+  <a href="{{route('empresaop')}}" class="float-right">
   <button type="button" class="btn btn-secondary">Volver</button>
 </a>
 @endif
-    {{ $empresas->links()}}
+    {{ $empresas->appends('search',$search)->links()}}
 </div>
 
 @endsection
