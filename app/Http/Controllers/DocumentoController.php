@@ -55,7 +55,8 @@ class DocumentoController extends Controller{
      */
     public function create(){
 
-        return view('documentos.create',['activemenu' => 'componente']);
+        $componente = Componente::findOrFail(Session::get('componente_id'));
+        return view('documentos.create',['activemenu' => 'componente','componente' =>$componente]);
     }
 
     /**
@@ -187,6 +188,7 @@ class DocumentoController extends Controller{
                         //Activar modo pasivo
                         ftp_pasv($conn_id, true);
 
+                        //TODO: NOTIFICAR EL PESO DE LOS ARCHIVOS.
                         //Envia el componente al directorio ComponenteTemp del usuario FTP.
                         ftp_put($conn_id,$dst.'/'.$nombre,$source_file,FTP_BINARY);
 
