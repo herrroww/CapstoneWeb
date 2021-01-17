@@ -20,7 +20,7 @@
   <div class="form-group">
   <label style="margin-top: 20px" for="rutEmpresa">Rut: </label><div style="margin-right: 100px" class="alert alert-info float-right" role="alert">
   Colocar rut con puntos y guión ejemplo: 11.111.111-1</div>
-    <input type="text" class="form-control" name="rutEmpresa" placeholder="Escriba rut de empresa" value="{{ old('nombreEmpresa') }}" required>
+    <input type="text" class="form-control" name="rutEmpresa" placeholder="Escriba rut de empresa" value="{{ old('rutEmpresa') }}" required>
     {!! $errors->first('rutEmpresa','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
 
