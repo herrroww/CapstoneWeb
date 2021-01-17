@@ -24,16 +24,83 @@ class asignaropController extends Controller{
 
         if($request){
             
-            $query = trim($request->get('search'));
+            //Recibe la informacion de busqueda entrante.
+            $query = trim($request->get('search')); 
             
-            $asignars = Asignar::where('operario_id',  'LIKE', '%' . $query . '%')
-                ->orwhere('componente_id',  'LIKE', '%' . $query . '%')
-                ->orwhere('operario_id',  'LIKE', '%' . $query . '%')
-                ->orderBy('id', 'asc')
-                ->paginate(7);
+            //Prepara variables de Operario temporales para el filtro.
+            $operariosTemp = Operario::all();
+            $operarios;
+            $operarioEncontrado = false;
 
-            $operarios = Operario::all();
+            //Prepara variables de Componente temporales para el filtro.
+            $componentesTemp = Componente::all();
+            $componenteEncontrado = false;
 
+            //Verifica si la busqueda ingresada corresponde a algun Componente.
+            foreach($componentesTemp as $componente){
+
+                //Si la busqueda no es vacia, la busqueda corresponde al nombre del Componente y mientras no haya encontrado la coincidencia:
+                if($query != "" && $componente->nombreComponente == $query && !$componenteEncontrado){
+
+                    //El Componente se ha encontrado.
+                    $componenteEncontrado=true;   
+
+                    //Filtra las asignaciones en relacion al Componente encontrado.
+                    $asignars = Asignar::where('componente_id',  'LIKE', $componente->id)
+                                    ->orderBy('id', 'asc')
+                                    ->paginate(7);
+
+                    //Obtiene a todos los operarios.
+                    $operarios = $operariosTemp;               
+                }
+            }
+
+            //Verifica si la busqueda ingresada corresponde a algun Operario.
+            foreach($operariosTemp as $operario){
+
+                //Si la busqueda no es vacia, la busqueda corresponde al nombre del Operario y mientras no haya encontrado la coincidencia:
+                if($query != "" && $operario->nombreOperario == $query && !$operarioEncontrado){
+
+                    //Prepara la lista de operarios para la filtracion de asignaciones.
+                    $operarios = Operario::findOrFail($operario->id);
+
+                    //Operario se ha encontrado.
+                    $operarioEncontrado=true;
+
+                    //Filtra las asignaciones en relacion al Operario encontrado.
+                    $asignars = Asignar::where('operario_id',  'LIKE', $operario->id)
+                                    ->orderBy('id', 'asc')
+                                    ->paginate(7);                    
+
+                //Si la busqueda no es vacia, la busqueda corresponde al tipo de Operario y mientras no haya encontrado la coincidencia:
+                }elseif($query!= "" && $operario->tipoOperario == $query && !$operarioEncontrado){
+
+                    //Prepara la lista de todos los operarios.
+                    $operarios = $operariosTemp;
+
+                    //Encuentra al Operario(s) segun el tipo.
+                    $operarioEncontrado=true;
+
+                    //Filtra las asignaciones segun el tipo de Operario encontrado.
+                    $asignars = Asignar::where('operarios.tipoOperario', 'LIKE', $query)
+                                    ->join('operarios', 'operario_id',  'LIKE', 'operarios.id')
+                                    ->orderBy('id', 'asc')
+                                    ->select('asignars.*')
+                                    ->paginate(7);
+                }
+            }
+
+            //Si no existe ninguna coincidencia de busqueda.
+            if(!$operarioEncontrado && !$componenteEncontrado){
+
+                //Vuelve a llenar la tabla con las asignaciones creadas.
+                $operarios = $operariosTemp;
+
+                $asignars = Asignar::where('id',  'LIKE', '%' . $query . '%')
+                                    ->orderBy('id', 'asc')
+                                    ->paginate(7);  
+            }                    
+            
             return view('asignarComponente.index', ['asignars' => $asignars, 'operarios' => $operarios, 'search' => $query, 'activemenu' => 'asignar']);
         }
     }
