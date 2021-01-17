@@ -100,7 +100,7 @@
   </a>
  @endif
 
-{{ $file->links()}}
+{{ $file->appends('search',$search)->links()}}
 
 
 </div>
