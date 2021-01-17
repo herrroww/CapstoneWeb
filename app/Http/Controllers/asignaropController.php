@@ -28,7 +28,7 @@ class asignaropController extends Controller{
             
             $asignars = Asignar::where('operario_id',  'LIKE', '%' . $query . '%')
                 ->orwhere('componente_id',  'LIKE', '%' . $query . '%')
-                ->orwhere('id',  'LIKE', '%' . $query . '%')
+                ->orwhere('operario_id',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
@@ -409,7 +409,7 @@ class asignaropController extends Controller{
                                                 DB::table('historico_gestions')->insert(['nombreGestion' => 'Asignacion', 
                                                                                        'tipoGestion' => 'Editar',
                                                                                        'responsableGestion' => $ftpParameters->getUserFTP(),
-                                                                                       'descripcionGestion' => 'Modificacion Actual => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$nombreEmpresa.' el ID Componente: '.$idComponente.' | Datos Antiguos => Rut Operario: '.$rutOperarioTemp.', de la Empresa: '.$nombreEmpresaTemp.' el ID Componente: '.$idComponenteTemp,
+                                                                                       'descripcionGestion' => 'Modificacion Actual => Rut Operario: '.$operario->rutOperario.', de la Empresa: '.$nombreEmpresa.' el ID Componente: '.$idComponente.' | Datos Antiguos => Rut Operario: '.$operarioTemp->rutOperarioFTP.', de la Empresa: '.$nombreEmpresaTemp.' el ID Componente: '.$idComponenteTemp,
                                                                                        'created_at' => now()]);
                                                 
                                                 //Se actualiza la asignacion a la Base de Datos.
