@@ -31,8 +31,11 @@ class gestionopController extends Controller{
             $query = trim($request->get('search'));            
 
             $operarios = Operario::where('nombreOperario',  'LIKE', '%' . $query . '%')
+                ->orwhere('nombreOperario',  'LIKE', '%' . $query . '%')
                 ->orwhere('rutOperario',  'LIKE', '%' . $query . '%')
-                ->orwhere('id',  'LIKE', '%' . $query . '%')
+                ->orwhere('correoOperario',  'LIKE', '%' . $query . '%')
+                ->orwhere('tipoOperario',  'LIKE', '%' . $query . '%')
+                ->orwhere('telefonoOperario',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
@@ -464,7 +467,7 @@ class gestionopController extends Controller{
 
                     //Se elimina el nombre antiguo de los servicios.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/".$rutOperarioFTPTemp."/d' /etc/vsftpd.userlist");
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$rutOperarioFTPTemp."/d' /etc/vsftpd.userlist");
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$rutOperarioFTPTemp."/d' /etc/ssh/sshd_config");
 
                     //Reinicio de servicios para actualizar permisos.                    
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
