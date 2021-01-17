@@ -103,10 +103,10 @@
  
 </table>
 @if($search)
-  <a href="{{ url()->previous() }}" class="float-right">
+  <a href="{{route('gestionop')}}" class="float-right">
   <button type="button" class="btn btn-secondary">Volver</button>
 </a>
  @endif
-    {{ $operarios->links()}}
+    {{ $operarios->appends('search',$search)->links()}}
 </div>
 @endsection
