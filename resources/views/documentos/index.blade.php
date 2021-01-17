@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="col-12 pt-3 pb-3 text-center" >
-        <h2>Lista de Documentos: {{ $componente->nombreComponente }}</h2>
+        <h2>Lista de Documentos: {{ $componente->nombreComponente }} - {{ $componente->idComponente }}</h2>
     
     <hr>
 
