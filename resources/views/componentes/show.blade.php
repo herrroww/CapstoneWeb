@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<a href="{{ url()->previous() }}">
+<a href="{{route('componenteop')}}">
   <div style="position: absolute; left: 90%; bottom: 10%;">
   <button type="button" class="btn btn-secondary">Volver</button>
  </div>
