@@ -29,6 +29,8 @@ class HistorialController extends Controller{
 
             $historicogestion = DB::table('historico_gestions')
                 ->where('nombreGestion',  'LIKE', '%' . $query . '%')
+                ->orwhere('tipoGestion',  'LIKE', '%' . $query . '%')
+                ->orwhere('responsableGestion',  'LIKE', '%' . $query . '%')
                 ->orwhere('created_at',  'LIKE', '%' . $query . '%')
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
