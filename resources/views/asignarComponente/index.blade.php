@@ -98,10 +98,10 @@
   </tbody>
 </table>
 @if($search)
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('asignarop')}}">
   <button type="button" class="btn btn-secondary float-right">Volver</button>
 </a>
  @endif
-    {{ $asignars->links()}}
+    {{ $asignars->appends('search',$search)->links()}}
 </div>
 @endsection
