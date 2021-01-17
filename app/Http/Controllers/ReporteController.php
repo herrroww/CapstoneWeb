@@ -19,10 +19,11 @@ class ReporteController extends Controller{
         if($request){
             $query = trim($request->get('search'));
 
-            $reporteproblemas = Reporteproblema::where('nombreOperario',  'LIKE', '%' . $query . '%')
-                ->orwhere('estado',  'LIKE', '%' . $query . '%')
+            $reporteproblemas = Reporteproblema::where('estado',  'LIKE', '%' . $query . '%')
+                ->orwhere('tituloReporteProblema',  'LIKE', '%' . $query . '%')
+                ->orwhere('fechaReporteProblema',  'LIKE', '%' . $query . '%')
+
                 ->orderBy('id', 'asc')
-                ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->paginate(7);
 
             return view('reportes.index', ['reporteproblemas' => $reporteproblemas, 'search' => $query, 'activemenu' => 'reporteproblema']);
