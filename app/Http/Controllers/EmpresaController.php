@@ -32,6 +32,7 @@ class EmpresaController extends Controller{
 
             $empresas = Empresa::where('nombreEmpresa',  'LIKE', '%' . $query . '%')
                 ->orwhere('rutEmpresa',  'LIKE', '%' . $query . '%')
+                ->orwhere('compania',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->orwhere('id',  'LIKE', '%' . $query . '%')
                 ->paginate(7);
@@ -63,7 +64,7 @@ class EmpresaController extends Controller{
         //Genera a la empresa y rellena los atributos con la informacion entregada por el usuario.
         $empresa = new Empresa();
         $empresa->rutEmpresa = str_replace(' ','_',request('rutEmpresa'));
-        $empresa->nombreEmpresa = request('nombreEmpresa');
+        $empresa->nombreEmpresa = str_replace(' ','_',request('nombreEmpresa'));
         $empresa->compania = request('compania');      
 
         //Se prepara la conexion al servidor FTP.
@@ -148,7 +149,7 @@ class EmpresaController extends Controller{
             'nombreEmpresa' => 'required|min:9|max:100',
             'rutEmpresa' => 'required|min:11|max:100',
             'compania' => 'required|min:2|max:100'
-        ]);  
+        ]);          
 
         //Carga el repositorio de errores.
         $SWERROR = new ErrorRepositorio();
@@ -165,8 +166,8 @@ class EmpresaController extends Controller{
         $companiaEmpresaTemp = $empresa->compania;
 
         //Se añaden los nuevos parametros correspondientes.
-        $empresa->rutEmpresa = $request->get('rutEmpresa');
-        $empresa->nombreEmpresa = $request->get('nombreEmpresa');
+        $empresa->rutEmpresa = str_replace(' ','_',$request->get('rutEmpresa'));
+        $empresa->nombreEmpresa = str_replace(' ','_',request('nombreEmpresa'));
         $empresa->compania = $request->get('compania');
         
         //Verifica si el nuevo rut de la empresa es diferente al antiguo.
@@ -249,16 +250,19 @@ class EmpresaController extends Controller{
                             }                      
                         }
                     }
+
+                    return redirect('empresaop')->with('edit','La empresa se a editado');
                     //Finaliza secuencia de comandos.
                     $ssh->exec('exit'); 
+                    //Se liberan los recursos.           
+                    unset($SWERROR,$ssh,$ftpParameters,$empresa);
                 }
             }            
-        } 
-                
-        //Se liberan los recursos.           
-        unset($SWERROR,$ssh,$ftpParameters,$empresa);
+        }   
 
-        return redirect('empresaop')->with('edit','La empresa se a editado');
+        //Se actualizan los cambios en la base de datos.
+        $empresa->update();
+        return redirect('empresaop')->with('edit','La empresa se a editado');        
     }
 
     public function destroy($id){
