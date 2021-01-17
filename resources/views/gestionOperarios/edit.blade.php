@@ -40,18 +40,17 @@
 <div class="form-group">
   <strong style="margin-bot: 10px">Empresa:</strong>
  
-  <select name="empresa" class="form-control" id="empresaselect">
-    @if($operario->empresa == null)
-      <option value="">No hay empresa seleccionada</option>
-    @else
-      <option value="{{ $operario->empresa_id }}" required>{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
-    @endif
- 
+  <select name="empresa" class="form-control" id="empresaselect"> 
     @foreach($empresa as $empresas)
-      @if($empresas->id != $operario->empresa_id)
-        <option value="{{ $empresas->id }}">{{ $operario->empresa->nombreEmpresa}} | Rut:{{ $operario->empresa->rutEmpresa}}</option>
+      @if($operario->empresa_id == $empresas->id)
+        <option value="{{ $empresas->id }}">{{ $empresas->nombreEmpresa}} | Rut:{{ $empresas->rutEmpresa}}</option>
       @endif
     @endforeach
+    @foreach($empresa as $empresas)
+      @if($operario->empresa_id != $empresas->id)
+        <option value="{{ $empresas->id }}">{{ $empresas->nombreEmpresa}} | Rut:{{ $empresas->rutEmpresa}}</option>
+      @endif
+    @endforeach     
   </select>
   {!! $errors->first('empresa','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
 </div>
