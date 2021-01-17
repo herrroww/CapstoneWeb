@@ -89,10 +89,10 @@
   
 </table>
 @if($search)
-  <a href="{{ url()->previous() }}">
+  <a href="{{route('componenteop')}}">
   <button type="button" class="btn btn-secondary float-right">Volver</button>
 </a>
  @endif
-    {{ $componentes->links()}}
+    {{ $componentes->appends('search',$search)->links()}}
 </div>
 @endsection
