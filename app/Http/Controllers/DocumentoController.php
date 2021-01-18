@@ -35,10 +35,19 @@ class DocumentoController extends Controller{
     public function index(Request $request){
         
         if(!empty(Session::get('componente_id')) && $request){
+            
             $query = trim($request->get('search'));
+
+            if($query == "Público"){
+
+                $query = "Publico";
+            }
 
             $file = Documento::whereComponente_id(Session::get('componente_id') )
                 ->where('nombre',  'LIKE', '%' . $query . '%')
+                ->orwhere('descripcion',  'LIKE', '%' . $query . '%')
+                ->orwhere('privacidad',  'LIKE', '%' . $query . '%')
+                ->orwhere('extension',  'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'asc')
                 ->paginate(7);
 
