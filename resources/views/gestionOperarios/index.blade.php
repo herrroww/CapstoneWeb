@@ -54,7 +54,7 @@
   <!-- SEARCH FORM -->
   
     
-<div class="col-12 pt-3 pb-3 table-responsive">
+<div class="col-12 pt-3 pb-3 table-responsive text-center">
 <table class="table table-bordered ">
   <thead>
     <tr>
