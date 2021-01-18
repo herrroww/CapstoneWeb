@@ -151,6 +151,7 @@ class ComponenteController extends Controller{
 
         //Se guarda de forma temporal la ID y el nombre original del Componente seleccionado.
         $idComponenteTemp = $componente->idComponente;
+        $pkComponenteTemp = $componente->id;
         $nombreComponenteTemp = $componente->nombreComponente;
 
         //Se obtiene la informacion obtenida de la Vista.
@@ -251,7 +252,7 @@ class ComponenteController extends Controller{
 
                                 //Se enlista a todos los operarios que tengan asignado dicho componente.
                                 $componentesAsignados = DB::table('asignars')
-                                    ->where('asignars.componente_id', '=', $idComponenteTemp)
+                                    ->where('asignars.componente_id', '=', $pkComponenteTemp)
                                     ->select('asignars.*')
                                     ->get();
 
@@ -270,8 +271,8 @@ class ComponenteController extends Controller{
                                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$rutEmpresa."/".$rutOperarioFTP);
 
                                     //Asigna al Operador como propietario del Componente asignado.
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$componente->idComponente);
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$componente->idComponente);
                                 }
                                 //Termina secuencia de comandos.                                
                                 $ssh->exec('exit');
@@ -301,7 +302,7 @@ class ComponenteController extends Controller{
 
         //Se liberan los recursos.       
         unset($SWERROR,$ssh,$ftpParameters,$componente);
-        return redirect('componenteop')->with('edit','El Componente se a editado');
+        return redirect('componenteop')->with('edit','El Componente se ha editado');
     }
 
     public function destroy($id){
