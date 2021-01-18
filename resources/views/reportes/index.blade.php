@@ -23,7 +23,7 @@
 
     @if(session('edit'))
   <div class="alert alert-warning" role="alert">
-  Se a Modificado correctamente.
+  El Reporte se ha Modificado correctamente.
   </div>
     @endif
 
