@@ -5,7 +5,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
-            <h3>Subir Documento al Componente: {{ $componente->nombreComponente }} - {{ $componente->idComponente }}</h3>
+            <h3>Subir Documento al Componente: 
+            <br>{{ $componente->nombreComponente }} - {{ $componente->idComponente }}</h3>
             <hr>
 
 <form action="documentosop1" method="POST" enctype="multipart/form-data">
