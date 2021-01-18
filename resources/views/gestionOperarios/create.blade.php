@@ -28,20 +28,25 @@
     <input type="text" class="form-control" name="rutOperario" placeholder="Escriba rut del operario" value="{{ old('rutOperario') }}" required>
     {!! $errors->first('rutOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
+  </form>
 
   <form>
   <div class="form-group">
     <label for="correo">Correo:</label>
     <input type="email" class="form-control" name="correoOperario" placeholder="Escriba correo del operario" value="{{ old('correoOperario') }}" required>
     {!! $errors->first('correoOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
-  </div>  
+  </div> 
+  </form> 
 
+  <form>
   <div class="form-group">
     <label for="telefonoOperario">Teléfono Operario:</label>
     <input type="text" class="form-control" name="telefonoOperario" placeholder="Escriba el teléfono del operario" value="{{ old('telefonoOperario') }}" required>
     {!! $errors->first('telefonoOperario','<br><div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
+  </form>
 
+  <form>
   <div class="form-group">
     <strong style="margin-bot: 10px">Empresa:</strong>
  
@@ -53,7 +58,9 @@
     </select>
     {!! $errors->first('empresa','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
   </div>
-  
+  </form>
+  <br>
+  <form>
 	<div class="formulario__grupo" id="grupo__contraseniaOperario">
 		<label for="contraseniaOperario">Contraseña</label>
 		<div class="formulario__grupo-input">
@@ -63,21 +70,23 @@
 		</div>
 		<p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
 	</div>
-
-			<!-- Grupo: Contraseña 2 -->
-			<div class="formulario__grupo" id="grupo__contraseniaOperario2">
-				<label for="contraseniaOperario2">Repetir Contraseña</label>
-				<div class="formulario__grupo-input">
-					<input type="text" class="form-control" name="contraseniaOperario2" id="contraseniaOperario2">
-          {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
-					<i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
-				</div>
-				<p class="formulario__input-error">Ambas contraseñas deben ser iguales.</p>
-			</div>
+  </form>
+  <br>
+  <form>
+	<div class="formulario__grupo" id="grupo__contraseniaOperario2">
+		<label for="contraseniaOperario2">Repetir Contraseña</label>
+		<div class="formulario__grupo-input">
+		  <input type="text" class="form-control" name="contraseniaOperario2" id="contraseniaOperario2">
+      {!! $errors->first('contraseniaOperario','<div class="alert alert-danger"><small>:message</small></div><br>') !!}
+		  <i class="formulario__validacion-estado fas fa-times-circle float-right"></i>
+		</div>
+		<p class="formulario__input-error">Ambas contraseñas deben ser iguales.</p>
+	</div>
+  </form>
       
 
-  
-
+  <br>
+  <form>
   <strong  class="" >Tipo de Operario: </strong>
 
   <div style="margin-top: 10px" class="custom-control custom-radio" >
@@ -89,7 +98,7 @@
      <input type="radio" class="custom-control-input" id="tipoOperario2" name="tipoOperario" value="Interno" required>
      <label for="tipoOperario2" class="custom-control-label" value="Interno">Interno</label>
    </div>
-
+   </form>
   
   <button style="margin-top: 20px" type="submit" class="btn btn-primary ">Enviar</button>
   
