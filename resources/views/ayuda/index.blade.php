@@ -17,7 +17,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Ejemplo que muestra cómo Agregar empresa correctamente.</p>
+                <p class="card-text">Aprende a agregar una Empresa correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -27,7 +27,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Ejemplo que muestra cómo editar empresa correctamente.</p>
+                <p class="card-text">Aprende a editar una Empresa correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -37,7 +37,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Ejemplo que muestra cómo eliminar empresa correctamente.</p>
+                <p class="card-text">Aprende a eliminar una Empresa correctamente con este video tutorial.</p>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a agregar un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -64,7 +64,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a editar un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -74,7 +74,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a eliminar un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
     </div>
@@ -91,7 +91,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a agregar un Componente mecánico correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -101,7 +101,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a editar un Componente mecánico correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -111,7 +111,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a eliminar un Componente mecánico correctamente con este video tutorial.</p>
             </div>
         </div>
     </div>
@@ -128,7 +128,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a agregar una asignación de un Componente mecánico a un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -138,7 +138,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a editar una asignación de un Componente mecánico a un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -148,7 +148,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a eliminar una asignación de un Componente mecánico a un Operario correctamente con este video tutorial.</p>
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar la información del Historial de Gestión con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -175,7 +175,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar la información del Historial de Gestión con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -185,7 +185,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar la información del Historial de Gestión con este video tutorial.</p>
             </div>
         </div>
     </div>
@@ -202,7 +202,7 @@
                    title="Brazo 1"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar y como atender los Reportes de Problemas generados por los operarios con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -212,7 +212,7 @@
                    title="Brazo 2"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar y como atender los Reportes de Problemas generados por los operarios con este video tutorial.</p>
             </div>
         </div>
         <div class="card m-2" style="width: 18rem;">
@@ -222,7 +222,7 @@
                    title="Brazo 3"><i class="fas fa-play"></i></a>
             </div>
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Aprende a visualizar y como atender los Reportes de Problemas generados por los operarios con este video tutorial.</p>
             </div>
         </div>
     </div>
