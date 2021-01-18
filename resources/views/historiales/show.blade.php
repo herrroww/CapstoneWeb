@@ -44,25 +44,21 @@
           <th scope="row">Responsable: </th>
           <td>{{$historicogestion->responsableGestion}}</td>
         </tr>
-
+        <tr>
+          <th scope="row">Fecha Gestión: </th>
+          <td>{{$historicogestion->created_at}}</td>
+        </tr>
         <tr>
           <th scope="row">Descripción: </th>
           <td>{{$historicogestion->descripcionGestion}}</td>
-        </tr>
-        
-        
-         
+        </tr>   
+    </table>         
     </table>
-
-    <form>
+    <form>  
     <a href="{{ url()->previous() }}">
-    <button style="margin-top: 20px" type="button" class="btn btn-secondary float-right">Volver</button>
+    <button style="margin-top: 1px" type="button" class="btn btn-secondary float-right">Volver</button>
     </a>
-    </form>      
-    </table>  
-        
-         
-
+    </form><br><br>  
   </div>
    
 </div>     
