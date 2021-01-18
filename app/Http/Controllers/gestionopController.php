@@ -210,7 +210,7 @@ class gestionopController extends Controller{
         //Se liberan los recursos.           
         unset($SWERROR,$ssh,$ftpParameters,$operario);
 
-        return redirect('gestionop')->with('create','');
+        return redirect('gestionop')->with('create','asd');
     }
 
     public function edit($id){
