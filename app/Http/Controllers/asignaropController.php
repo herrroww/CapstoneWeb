@@ -153,7 +153,7 @@ class asignaropController extends Controller{
         }else{
 
             //Verifica si el Operario existe en el directorio Externo.
-            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -169,7 +169,7 @@ class asignaropController extends Controller{
             }else{
 
                 //Verifica si el Operario existe en el directorio Interno.
-                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -185,7 +185,7 @@ class asignaropController extends Controller{
                 }else{
 
                     //Verifica si el Operario Destino posee el componente destino en directorio Externo.
-                    $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -201,7 +201,7 @@ class asignaropController extends Controller{
                     }else{
 
                         //Verifica si el Operario Destino posee el componente destino en directorio Interno.
-                        $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
+                        $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
@@ -264,12 +264,12 @@ class asignaropController extends Controller{
                                     unset($asignar);
 
                                     //Asigna la carpeta del Componente al Operario correspondiente.
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$componente->idComponente." /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperarioFTP);
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$empresa->rutEmpresa."/".$operario->rutOperarioFTP);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$componente->idComponente." /home/Externo/".$empresa->nombreEmpresa."/".$operario->rutOperarioFTP);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$componente->idComponente." /home/Interno/".$empresa->nombreEmpresa."/".$operario->rutOperarioFTP);
 
                                     //Asigna al Operador como propietario del Componente asignado.
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente);
-                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$empresa->rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Externo/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente);
+                                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperario.' /home/Interno/'.$empresa->nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$componente->idComponente);
                                 }   
                             }                             
                         }
@@ -345,7 +345,7 @@ class asignaropController extends Controller{
             }else{
 
                 //Verifica si el directorio del Operario Origen existe en el directorio Externo.
-                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -361,7 +361,7 @@ class asignaropController extends Controller{
                 }else{
 
                     //Verifica si el directorio del Operario Origen existe en el directorio Interno.
-                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -377,7 +377,7 @@ class asignaropController extends Controller{
                     }else{
 
                         //Verifica si el directorio del Operario Destino existe en el directorio Externo.
-                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
@@ -393,7 +393,7 @@ class asignaropController extends Controller{
                         }else{
 
                             //Verifica si el directorio Operario Destino existe en el directorio Interno.
-                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                             //Limpia la informacion obtenida.
                             $estadoExiste = $estadoExiste[0];
@@ -409,7 +409,7 @@ class asignaropController extends Controller{
                             }else{
 
                                 //Verifica si el Operario Destino posee el componente destino en directorio Externo.
-                                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente.' ] && echo "1" || echo "0"');
                 
                                 //Limpia la informacion obtenida.
                                 $estadoExiste = $estadoExiste[0];
@@ -425,7 +425,7 @@ class asignaropController extends Controller{
                                 }else{
 
                                     //Verifica si el Operario Destino posee el componente destino en directorio Interno.
-                                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente.' ] && echo "1" || echo "0"');
+                                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente.' ] && echo "1" || echo "0"');
                 
                                     //Limpia la informacion obtenida.
                                     $estadoExiste = $estadoExiste[0];
@@ -486,17 +486,17 @@ class asignaropController extends Controller{
                                                 $asignar->update();
 
                                                 //Eliminar el componente asignado previamente.
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.'/'.$idComponenteTemp);
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.'/'.$idComponenteTemp);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.'/'.$idComponenteTemp);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresaTemp.'/'.$operarioTemp->rutOperarioFTP.'/'.$idComponenteTemp);
 
 
                                                 //Asigna la carpeta del Componente al Operario correspondiente.
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponente." /home/Externo/".$rutEmpresa."/".$operario->rutOperarioFTP);
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponente." /home/Interno/".$rutEmpresa."/".$operario->rutOperarioFTP);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponente." /home/Externo/".$nombreEmpresa."/".$operario->rutOperarioFTP);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponente." /home/Interno/".$nombreEmpresa."/".$operario->rutOperarioFTP);
 
                                                 //Asigna al Operador como propietario del Componente asignado.
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
-                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+                                                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
 
                                                 //Termina la secuencia de comandos.
                                                 $ssh->exec('exit');
@@ -559,12 +559,12 @@ class asignaropController extends Controller{
 
 
             //Se elimina los directorios del Componente del Operario. (Opcion 1)                  
-            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
-            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
 
             //Se envia el directorio de la empresa a la basura. (Opcion 2)
-            //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
-            //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+            //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
+            //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
 
             $asignar->delete();
 
