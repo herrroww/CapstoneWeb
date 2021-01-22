@@ -82,7 +82,7 @@ class EmpresaController extends Controller{
         }else{
 
             //Verifica si la Empresa existe en el directorio Externo.
-            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->rutEmpresa.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->nombreEmpresa.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -97,7 +97,7 @@ class EmpresaController extends Controller{
             }else{
 
                 //Verifica si la Empresa existe en el directorio Interno.
-                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->rutEmpresa.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->nombreEmpresa.' ] && echo "1" || echo "0"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -124,8 +124,8 @@ class EmpresaController extends Controller{
 
                     
                     //Se crea el directorio de la empresa.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$empresa->rutEmpresa);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$empresa->rutEmpresa);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$empresa->nombreEmpresa);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$empresa->nombreEmpresa);
                 }
             }
         }
@@ -170,8 +170,9 @@ class EmpresaController extends Controller{
         $empresa->nombreEmpresa = str_replace(' ','_',request('nombreEmpresa'));
         $empresa->compania = $request->get('compania');
         
-        //Verifica si el nuevo rut de la empresa es diferente al antiguo.
-        if($rutEmpresaTemp != $empresa->rutEmpresa){
+
+        //Verifica si el nuevo nombre de la empresa es diferente al antiguo.
+        if($nombreEmpresaTemp != $empresa->nombreEmpresa){
             
             //Prepara la conexion al servidor FTP.
             $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -187,7 +188,7 @@ class EmpresaController extends Controller{
             }else{
 
                 //Verifica si la Empresa existe en el directorio Externo.
-                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresaTemp.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -201,8 +202,8 @@ class EmpresaController extends Controller{
                     unset($SWERROR);
                 }else{
 
-                    //Verifica si el directorio existe en el directorio Interno.
-                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.' ] && echo "1" || echo "0"');
+                    //Verifica si la Empresa existe en el directorio Interno.
+                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresaTemp.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -227,8 +228,8 @@ class EmpresaController extends Controller{
                         $empresa->update();
 
                         //Cambia el nombre del directorio de la empresa.
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.' /home/Externo/'.$empresa->rutEmpresa);
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.' /home/Interno/'.$empresa->rutEmpresa);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$nombreEmpresaTemp.' /home/Externo/'.$empresa->nombreEmpresa);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$nombreEmpresaTemp.' /home/Interno/'.$empresa->nombreEmpresa);
 
                         //Se obtienen todos los operarios vinculados a la empresa.                        
                         $operarios = DB::table('operarios')
@@ -246,7 +247,7 @@ class EmpresaController extends Controller{
                             }else{
 
                                 //En cualquier otro caso, se establece Operario Externo por defecto.
-                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->rutEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
+                                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$empresa->nombreEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
                             }                      
                         }
                     }
@@ -290,7 +291,7 @@ class EmpresaController extends Controller{
         }else{
 
             //Verifica si el directorio existe.
-            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->rutEmpresa.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$empresa->nombreEmpresa.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -305,7 +306,7 @@ class EmpresaController extends Controller{
             }else{
 
                 //Verifica si el directorio existe.
-                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->rutEmpresa.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$empresa->nombreEmpresa.' ] && echo "1" || echo "0"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -327,12 +328,12 @@ class EmpresaController extends Controller{
                                                            'created_at' => now()]);
 
                     //Se elimina el directorio de la empresa.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$empresa->rutEmpresa);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$empresa->rutEmpresa);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$empresa->nombreEmpresa);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$empresa->nombreEmpresa);
 
                     //Se envia el directorio de la empresa a la basura. (Version Opcional)
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$empresa->rutEmpresa);
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$empresa->rutEmpresa);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$empresa->nombreEmpresa);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$empresa->nombreEmpresa);
 
                     //Se obtienen todos los operarios vinculados la empresa.
                     $operarios = DB::table('operarios')
