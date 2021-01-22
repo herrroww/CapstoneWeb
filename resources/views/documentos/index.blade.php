@@ -47,7 +47,6 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-	  <!--<th scope="col">Id</th>-->
       <th scope="col" class="bg-blue color-white">ID</th>
       <th scope="col" class="bg-blue color-white">Nombre</th>
       <th scope="col" class="bg-blue color-white">Archivo</th>
@@ -62,7 +61,7 @@
   @foreach($file as $key=>$data)
     <tr>
       
-      <th scope="row">{{++$key}}</th>
+      <th scope="row">{{$data->id}}</th>
       <td>{{$data->nombre}}</td>
       <td>{{$data->extension}}</td>
       <td>{{$data->descripcion}}</td>
