@@ -160,7 +160,7 @@ class DocumentoController extends Controller{
                 }else{
 
                     //Verifica si el Documento existe en el directorio del Componente seleccionado en la ubicacion seleccionada.
-                    $estadoExiste = $ssh->exec('[ -f /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/'.$nombre.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -f /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/"'.$nombre.'" ] && echo "1" || echo "0"');
             
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -189,15 +189,12 @@ class DocumentoController extends Controller{
                         $data->extension = $ext;
                         $data->componente_id = $pkComponenteSeleccionado;
 
-                        //Se añade al historico de gestion.
-                        DB::table('historico_gestions')->insert(['nombreGestion' => 'Documento', 
-                                                               'tipoGestion' => 'Crear',
-                                                               'responsableGestion' => $ftpParameters->getUserFTP(),
-                                                               'descripcionGestion' => 'Se ha Creado => Documento: '.$data->nombre.', Archivo: '.$data->extension.', en el Componente: '.$idComponenteSeleccionado,
-                                                               'created_at' => now()]);
+                        //Verifica si el archivo tene caracteres especiales.
+	                    if (preg_match('/[\'^£$ºª€%&*()}¡ç!";:{@#~¿?><,|=+¬-]/', $nombre) == true || strpos($nombre,"]") == true || strpos($nombre,"[") == true ||  strpos($nombre," ") == true) {
 
-                        //Se almacena la informacion del documento en la Base de Datos.
-                        $data->save();
+                            /*[FTP-ERROR033]: El documento no puede contener espacios ni los siguientes caracteres: \'^£$ºª€%&*()}¡ç!";:{@#~¿?><,|=+¬-*/
+                            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR033'));
+                        }
 
                         //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
                         $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
@@ -205,9 +202,23 @@ class DocumentoController extends Controller{
                         //Activar modo pasivo
                         ftp_pasv($conn_id, true);
 
-                        //TODO: NOTIFICAR EL PESO DE LOS ARCHIVOS.
-                        //Envia el componente al directorio ComponenteTemp del usuario FTP.
-                        ftp_put($conn_id,$dst.'/'.$nombre,$source_file,FTP_BINARY);
+                        //Intenta enviar el componente al directorio ComponenteTemp del usuario FTP.
+                        if(!@ftp_put($conn_id,$dst.'/'.$nombre,$source_file,FTP_BINARY)){
+
+                            //[FTP-ERROR034]: El documento no puede pesar mas de 200Mb.
+                            return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR034'));                       
+                        }else{ 
+                              
+                            //Se añade al historico de gestion.
+                            DB::table('historico_gestions')->insert(['nombreGestion' => 'Documento', 
+                                                                     'tipoGestion' => 'Crear',
+                                                                     'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                                     'descripcionGestion' => 'Se ha Creado => Documento: '.$data->nombre.', Archivo: '.$data->extension.', en el Componente: '.$idComponenteSeleccionado,
+                                                                     'created_at' => now()]);
+
+                            //Se almacena la informacion del documento en la Base de Datos.
+                            $data->save();
+                        }
 
                         /*Mueve el archivo en la ubicacion que corresponda.
                         * (Si es publico, sera guardado en el directorio Externo e Interno.)
