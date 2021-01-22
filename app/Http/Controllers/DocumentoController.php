@@ -33,8 +33,10 @@ class DocumentoController extends Controller{
     }
 
     public function index(Request $request){
+
+        $idComponente = Session::get('componente_id');
         
-        if(!empty(Session::get('componente_id')) && $request){
+        if(!empty($idComponente) && $request){
             
             $query = trim($request->get('search'));
 
@@ -43,15 +45,21 @@ class DocumentoController extends Controller{
                 $query = "Publico";
             }
 
-            $file = Documento::whereComponente_id(Session::get('componente_id') )
-                ->where('nombre',  'LIKE', '%' . $query . '%')
-                ->orwhere('descripcion',  'LIKE', '%' . $query . '%')
-                ->orwhere('privacidad',  'LIKE', '%' . $query . '%')
-                ->orwhere('extension',  'LIKE', '%' . $query . '%')
+            $file = DB::table('documentos')
+                ->where('componente_id','=',$idComponente)
+                ->where(function($querySearch) use($query){
+
+                    $querySearch->where('documentos.id',  'LIKE', '%' . $query . '%')
+                          ->orwhere('descripcion',  'LIKE', '%' . $query . '%')
+                          ->orwhere('privacidad',  'LIKE', '%' . $query . '%')
+                          ->orwhere('extension',  'LIKE', '%' . $query . '%')
+                          ->orwhere('nombre',  'LIKE', '%' . $query . '%');   
+                })                           
                 ->orderBy('id', 'asc')
                 ->paginate(7);
+            
 
-            $componente = Componente::findOrFail(Session::get('componente_id'));
+            $componente = Componente::findOrFail($idComponente);
 
             return view("documentos.index", ['file' =>$file, 'search' => $query, 'activemenu' => 'componente','componente' =>$componente]);
         }
@@ -227,19 +235,19 @@ class DocumentoController extends Controller{
                         foreach($componentesAsignados as $componenteAsignado){
 
                             $rutOperarioFTP = Operario::findOrFail($componenteAsignado->operario_id)->rutOperarioFTP;
-                            $rutEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->rutEmpresa;
+                            $nombreEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->nombreEmpresa;
 
                             //Elimina el componente antiguo del operario.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
 
                             //Asigna la carpeta del Componente al Operario correspondiente.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperarioFTP);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperarioFTP);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$nombreEmpresa."/".$rutOperarioFTP);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$nombreEmpresa."/".$rutOperarioFTP);
 
                             //Asigna al Operador como propietario del Componente asignado.
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
-                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                            $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                         }                        
                     }   
 
@@ -345,8 +353,7 @@ class DocumentoController extends Controller{
                     //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
 
-                    /*Mueve el archivo correspondiente a la carpeta ComponentesTemp del supervisor.
-                    */                        
+                    //Mueve el archivo correspondiente a la carpeta ComponentesTemp del supervisor.                        
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S cp /home/Componentes/'.$ubicacionComponente.'/'.$idComponenteSeleccionado.'/'.$data->extension.' /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp');
                     
                     $documentoFTP = '/ComponentesTemp/'.$data->extension;
@@ -354,7 +361,7 @@ class DocumentoController extends Controller{
                     //Activar modo pasivo
                     ftp_pasv($conn_id, true);
                     
-                    // intenta descargar $server_file y guardarlo en $local_file
+                    //Intenta descargar $server_file y guardarlo en $local_file
                     if (ftp_get($conn_id,'storage/'.$data->extension,$documentoFTP,FTP_BINARY)){
 
                         //Se ha descargado el archivo con exito
@@ -457,19 +464,19 @@ class DocumentoController extends Controller{
             foreach($componentesAsignados as $componenteAsignado){
 
                 $rutOperarioFTP = Operario::findOrFail($componenteAsignado->operario_id)->rutOperarioFTP;
-                $rutEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->rutEmpresa;
+                $nombreEmpresa = Empresa::findOrFail($componenteAsignado->empresa_id)->nombreEmpresa;
 
                 //Elimina el componente antiguo del operario.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                 
                 //Asigna la carpeta del Componente al Operario correspondiente.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$rutEmpresa."/".$rutOperarioFTP);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$rutEmpresa."/".$rutOperarioFTP);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Externo/".$idComponenteSeleccionado." /home/Externo/".$nombreEmpresa."/".$rutOperarioFTP);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S rsync -av --delete /home/Componentes/Interno/".$idComponenteSeleccionado." /home/Interno/".$nombreEmpresa."/".$rutOperarioFTP);
                 
                 //Asigna al Operador como propietario del Componente asignado.
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
-                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
+                $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
             } 
             
             //Se termina secuencia de comandos.
