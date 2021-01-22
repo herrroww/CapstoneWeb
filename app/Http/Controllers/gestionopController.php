@@ -70,9 +70,7 @@ class gestionopController extends Controller{
         }
     }
     
-    public function create(){
-
-        
+    public function create(){        
         
         $empresa = Empresa::all();
         $operario = Operario::all();
@@ -134,7 +132,7 @@ class gestionopController extends Controller{
         }else{
 
             //Verifica si el directorio existe.
-            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -149,7 +147,7 @@ class gestionopController extends Controller{
             }else{
 
                 //Verifica si el directorio existe.
-                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -177,11 +175,11 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S useradd -s /bin/bash -p $(echo '.$operario->contraseniaOperarioFTP.' | openssl passwd -1 -stdin) '.$operario->rutOperarioFTP); 
                     
                     //Crea la carpeta del Operario en la carpeta Interno.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
                     
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$operario->rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
                     
                     //Añade al Operario en la lista de permisos VSFTPD y SSHD.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a ".$operario->rutOperarioFTP."' /etc/vsftpd.userlist");
@@ -195,7 +193,7 @@ class gestionopController extends Controller{
                     }else{
 
                         //En cualquier otro caso, se establece Operario Externo por defecto.
-                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -m -d /home/Externo/".$rutEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
+                        $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -m -d /home/Externo/".$nombreEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
                     }
 
                     //Reinicio de servicios para actualizar permisos.                    
@@ -293,7 +291,7 @@ class gestionopController extends Controller{
             if($rutOperarioFTPTemp != $operario->rutOperarioFTP){
 
                 //Verifica si el directorio del Operario existe en el directorio Externo.
-                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioFTPTemp.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresaTemp.'/'.$rutOperarioFTPTemp.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -309,7 +307,7 @@ class gestionopController extends Controller{
                 }else{
 
                     //Verifica si el directorio del Operario existe en el directorio Interno.
-                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.'/'.$rutOperarioFTPTemp.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresaTemp.'/'.$rutOperarioFTPTemp.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -324,8 +322,8 @@ class gestionopController extends Controller{
                         unset($SWERROR);
                     }else{
 
-                        //Verifica si el Operario con el nuevo rut ya existe en el directorio de la Empresa(Externo).
-                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                        //Verifica si el Operario con el nuevo rut ya existe en el directorio de la Empresa (Externo).
+                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
@@ -341,7 +339,7 @@ class gestionopController extends Controller{
                         }else{
 
                             //Verifica si el Operario con el nuevo rut ya existe en el directorio de la Empresa(Interno).
-                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                             //Limpia la informacion obtenida.
                             $estadoExiste = $estadoExiste[0];
@@ -361,10 +359,10 @@ class gestionopController extends Controller{
             }
 
             //Verifica si el Operario pertenece a una nueva Empresa.
-            if($rutEmpresaTemp != $rutEmpresa){                
+            if($nombreEmpresaTemp != $nombreEmpresa){                
 
                 //Verifica si el directorio de la Empresa origen existe en el directorio Externo.
-                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresaTemp.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresaTemp.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -380,7 +378,7 @@ class gestionopController extends Controller{
                 }else{
 
                     //Verifica si el directorio de la Empresa origen existe en el directorio Interno.
-                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresaTemp.' ] && echo "1" || echo "0"');
+                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresaTemp.' ] && echo "1" || echo "0"');
                 
                     //Limpia la informacion obtenida.
                     $estadoExiste = $estadoExiste[0];
@@ -396,7 +394,7 @@ class gestionopController extends Controller{
                     }else{
                      
                         //Verifica si el directorio de la Empresa Destino existe en el directorio Externo.
-                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.' ] && echo "1" || echo "0"');
+                        $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.' ] && echo "1" || echo "0"');
             
                         //Limpia la informacion obtenida.
                         $estadoExiste = $estadoExiste[0];
@@ -412,7 +410,7 @@ class gestionopController extends Controller{
                         }else{
 
                             //Verifica si el directorio de la Empresa destino existe en el directorio Interno.
-                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.' ] && echo "1" || echo "0"');
+                            $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.' ] && echo "1" || echo "0"');
                 
                             //Limpia la informacion obtenida.
                             $estadoExiste = $estadoExiste[0];
@@ -428,7 +426,7 @@ class gestionopController extends Controller{
                             }else{
 
                                 //Verifica si el Operario ya existe en el directorio de la Empresa destino (Externo).
-                                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                                $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                                 //Limpia la informacion obtenida.
                                 $estadoExiste = $estadoExiste[0];
@@ -444,7 +442,7 @@ class gestionopController extends Controller{
                                 }else{
 
                                     //Verifica si el Operario ya existe en el directorio de la Empresa destino (Interno).
-                                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                                    $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
                 
                                     //Limpia la informacion obtenida.
                                     $estadoExiste = $estadoExiste[0];
@@ -484,8 +482,8 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S usermod -l '.$operario->rutOperarioFTP.' '.$rutOperarioFTPTemp);
 
                     //Renombra los directorios relacionados al Operario.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$rutOperarioFTPTemp.' /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.'/'.$rutOperarioFTPTemp.' /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$nombreEmpresaTemp.'/'.$rutOperarioFTPTemp.' /home/Externo/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$nombreEmpresaTemp.'/'.$rutOperarioFTPTemp.' /home/Interno/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP);
 
                     //Añade el nuevo username del operario en la lista de permisos VSFTPD y SSHD.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '$ a ".$operario->rutOperarioFTP."' /etc/vsftpd.userlist");
@@ -500,11 +498,11 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');
                 }
 
-                if($rutEmpresaTemp != $rutEmpresa){  
+                if($nombreEmpresaTemp != $nombreEmpresa){  
 
                     //Mueve la carpeta del Operario a la nueva Empresa.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP.' /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$rutEmpresaTemp.'/'.$operario->rutOperarioFTP.' /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Externo/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mv /home/Interno/'.$nombreEmpresaTemp.'/'.$operario->rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
                 }
 
                 //El Operario es Interno, se le reasigna el home.
@@ -514,7 +512,7 @@ class gestionopController extends Controller{
                 }else{
 
                     //En cualquier otro caso, se establece Operario Externo por defecto.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$rutEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S usermod -d /home/Externo/".$nombreEmpresa."/".$operario->rutOperarioFTP." ".$operario->rutOperarioFTP);
                 }       
             }            
         } 
@@ -526,6 +524,7 @@ class gestionopController extends Controller{
 
         return redirect('gestionop')->with('edit','El operario se a editado');
     }
+
 
     public function destroy($id){
 
@@ -556,7 +555,7 @@ class gestionopController extends Controller{
         }else{
 
             //Verifica si el Operario existe en el directorio Externo.
-            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -571,7 +570,7 @@ class gestionopController extends Controller{
             }else{
 
                 //Verifica si el Operario existe en el directorio Interno.
-                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.' ] && echo "1" || echo "0"');
             
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -600,12 +599,12 @@ class gestionopController extends Controller{
                     $ssh->exec('echo '.$ftpParameters->getPassFTP()." | sudo -S sed -i '/DenyUsers ".$operario->rutOperarioFTP."/d' /etc/ssh/sshd_config");
 
                     //Se elimina los directorios del operario. (Opcion 1)                  
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
 
                     //Se envia el directorio de la empresa a la basura. (Opcion 2)
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
-                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$rutEmpresa.'/'.$operario->rutOperarioFTP);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+                    //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
 
                     //Se elimina el operario en la base de datos.
                     $operario->asignar()->delete();
