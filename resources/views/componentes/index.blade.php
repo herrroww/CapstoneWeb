@@ -77,8 +77,8 @@
     <form action="{{ route('componenteopdes', $componente->id) }}" method="POST">
     @method('DELETE')
     @csrf
-    <td> <!--<a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn btn-info">Agregar Modelo</button></a>-->
-    <a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white"><i class="fas fa-file-alt"></i></button></a></td>
+    <td><a href="{{ route('componenteopshow', $componente->id) }}"><button type="button" class="btn bg-orange color-white"><i class="fas fa-file-alt"></i></button></a></td>
+    
     <td><a href="{{ route('componenteopedit', $componente->id) }}"><button type="button" class="btn btn-primary"><i class="far fa-edit "></i></button></a></td>
     <td><button name ="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro que quieres eliminar este Componente?, Si elimina este Componente se eliminarán las asignaciones en todos los Operarios que lo contengan.')"><i class="fas fa-times " ></i></button></td>
     </form>
