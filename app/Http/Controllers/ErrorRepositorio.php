@@ -39,6 +39,8 @@ class ErrorRepositorio{
         'FTPERROR030' => "[FTP-ERROR030]: El documento ya existe en el Componente (Conflicto en directorio Interno).",
         'FTPERROR031' => "[FTP-ERROR031]: El documento no existe en el Componente (Conflicto en directorio Externo).",
         'FTPERROR032' => "[FTP-ERROR032]: El documento no existe en el Componente (Conflicto en directorio Interno).",
+        'FTPERROR033' => '[FTP-ERROR033]: El documento no puede contener espacios ni los siguientes caracteres: \^£$ºª€%&*()}¡ç!";:{@#~¿?><,|=+¬-',
+        'FTPERROR034' => '[FTP-ERROR034]: El documento no puede pesar mas de 200Mb.',
         'FTPERROR???' => "[FTP-ERROR???]: ???",
         'WEBERROR001' => "[WEB-ERROR001]: Problema al conectar con el servidor de Base de Datos."
     );
