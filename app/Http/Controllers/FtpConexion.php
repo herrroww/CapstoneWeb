@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 // Clase encargada de almacenar repositorio de los errores relacionados al sistema web.
 class FtpConexion{   
 
@@ -9,8 +11,19 @@ class FtpConexion{
     private $serverFTP = '192.168.0.22';
     
     //Credenciales de usuario FTP
-    private $userFTP= 'capstone';
-    private $passFTP= 'asdasd';
+    private $userFTP;
+    private $passFTP;
+
+    public function __construct(){
+
+        $user = Auth::user();
+
+        $this->userFTP = $user->userFTP;
+        $this->passFTP = $user->passFTP;
+
+        unset($user);
+    }
+
 
     //Retorna la IP del servidor FTP.
     public function getServerFTP(){
