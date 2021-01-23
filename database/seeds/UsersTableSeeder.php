@@ -13,9 +13,10 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'capstone',
+            'userFTP' => 'capstone',
+            'passFTP' => 'asdasd',
             'email' => 'capstone@gmail.com',
             'password' => bcrypt('capstone'),
-        ]);
-        
+        ]);        
     }
 }
