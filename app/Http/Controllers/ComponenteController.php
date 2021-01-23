@@ -57,8 +57,8 @@ class ComponenteController extends Controller{
         $ftpParameters = new FtpConexion();
 
         $componente = new Componente();
-        $componente->nombreComponente = request('nombreComponente');
-        $componente->IdComponente = request('idComponente');
+        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreComponente')));
+        $componente->idComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('idComponente')));   
         
         //Prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
@@ -74,7 +74,7 @@ class ComponenteController extends Controller{
         }else{
 
             //Verifica si el Componente existe en el directorio Externo del repositorio de Componentes.
-            $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->IdComponente.' ] && echo "1" || echo "0"');
+            $estadoExiste = $ssh->exec('[ -d /home/Componentes/Externo/'.$componente->idComponente.' ] && echo "1" || echo "0"');
             
             //Limpia la informacion obtenida.
             $estadoExiste = $estadoExiste[0];
@@ -89,7 +89,7 @@ class ComponenteController extends Controller{
             }else{
 
                 //Verifica si el Componente existe en el directorio Interno del repositorio de Componentes.
-                $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->IdComponente.' ] && echo "1" || echo "0"');
+                $estadoExiste = $ssh->exec('[ -d /home/Componentes/Interno/'.$componente->idComponente.' ] && echo "1" || echo "0"');
                 
                 //Limpia la informacion obtenida.
                 $estadoExiste = $estadoExiste[0];
@@ -114,8 +114,8 @@ class ComponenteController extends Controller{
                     $componente->save();
 
                     //Se aplican los cambios en el servidor FTP.
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Externo/'.$componente->IdComponente);
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Interno/'.$componente->IdComponente);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Externo/'.$componente->idComponente);
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Componentes/Interno/'.$componente->idComponente);
                 
                     //Termina la secuencia de comandos.
                     $ssh->exec('exit');
@@ -155,8 +155,8 @@ class ComponenteController extends Controller{
         $nombreComponenteTemp = $componente->nombreComponente;
 
         //Se obtiene la informacion obtenida de la Vista.
-        $componente->nombreComponente = $request->get('nombreComponente');
-        $componente->idComponente = $request->get('idComponente');
+        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreComponente')));
+        $componente->idComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('idComponente')));   
 
         //Si la ID del Componente sufre cambio, se establece conexion con el servidor FTP.
         if($idComponenteTemp != $componente->idComponente){
