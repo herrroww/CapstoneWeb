@@ -63,8 +63,8 @@ class EmpresaController extends Controller{
         
         //Genera a la empresa y rellena los atributos con la informacion entregada por el usuario.
         $empresa = new Empresa();
-        $empresa->rutEmpresa = str_replace(' ','_',request('rutEmpresa'));
-        $empresa->nombreEmpresa = str_replace(' ','_',request('nombreEmpresa'));
+        $empresa->rutEmpresa = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutEmpresa')));        
+        $empresa->nombreEmpresa = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreEmpresa')));
         $empresa->compania = request('compania');      
 
         //Se prepara la conexion al servidor FTP.
@@ -166,8 +166,8 @@ class EmpresaController extends Controller{
         $companiaEmpresaTemp = $empresa->compania;
 
         //Se añaden los nuevos parametros correspondientes.
-        $empresa->rutEmpresa = str_replace(' ','_',$request->get('rutEmpresa'));
-        $empresa->nombreEmpresa = str_replace(' ','_',request('nombreEmpresa'));
+        $empresa->rutEmpresa = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutEmpresa')));        
+        $empresa->nombreEmpresa = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreEmpresa')));
         $empresa->compania = $request->get('compania');
         
 
