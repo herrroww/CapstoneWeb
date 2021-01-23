@@ -101,13 +101,13 @@ class gestionopController extends Controller{
 
         //Genera al Operario y rellena los atributos con la informacion entregada por el usuario.        
         $operario = new Operario();
-
-        $operario->nombreOperario = request('nombreOperario');
-        $operario->rutOperario = request('rutOperario');
+             
+        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreOperario')));
+        $operario->rutOperario = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutOperario')));   
         $operario->correoOperario = request('correoOperario');
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
-        $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
+        $operario->contraseniaOperario = Hash::make(preg_replace("/[^A-Za-z0-9]/","",str_replace(' ','',request('contraseniaOperario'))));
         $operario->nombreOperario = request('nombreOperario');
         $operario->telefonoOperario = request('telefonoOperario');
         
@@ -253,14 +253,15 @@ class gestionopController extends Controller{
         $nombreEmpresaTemp = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;
         
         //Añaden los nuevos parametros correspondientes.        
-        $operario->nombreOperario = $request->get('nombreOperario');
-        $operario->rutOperario = $request->get('rutOperario');
+        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreOperario')));
+        $operario->rutOperario = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutOperario'))); 
         $operario->correoOperario = $request->get('correoOperario');
         $operario->tipoOperario = $request->get('tipoOperario');
         $operario->empresa_id = $request->get('empresa');
+
         if(request('contraseniaOperario') != ""){
 
-            $operario->contraseniaOperario = Hash::make(request('contraseniaOperario'));
+            $operario->contraseniaOperario = Hash::make(preg_replace("/[^A-Za-z0-9]/","",str_replace(' ','',request('contraseniaOperario'))));
         }        
         $operario->telefonoOperario =  $request->get('telefonoOperario');
 
