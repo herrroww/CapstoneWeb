@@ -32,7 +32,7 @@
     <label for="file">Documento:</label>
     <input type="file"  name="file"  required>
   </div>
-
+  <div style="margin-right: 100px" class="alert alert-info float-right" role="alert">El documento no puede contener espacios ni los siguientes caracteres: \^£$ºª€%&*()}¡ç!";:{@#~¿?><,|=+¬-</div>
   <form>
   <strong  class="" >Tipo de Privacidad: </strong>
 
