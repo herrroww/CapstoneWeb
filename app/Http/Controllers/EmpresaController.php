@@ -126,15 +126,20 @@ class EmpresaController extends Controller{
                     //Se crea el directorio de la empresa.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Externo/'.$empresa->nombreEmpresa);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S mkdir -p /home/Interno/'.$empresa->nombreEmpresa);
+                
+                    //Finaliza secuencia de comandos.
+                    $ssh->exec('exit');
+                    //Se liberan los recursos.       
+                    unset($SWERROR,$ssh,$ftpParameters,$empresa);        
+                    return redirect('empresaop')->with('create','La empresa se a creado correctamente');
                 }
             }
         }
-        
-        //Finaliza secuencia de comandos.
-        $ssh->exec('exit');
         //Se liberan los recursos.       
-        unset($SWERROR,$ssh,$ftpParameters,$empresa);        
-        return redirect('empresaop')->with('create','La empresa se a creado correctamente');
+        unset($SWERROR,$ssh,$ftpParameters,$empresa);    
+            
+        //[FTP-ERROR035]: Algo ha ocurrido y la Empresa no pudo ser creada.  
+        return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR035'));
     }
 
     public function edit($id){
@@ -353,16 +358,21 @@ class EmpresaController extends Controller{
                     //Se elimina la empresa de la base de datos y los elementos relacionados a ella.
                     $empresa->operario()->delete();
                     $empresa->asignar()->delete();
-                    $empresa->delete();                    
+                    $empresa->delete();    
+                    
+                    //Finaliza secuencia de comandos.
+                    $ssh->exec('exit');
+                    //Se liberan los recursos.           
+                    unset($SWERROR,$ssh,$ftpParameters,$empresa);
+                    return redirect()->back()->with('success','La empresa a sido eliminada.');   
                 }
             }
         }    
         
-        //Finaliza secuencia de comandos.
-        $ssh->exec('exit');
         //Se liberan los recursos.           
         unset($SWERROR,$ssh,$ftpParameters,$empresa);
-
-        return redirect()->back()->with('success','La empresa a sido eliminada.');         
+        
+        //[FTP-ERROR037]: Algo ha ocurrido y la Empresa no pudo ser eliminada.
+        return redirect('empresaop')->with('alert',$SWERROR->ErrorActual('FTPERROR037'));
     }
 }
