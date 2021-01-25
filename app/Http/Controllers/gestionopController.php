@@ -102,7 +102,7 @@ class gestionopController extends Controller{
         //Genera al Operario y rellena los atributos con la informacion entregada por el usuario.        
         $operario = new Operario();
              
-        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreOperario')));
+        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-ñÑ]/","",str_replace(' ','_',request('nombreOperario')));
         $operario->rutOperario = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutOperario')));   
         $operario->correoOperario = request('correoOperario');
         $operario->tipoOperario = request('tipoOperario');
@@ -259,7 +259,7 @@ class gestionopController extends Controller{
         $nombreEmpresaTemp = Empresa::FindOrFail($operario->empresa_id)->nombreEmpresa;
         
         //Añaden los nuevos parametros correspondientes.        
-        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreOperario')));
+        $operario->nombreOperario = preg_replace("/[^A-Za-z0-9_.-ñÑ]/","",str_replace(' ','_',request('nombreOperario')));
         $operario->rutOperario = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutOperario'))); 
         $operario->correoOperario = $request->get('correoOperario');
         $operario->tipoOperario = $request->get('tipoOperario');
