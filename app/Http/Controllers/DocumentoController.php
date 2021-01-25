@@ -269,10 +269,17 @@ class DocumentoController extends Controller{
                     $ssh->exec('exit');   
                     //Se liberan los recursos.           
                     unset($ssh,$ftpParameters);  
+
+                    return redirect('documentosop')->with('create','Se creo correctamente.');
                 }
             }
         }
-        return redirect('documentosop')->with('create','Se creo correctamente.');
+
+        //Se liberan los recursos.           
+        unset($ssh,$ftpParameters);  
+
+        //[FTP-ERROR044]: Algo ha ocurrido y el Documento no pudo ser creado.
+        return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR044'));
     }
 
     /**
@@ -494,8 +501,14 @@ class DocumentoController extends Controller{
             $ssh->exec('exit');   
             //Se liberan los recursos.           
             unset($documento,$ssh,$ftpParameters);  
+
+            return redirect()->back()->with('success','El documento a sido eliminado.');
         }       
 
-        return redirect()->back()->with('success','El documento a sido eliminado.');
+        //Se liberan los recursos.           
+        unset($documento,$ssh,$ftpParameters);  
+
+        //[FTP-ERROR045]: Algo ha ocurrido y el Documento no pudo ser eliminado.
+        return redirect('documentosop')->with('alert',$SWERROR->ErrorActual('FTPERROR045'));
     }
 }
