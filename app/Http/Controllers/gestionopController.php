@@ -198,17 +198,23 @@ class gestionopController extends Controller{
 
                     //Reinicio de servicios para actualizar permisos.                    
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
-                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');                    
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');   
+                    
+                    //Finaliza secuencia de comandos.
+                    $ssh->exec('exit');
+                    //Se liberan los recursos.           
+                    unset($SWERROR,$ssh,$ftpParameters,$operario);
+
+                    return redirect('gestionop')->with('create','ha sido creado');
                 }
             }
         }
 
-        //Finaliza secuencia de comandos.
-        $ssh->exec('exit');
         //Se liberan los recursos.           
         unset($SWERROR,$ssh,$ftpParameters,$operario);
 
-        return redirect('gestionop')->with('create','asd');
+        //[FTP-ERROR038]: Algo ha ocurrido y el Operario no pudo ser creado.
+        return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR038'));
     }
 
     public function edit($id){
@@ -609,16 +615,22 @@ class gestionopController extends Controller{
 
                     //Se elimina el operario en la base de datos.
                     $operario->asignar()->delete();
-                    $operario->delete();    
+                    $operario->delete();  
+                    
+                    //Finaliza secuencia de comandos.
+                    $ssh->exec('exit');
+                    //Se liberan los recursos.           
+                    unset($ssh,$ftpParameters,$operario);  
+
+                    return redirect()->back()->with('success','La empresa a sido eliminada.');
                 }                          
             }
         }      
         
-        //Finaliza secuencia de comandos.
-        $ssh->exec('exit');
         //Se liberan los recursos.           
         unset($ssh,$ftpParameters,$operario);  
 
-        return redirect()->back()->with('success','La empresa a sido eliminada.');
+        //[FTP-ERROR040]: Algo ha ocurrido y el Operario no pudo ser eliminado.
+        return redirect('gestionop')->with('alert',$SWERROR->ErrorActual('FTPERROR040'));
     }
 }
