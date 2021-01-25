@@ -57,7 +57,7 @@ class ComponenteController extends Controller{
         $ftpParameters = new FtpConexion();
 
         $componente = new Componente();
-        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreComponente')));
+        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-ñÑ]/","",str_replace(' ','_',request('nombreComponente')));
         $componente->idComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('idComponente')));   
         
         //Prepara la conexion al servidor FTP.
@@ -158,7 +158,7 @@ class ComponenteController extends Controller{
         $nombreComponenteTemp = $componente->nombreComponente;
 
         //Se obtiene la informacion obtenida de la Vista.
-        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('nombreComponente')));
+        $componente->nombreComponente = preg_replace("/[^A-Za-z0-9_.-ñÑ]/","",str_replace(' ','_',request('nombreComponente')));
         $componente->idComponente = preg_replace("/[^A-Za-z0-9_.-]/","",str_replace(' ','_',request('idComponente')));   
 
         //Si la ID del Componente sufre cambio, se establece conexion con el servidor FTP.
