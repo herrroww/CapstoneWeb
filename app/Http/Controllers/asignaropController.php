@@ -278,13 +278,18 @@ class asignaropController extends Controller{
 
                 //Termina secuencia de comandos.
                 $ssh->exec('exit');
+                //Se liberan los recursos.       
+                unset($SWERROR,$ssh,$ftpParameters,$operario,$empresa,$componente);
+
+                return redirect('asignarop')->with('create','Se asigno correctamente');
             }
         }    
 
         //Se liberan los recursos.       
         unset($SWERROR,$ssh,$ftpParameters,$operario,$empresa,$componente);
 
-        return redirect('asignarop')->with('create','Se asigno correctamente');
+        //[FTP-ERROR046]: Algo ha ocurrido y la Asignación no pudo ser creada.
+        return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR046'));                                    
     }
 
     public function edit($id){
@@ -567,8 +572,16 @@ class asignaropController extends Controller{
             //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP.'/'.$idComponente);
 
             $asignar->delete();
+            //Se liberan los recursos.       
+            unset($ssh,$ftpParameters,$asignar,$operario,$SWERROR);
 
             return redirect()->back()->with('success','La empresa a sido eliminada.');
         }
+
+        //Se liberan los recursos.       
+        unset($ssh,$ftpParameters,$asignar,$operario,$SWERROR);
+
+        //[FTP-ERROR048]: Algo ha ocurrido y la Asignación no pudo ser eliminada.
+        return redirect('asignarop')->with('alert',$SWERROR->ErrorActual('FTPERROR048'));   
     }
 }
