@@ -124,7 +124,10 @@ class ComponenteController extends Controller{
                     return redirect('componenteop')->with('create','El componente se a creado correctamente');
                 }
             }
-        }                  
+        } 
+        
+        //[FTP-ERROR041]: Algo ha ocurrido y el Componente no pudo ser creado.
+        return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR041'));
     }
 
     public function edit($id){
@@ -358,14 +361,20 @@ class ComponenteController extends Controller{
             //Termina la secuencia de comandos.
             $ssh->exec('exit');
             unset($componentesAsignados);
+
+            $componente->delete();
+            $componente->asignar()->delete();
+      
+            //Se liberan los recursos.       
+            unset($SWERROR,$ssh,$ftpParameters,$componente);
+            return redirect('componenteop')->with('success','El Componente se a eliminado correctamente.');
         }
 
-        $componente->delete();
-        $componente->asignar()->delete();
-      
         //Se liberan los recursos.       
         unset($SWERROR,$ssh,$ftpParameters,$componente);
-        return redirect('componenteop')->with('success','El Componente se a eliminado correctamente.');
+
+        //[FTP-ERROR043]: Algo ha ocurrido y el Componente no pudo ser eliminado.
+        return redirect('componenteop')->with('alert',$SWERROR->ErrorActual('FTPERROR043'));
     }
 
     public function show($id){
