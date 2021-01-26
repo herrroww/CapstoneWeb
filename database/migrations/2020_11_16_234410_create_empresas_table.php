@@ -17,7 +17,7 @@ class CreateEmpresasTable extends Migration
             
             $table->id();
             $table->string('rutEmpresa', 100)->unique();
-            $table->string('nombreEmpresa', 100)->nullable();
+            $table->string('nombreEmpresa', 100)->unique();
             $table->string('compania', 100);
             $table->timestamps();
 
