@@ -260,7 +260,10 @@ class DocumentoController extends Controller{
                             $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Externo/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                             $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S chown -R '.$rutOperarioFTP.' /home/Interno/'.$nombreEmpresa.'/'.$rutOperarioFTP.'/'.$idComponenteSeleccionado);
                         }                        
-                    }   
+                    }  
+                    
+                    //Cierra la conexion.
+                    ftp_close($conn_id);
 
                     //Limpia todo el contenido del directorio ComponenteTemp del usuario FTP.
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/'.$ftpParameters->getUserFTP().'/ComponentesTemp/*');
