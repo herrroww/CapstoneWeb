@@ -293,10 +293,10 @@ class ComponenteController extends Controller{
                 
                 //Se añade al historico de gestion.
                 DB::table('historico_gestions')->insert(['nombreGestion' => 'Componente', 
-                'tipoGestion' => 'Editar',
-                'responsableGestion' => $ftpParameters->getUserFTP(),
-                'descripcionGestion' => 'Modificacion Actual => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente.' | Datos Antiguos => Componente: '.$nombreComponenteTemp.', ID: '.$idComponenteTemp,
-                'created_at' => now()]);
+                                                         'tipoGestion' => 'Editar',
+                                                         'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                         'descripcionGestion' => 'Modificacion Actual => Componente: '.$componente->nombreComponente.', ID: '.$componente->idComponente.' | Datos Antiguos => Componente: '.$nombreComponenteTemp.', ID: '.$idComponenteTemp,
+                                                         'created_at' => now()]);
 
                 //Se actualiza el componente en la Base de Datos.
                 $componente->update();

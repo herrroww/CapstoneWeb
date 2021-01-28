@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class FtpConexion{   
 
     //IP del servidor FTP.
-    private $serverFTP = '192.168.0.22';
+    private $serverFTP = '192.168.0.17';
     
     //Credenciales de usuario FTP
     private $userFTP;
