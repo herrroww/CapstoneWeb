@@ -66,7 +66,7 @@ class EmpresaController extends Controller{
         $empresa->rutEmpresa = preg_replace("/[^0-9_.-]/","",str_replace(' ','',request('rutEmpresa')));        
         $empresa->nombreEmpresa = preg_replace("/[^A-Za-z0-9_.-ñÑ]/","",str_replace(' ','_',request('nombreEmpresa')));
         $empresa->compania = request('compania');      
-
+        
         //Se prepara la conexion al servidor FTP.
         $ssh = new SSH2($ftpParameters->getServerFTP());
               
@@ -257,15 +257,24 @@ class EmpresaController extends Controller{
                         }
                     }
 
-                    return redirect('empresaop')->with('edit','La empresa se a editado');
                     //Finaliza secuencia de comandos.
                     $ssh->exec('exit'); 
+
                     //Se liberan los recursos.           
                     unset($SWERROR,$ssh,$ftpParameters,$empresa);
+
+                    return redirect('empresaop')->with('edit','La empresa se a editado');
                 }
             }            
-        }   
+        }
 
+        //Se añade al historico de gestion.
+        DB::table('historico_gestions')->insert(['nombreGestion' => 'Empresa', 
+                                                 'tipoGestion' => 'Editar',
+                                                 'responsableGestion' => $ftpParameters->getUserFTP(),
+                                                 'descripcionGestion' => 'Modificacion Actual => Empresa: '.$empresa->nombreEmpresa.', Rut: '.$empresa->rutEmpresa.', Compañia: '.$empresa->compania.' | Datos Antiguos => Empresa: '.$nombreEmpresaTemp.', Rut: '.$rutEmpresaTemp.', Compañia: '.$companiaEmpresaTemp,
+                                                 'created_at' => now()]);
+                                                 
         //Se actualizan los cambios en la base de datos.
         $empresa->update();
         return redirect('empresaop')->with('edit','La empresa se a editado');        
