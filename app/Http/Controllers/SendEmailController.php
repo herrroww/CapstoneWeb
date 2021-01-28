@@ -27,6 +27,8 @@ class SendEmailController extends Controller{
             'message'   =>   $request->message
         );
 
+        //Correo destino
+        //TODO: Reasignar a correo administrador segun corresponda.
         Mail::to('martinoing01@gmail.com')->send(new SendMail($data));
         return back()->with('success', 'Gracias por contactarte con nosotros!');
     }
