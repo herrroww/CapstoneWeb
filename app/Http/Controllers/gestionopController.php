@@ -108,7 +108,6 @@ class gestionopController extends Controller{
         $operario->tipoOperario = request('tipoOperario');
         $operario->empresa_id = request('empresa');
         $operario->contraseniaOperario = Hash::make(preg_replace("/[^A-Za-z0-9]/","",str_replace(' ','',request('contraseniaOperario'))));
-        $operario->nombreOperario = request('nombreOperario');
         $operario->telefonoOperario = request('telefonoOperario');
         
         $operario->rutOperarioFTP = preg_replace("/[^A-Za-z0-9]/","",$operario->rutOperario);
@@ -268,7 +267,8 @@ class gestionopController extends Controller{
         if(request('contraseniaOperario') != ""){
 
             $operario->contraseniaOperario = Hash::make(preg_replace("/[^A-Za-z0-9]/","",str_replace(' ','',request('contraseniaOperario'))));
-        }        
+        }      
+
         $operario->telefonoOperario =  $request->get('telefonoOperario');
 
         $operario->rutOperarioFTP = preg_replace("/[^A-Za-z0-9]/","",$operario->rutOperario);
@@ -608,6 +608,10 @@ class gestionopController extends Controller{
                     //Se elimina los directorios del operario. (Opcion 1)                  
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
                     $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S rm -r /home/Interno/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
+
+                    //Reinicio de servicios para actualizar permisos.                    
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service vsftpd restart');
+                    $ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S service sshd restart');   
 
                     //Se envia el directorio de la empresa a la basura. (Opcion 2)
                     //$ssh->exec('echo '.$ftpParameters->getPassFTP().' | sudo -S gvfs-trash /home/Externo/'.$nombreEmpresa.'/'.$operario->rutOperarioFTP);
