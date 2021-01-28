@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
-            <h3>Editar</h3>
+            <h3>Editar Asignación de Componente</h3>
             <hr>
 
 <form action="" method="POST">
